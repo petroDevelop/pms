@@ -87,7 +87,7 @@
                         <td><g:link action="show" id="${baseUserInstance.id}">${fieldValue(bean: baseUserInstance, field: "lastName")}</g:link></td>
 					
 
-                        <td><g:link action="show" id="${baseUserInstance.id}">${fieldValue(bean: baseUserInstance, field: "baseDepartment")}</g:link></td>
+                        <td><g:link action="show" id="${baseUserInstance.id}">${fieldValue(bean: baseUserInstance, field: "baseDepartment.name")}</g:link></td>
 					
                         <td><g:link action="edit" id="${baseUserInstance.id}"  >编辑</g:link>|
                             <a href="javascript:if(window.confirm('确认删除吗？')) window.location.href='${request.getContextPath()}/baseUser/delete/${baseUserInstance.id }';">删除 </a></td>

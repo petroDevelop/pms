@@ -132,15 +132,14 @@
 					%{----}%
 				%{--</li>--}%
 				%{--</g:if>--}%
-			
+
 
                     <tr><th>	<span id="baseDepartment-label" class="property-label"><g:message code="baseUser.baseDepartment.label" default="Base Department" /></span></th>
                 <td>
-                    <span class="property-value" aria-labelledby="baseDepartment-label"><g:link controller="baseDepartment" action="show" id="${baseUserInstance?.baseDepartment?.id}">${baseUserInstance?.baseDepartment?.encodeAsHTML()}</g:link></span>
+                    <span class="property-value" aria-labelledby="baseDepartment-label"><g:link controller="baseDepartment" action="show" id="${baseUserInstance?.baseDepartment?.id}">${baseUserInstance?.baseDepartment.name?.encodeAsHTML()}</g:link></span>
                     </td>
 
                     </tr>
-
 
 
 
@@ -268,7 +267,8 @@
 			</ol>
 			<g:form url="[resource:baseUserInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
-					<g:link class="btn btn-info btn-sm m-t-10" action="edit" resource="${baseUserInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+					<g:hiddenField name="id" value="${baseUserInstance?.id}" />
+					<g:link class="btn btn-info btn-sm m-t-10" action="edit"  id="${baseUserInstance?.id}" resource="${baseUserInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
 					<g:actionSubmit class="btn btn-info btn-sm m-t-10" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
 				</fieldset>
 			</g:form>
