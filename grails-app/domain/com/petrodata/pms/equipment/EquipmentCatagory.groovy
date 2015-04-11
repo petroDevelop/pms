@@ -9,6 +9,8 @@ class EquipmentCatagory {
     EquipmentCatagory parent
     //是否特种设备
     boolean isSpecial
+    //规格型号
+    String specification
     /*
     boolean hasOperationCheck
     boolean hasInspectionCheck
@@ -18,5 +20,6 @@ class EquipmentCatagory {
     static belongsTo =[parent:EquipmentCatagory]
     static hasMany = [children:EquipmentCatagory,equipments: Equipment]
     static constraints = {
+        specification(size:0..50,nullable: true);
     }
 }
