@@ -132,15 +132,14 @@
 					%{----}%
 				%{--</li>--}%
 				%{--</g:if>--}%
-			
+
 
                     <tr><th>	<span id="baseDepartment-label" class="property-label"><g:message code="baseUser.baseDepartment.label" default="Base Department" /></span></th>
                 <td>
-                    <span class="property-value" aria-labelledby="baseDepartment-label"><g:link controller="baseDepartment" action="show" id="${baseUserInstance?.baseDepartment?.id}">${baseUserInstance?.baseDepartment?.encodeAsHTML()}</g:link></span>
+                    <span class="property-value" aria-labelledby="baseDepartment-label"><g:link controller="baseDepartment" action="show" id="${baseUserInstance?.baseDepartment?.id}">${baseUserInstance?.baseDepartment.name?.encodeAsHTML()}</g:link></span>
                     </td>
 
                     </tr>
-
 
 
 

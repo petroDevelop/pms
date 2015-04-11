@@ -48,11 +48,11 @@
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'baseDepartment', 'error')} required">
-	<label for="baseDepartment">
-		<g:message code="baseUser.baseDepartment.label" default="Base Department" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
+    <label for="baseDepartment">
+        <g:message code="baseUser.baseDepartment.label" default="Base Department" />
+        <span class="required-indicator">*</span>
+    </label>
+    <g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" optionValue="name" required="" value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
 
 </div>
 

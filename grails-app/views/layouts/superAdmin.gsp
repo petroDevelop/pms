@@ -120,6 +120,11 @@ def user=['username':'admin']
                 </a>
             </li>
             <li >
+                <a href="${request.contextPath}/baseDepartment/list">
+                    <span>部门管理</span>
+                </a>
+            </li>
+            <li >
                 <a href="${request.getContextPath()}/baseUserBaseRole/list">
                     <span>人员角色映射</span>
                 </a>
