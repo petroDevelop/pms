@@ -46,16 +46,16 @@
 					
 						<g:sortableColumn property="specification" title="${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}" />
 
-					
+
 						<g:sortableColumn property="code" title="${message(code: 'equipmentCatagory.code.label', default: 'Code')}" />
 
 					
 						<g:sortableColumn property="isSpecial" title="${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}" />
 
-					
+
 						<g:sortableColumn property="name" title="${message(code: 'equipmentCatagory.name.label', default: 'Name')}" />
 
-					
+
 
 						<th><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 					
@@ -70,17 +70,17 @@
 
 						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "specification")}</g:link></td>
 
-					
+
 
                         <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "code")}</g:link></td>
 					
 						<td><g:formatBoolean boolean="${equipmentCatagoryInstance.isSpecial}" /></td>
                         <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "isSpecial")}</g:link></td>
 
-					
+
 
                         <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "name")}</g:link></td>
-					
+
 
                         <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "parent")}</g:link></td>
 					
