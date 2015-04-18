@@ -20,4 +20,7 @@ class BaseDepartment {
         parent(nullable:true)
         reason(size: 0..100,nullable: true,blank: true)
     }
+    String toString(){
+        return name;
+    }
 }

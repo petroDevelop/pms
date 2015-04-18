@@ -63,4 +63,7 @@ class BaseUser { //implements org.activiti.engine.identity.User {
 	protected void encodePassword() {
 		password = springSecurityService.encodePassword(password)
 	}
+	String toString(){
+		return username;
+	}
 }

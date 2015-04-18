@@ -16,4 +16,5 @@ class EquipmentRunningInfo {
 
     static constraints = {
     }
+
 }

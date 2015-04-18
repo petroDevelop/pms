@@ -21,4 +21,7 @@ class BaseRole { // implements org.activiti.engine.identity.Group {
 		name blank: false
 		type nullable: true
 	}
+	String toString(){
+		return name;
+	}
 }

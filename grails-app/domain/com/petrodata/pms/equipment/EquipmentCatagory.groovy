@@ -27,7 +27,7 @@ class EquipmentCatagory {
         String divHtml="<div class=\"easy-tree\"><ul>";
         EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']).each{ec->
             divHtml=divHtml+"<li value='${ec.id}'>${ec.name}";
-            appendChild(ec,divHtml);
+            divHtml=appendChild(ec,divHtml);
             divHtml=divHtml+"</li>";
         }
         divHtml=divHtml+"</ul></div>";
@@ -39,10 +39,14 @@ class EquipmentCatagory {
             html=html+"<ul>";
             list?.each{ec->
                 html=html+"<li value='${ec.id}'>${ec.name}";
-                appendChild(ec,html);
+                html=appendChild(ec,html);
                 html=html+"</li>";
             }
             html=html+"</ul>"
         }
+        return html;
+    }
+    String toString(){
+        return name;
     }
 }

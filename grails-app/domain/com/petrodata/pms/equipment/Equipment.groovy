@@ -80,4 +80,7 @@ class Equipment {
     def beforeInsert() {
         //baseDepartment=creater?.baseDepartment;
     }
+    String toString(){
+        return name;
+    }
 }

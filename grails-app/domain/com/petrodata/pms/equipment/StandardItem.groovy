@@ -33,4 +33,7 @@ class StandardItem {
         sopCode(size:0..100,nullable: true,blank: true);
         accessory(size:0..100,nullable: true,blank: true);
     }
+    String toString(){
+        return name;
+    }
 }

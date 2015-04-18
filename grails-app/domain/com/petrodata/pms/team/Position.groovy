@@ -15,5 +15,8 @@ class Position {
     static constraints = {
         name(size:0..100);
     }
+    String toString(){
+        return name;
+    }
 
 }

@@ -12,4 +12,7 @@ class Standard {
     static hasMany = [standardItems:StandardItem]
     static constraints = {
     }
+    String toString(){
+        return name;
+    }
 }

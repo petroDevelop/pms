@@ -39,7 +39,7 @@
 						${EquipmentCatagory.generatorTreeDiv()}
 					</div>
 					<div class="modal-footer">
-						<button type="button" onclick="changeSelect();" class="btn btn-sm">Change</button>
+						<button type="button" onclick="changeSelect();" class="btn btn-sm" data-dismiss="modal">Change</button>
 						<button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
 					</div>
 				</div>
@@ -49,7 +49,6 @@
 	<script>
 		function changeSelect(){
 			 $('#parent').val($('.easy-tree').find('li.li_selected').first().attr('value'));
-			 $('#show').hide();
 		}
 		function changeTree(obj){
 			$('.easy-tree').EasyTree({

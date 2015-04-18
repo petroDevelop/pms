@@ -14,4 +14,7 @@ class Requestmap {
 		url blank: false, unique: true
 		configAttribute blank: false
 	}
+	String toString(){
+		return url;
+	}
 }

@@ -29,4 +29,7 @@ class Rotation {
     def beforeInsert() {
         baseDepartment=creater?.baseDepartment;
     }
+    String toString(){
+        return baseDepartment.name+":"+name;
+    }
 }
