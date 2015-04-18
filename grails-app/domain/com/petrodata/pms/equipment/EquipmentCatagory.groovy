@@ -23,23 +23,21 @@ class EquipmentCatagory {
         parent(nullable: true)
         specification(size:0..50,nullable: true);
     }
-    static String generatorTreeDiv(){
+    public static String generatorTreeDiv(){
         String divHtml="<div class=\"easy-tree\"><ul>";
         EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']).each{ec->
             divHtml=divHtml+"<li value='${ec.id}'>${ec.name}";
-            println divHtml;
             appendChild(ec,divHtml);
-            println 'over'
             divHtml=divHtml+"</li>";
         }
         divHtml=divHtml+"</ul></div>";
         return divHtml;
     }
-    private String appendChild(EquipmentCatagory equipmentCatagory,String html){
-        println 'in appendChild'
-        if(equipmentCatagory.children?.size()>0){
+    private static String appendChild(EquipmentCatagory equipmentCatagory,String html){
+        def list=EquipmentCatagory.findAllByParent(equipmentCatagory,['sort':'name','order':'asc']);
+        if(list?.size()>0){
             html=html+"<ul>";
-            equipmentCatagory.children.sort{it.name}.each{ec->
+            list?.each{ec->
                 html=html+"<li value='${ec.id}'>${ec.name}";
                 appendChild(ec,html);
                 html=html+"</li>";

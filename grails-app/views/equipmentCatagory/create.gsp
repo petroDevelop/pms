@@ -29,7 +29,7 @@
 	<script src="${request.contextPath}/js/EasyTree/src/easyTree.js"></script>
 	<div class="modal fade" id="show" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
-			<g:form  id="upload"  action="deploy" method="post" enctype="multipart/form-data">
+
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -39,18 +39,29 @@
 						${EquipmentCatagory.generatorTreeDiv()}
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-sm">Change</button>
+						<button type="button" onclick="changeSelect();" class="btn btn-sm">Change</button>
 						<button type="button" class="btn btn-sm" data-dismiss="modal">Close</button>
 					</div>
 				</div>
-			</g:form>
+
 		</div>
 	</div>
 	<script>
+		function changeSelect(){
+			 $('#parent').val($('.easy-tree').find('li.li_selected').first().attr('value'));
+			 $('#show').hide();
+		}
 		function changeTree(obj){
-			alert();
+			$('.easy-tree').EasyTree({
+				selectable: true,
+				deletable: false,
+				editable: false,
+				addable: false,
+				i18n:{}
+			});
 			$('#show').show();
 		}
+
 	</script>
 			<g:form url="[resource:equipmentCatagoryInstance, action:'save']" >
 				<fieldset class="form">

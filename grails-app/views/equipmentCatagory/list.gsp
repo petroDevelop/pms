@@ -44,20 +44,17 @@
 					<tr>
                         <th> <input type="checkbox" name="ckAll" id="ckAll" /></th>
 					
-						<g:sortableColumn property="specification" title="${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}" />
-
+						<g:sortableColumn property="name" title="${message(code: 'equipmentCatagory.name.label', default: 'Name')}" />
 
 						<g:sortableColumn property="code" title="${message(code: 'equipmentCatagory.code.label', default: 'Code')}" />
 
+						<th><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 					
 						<g:sortableColumn property="isSpecial" title="${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}" />
 
 
-						<g:sortableColumn property="name" title="${message(code: 'equipmentCatagory.name.label', default: 'Name')}" />
+						<g:sortableColumn property="specification" title="${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}" />
 
-
-
-						<th><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 					
                         <th>操作</th>
                     </tr>
@@ -68,23 +65,23 @@
                         <td><input type="checkbox" class="listcheckone" name="ids" value="${equipmentCatagoryInstance.id }"  style="vertical-align: middle;"/></td>
                         
 
-						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "specification")}</g:link></td>
+						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "name")}</g:link></td>
+						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "code")}</g:link></td>
+
+
+						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "parent")}</g:link></td>
 
 
 
-                        <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "code")}</g:link></td>
-					
 						<td><g:formatBoolean boolean="${equipmentCatagoryInstance.isSpecial}" /></td>
                         <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "isSpecial")}</g:link></td>
 
 
+						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "specification")}</g:link></td>
 
-                        <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "name")}</g:link></td>
 
 
-                        <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "parent")}</g:link></td>
-					
-                        <td><g:link action="edit" id="${equipmentCatagoryInstance.id}"  >编辑</g:link>|
+						<td><g:link action="edit" id="${equipmentCatagoryInstance.id}"  >编辑</g:link>|
                             <a href="javascript:if(window.confirm('确认删除吗？')) window.location.href='${request.getContextPath()}/equipmentCatagory/delete/${equipmentCatagoryInstance.id }';">删除 </a></td>
 					</tr>
 				</g:each>
