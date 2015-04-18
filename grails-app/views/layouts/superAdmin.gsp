@@ -32,8 +32,6 @@ def user=['username':'admin']
 
     <script src="${request.contextPath}/js/template/super-admin/Template/js/jquery.min.js"></script> <!-- jQuery Library -->
 
-    <link rel="StyleSheet" href="${request.getContextPath()}/rxht/dtree/dtree.css" type="text/css" />
-    <script type="text/javascript" src="${request.getContextPath()}/rxht/dtree/dtree.js"></script>
 
     <calendar:resources lang="${g.message(code:'calendar.message') }" theme="tiger"/>
     <g:layoutHead/>

@@ -20,6 +20,31 @@ class EquipmentCatagory {
     static belongsTo =[parent:EquipmentCatagory]
     static hasMany = [children:EquipmentCatagory,equipments: Equipment]
     static constraints = {
+        parent(nullable: true)
         specification(size:0..50,nullable: true);
+    }
+    static String generatorTreeDiv(){
+        String divHtml="<div class=\"easy-tree\"><ul>";
+        EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']).each{ec->
+            divHtml=divHtml+"<li value='${ec.id}'>${ec.name}";
+            println divHtml;
+            appendChild(ec,divHtml);
+            println 'over'
+            divHtml=divHtml+"</li>";
+        }
+        divHtml=divHtml+"</ul></div>";
+        return divHtml;
+    }
+    private String appendChild(EquipmentCatagory equipmentCatagory,String html){
+        println 'in appendChild'
+        if(equipmentCatagory.children?.size()>0){
+            html=html+"<ul>";
+            equipmentCatagory.children.sort{it.name}.each{ec->
+                html=html+"<li value='${ec.id}'>${ec.name}";
+                appendChild(ec,html);
+                html=html+"</li>";
+            }
+            html=html+"</ul>"
+        }
     }
 }
