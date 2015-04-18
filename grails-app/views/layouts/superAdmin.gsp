@@ -70,10 +70,10 @@ def user=['username':'admin']
 
             <h4 class="m-0">欢迎： ${user?.username}</h4><br/>
     <sec:ifAnyGranted roles="ROLE_MANAGER,ROLE_PREVIEW">
-        <img src="${request.getContextPath()}/images/user.jpg">
+        <img class="profile-pic animated"  src="${request.getContextPath()}/images/user.jpg">
     </sec:ifAnyGranted>
     <sec:ifAnyGranted roles="ROLE_ADMIN">
-        <img src="${request.getContextPath()}/images/admin.jpg">
+        <img class="profile-pic animated"  src="${request.getContextPath()}/images/admin.jpg">
     </sec:ifAnyGranted>
 
     
