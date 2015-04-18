@@ -24,9 +24,9 @@
 			<ol class="property-list equipmentRunningInfo">  <table class="table tile">
 			
 
-                    <tr><th>	<span id="checkInitDate-label" class="property-label"><g:message code="equipmentRunningInfo.checkInitDate.label" default="Check Init Date" /></span></th>
+                    <tr><th>	<span id="jobOrderInitDate-label" class="property-label"><g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Check Init Date" /></span></th>
                 <td>
-                    <span class="property-value" aria-labelledby="checkInitDate-label"><g:formatDate date="${equipmentRunningInfoInstance?.checkInitDate}" /></span>
+                    <span class="property-value" aria-labelledby="jobOrderInitDate-label"><g:formatDate date="${equipmentRunningInfoInstance?.jobOrderInitDate}" /></span>
                     </td>
 
                     </tr>
@@ -36,11 +36,11 @@
 
 
 
-				%{--<g:if test="${equipmentRunningInfoInstance?.checkInitDate}">--}%
+				%{--<g:if test="${equipmentRunningInfoInstance?.jobOrderInitDate}">--}%
 				%{--<li class="fieldcontain">--}%
-					%{--<span id="checkInitDate-label" class="property-label"><g:message code="equipmentRunningInfo.checkInitDate.label" default="Check Init Date" /></span>--}%
+					%{--<span id="jobOrderInitDate-label" class="property-label"><g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Check Init Date" /></span>--}%
 					%{----}%
-						%{--<span class="property-value" aria-labelledby="checkInitDate-label"><g:formatDate date="${equipmentRunningInfoInstance?.checkInitDate}" /></span>--}%
+						%{--<span class="property-value" aria-labelledby="jobOrderInitDate-label"><g:formatDate date="${equipmentRunningInfoInstance?.jobOrderInitDate}" /></span>--}%
 					%{----}%
 				%{--</li>--}%
 				%{--</g:if>--}%

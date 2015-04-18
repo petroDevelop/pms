@@ -9,11 +9,15 @@ class BaseDepartment {
     boolean isContainer
     //是否小队
     boolean isTeam
-
+    //是否作业 只记录当前状态
+    boolean isWorking
+    //停工原因  只记录当前停工原因
+    String reason
     static belongsTo =[parent:BaseDepartment]
     static hasMany = [children:BaseDepartment,baseUsers: BaseUser]
     static constraints = {
         name(size:0..50,blank: false,unique: true);
         parent(nullable:true)
+        reason(size: 0..100,nullable: true,blank: true)
     }
 }

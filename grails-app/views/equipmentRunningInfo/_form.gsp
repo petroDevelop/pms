@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'checkInitDate', 'error')} required">
-	<label for="checkInitDate">
-		<g:message code="equipmentRunningInfo.checkInitDate.label" default="Check Init Date" />
+<div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'jobOrderInitDate', 'error')} required">
+	<label for="jobOrderInitDate">
+		<g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Check Init Date" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:datePicker name="checkInitDate" precision="day"  value="${equipmentRunningInfoInstance?.checkInitDate}"  />
+	<g:datePicker name="jobOrderInitDate" precision="day"  value="${equipmentRunningInfoInstance?.jobOrderInitDate}"  />
 
 </div>
 

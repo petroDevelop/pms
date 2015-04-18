@@ -44,7 +44,7 @@
 					<tr>
                         <th> <input type="checkbox" name="ckAll" id="ckAll" /></th>
 					
-						<g:sortableColumn property="checkInitDate" title="${message(code: 'equipmentRunningInfo.checkInitDate.label', default: 'Check Init Date')}" />
+						<g:sortableColumn property="jobOrderInitDate" title="${message(code: 'equipmentRunningInfo.jobOrderInitDate.label', default: 'Check Init Date')}" />
 
 					
 
@@ -68,7 +68,7 @@
                         <td><input type="checkbox" class="listcheckone" name="ids" value="${equipmentRunningInfoInstance.id }"  style="vertical-align: middle;"/></td>
                         
 
-						<td><g:link action="show" id="${equipmentRunningInfoInstance.id}">${fieldValue(bean: equipmentRunningInfoInstance, field: "checkInitDate")}</g:link></td>
+						<td><g:link action="show" id="${equipmentRunningInfoInstance.id}">${fieldValue(bean: equipmentRunningInfoInstance, field: "jobOrderInitDate")}</g:link></td>
 
 					
 

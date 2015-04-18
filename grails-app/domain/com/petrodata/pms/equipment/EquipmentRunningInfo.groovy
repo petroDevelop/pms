@@ -9,8 +9,11 @@ class EquipmentRunningInfo {
     long maintenanceInitTime
      //上次大修保养时间  时
     long lastOverhaulTime
-    //检查初始化时间
-    Date checkInitDate
+    //工单运行初始时间
+    Date jobOrderInitDate //checkInitDate
+    //设备运转时间    与此值比较（根据工单可计算出本设备的总运转时间）     （根据工单也可计算出本月运行时间）
+    long runningTime
+
     static constraints = {
     }
 }
