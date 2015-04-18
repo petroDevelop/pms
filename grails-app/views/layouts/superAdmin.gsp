@@ -140,8 +140,8 @@ def user=['username':'admin']
             </a>
             <ul class="list-unstyled menu-item">
                 <li><a href="${request.contextPath}/baseUser/myTeam">小队人员管理</a></li>
-                <li><a href="${request.contextPath}/news/pictureList">班次管理</a></li>
-                <li><a href="${request.contextPath}/attachment/list">岗位管理</a></li>
+                <li><a href="${request.contextPath}/rotation/list">班次管理</a></li>
+                <li><a href="${request.contextPath}/position/list">岗位管理</a></li>
             </ul>
         </li>
     <li class="dropdown">
@@ -153,7 +153,7 @@ def user=['username':'admin']
                设备分类管理
             </a></li>
             <li>
-                <a  href="${request.contextPath}/requestmap/visitList">
+                <a  href="${request.contextPath}/standard/list">
                     设备分类标准管理
                 </a></li>
             <li>
