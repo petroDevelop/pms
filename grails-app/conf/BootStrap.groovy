@@ -3,11 +3,14 @@ import com.petrodata.pms.core.*;
 class BootStrap {
 
     def init = { servletContext ->
-        createRole()
-        createDefaultRoles()
-        createDefaultDepartment();
-        createDefaultUsers()
-        createRequestMap()
+        if(BaseUser.count()==0){
+            createRole()
+            createDefaultRoles()
+            createDefaultDepartment();
+            createDefaultUsers()
+            createRequestMap()
+        }
+
     }
     def destroy = {
     }
