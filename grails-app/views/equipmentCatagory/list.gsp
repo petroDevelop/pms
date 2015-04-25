@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="superAdmin">
+		<meta name="layout" content="luminoPro">
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 
