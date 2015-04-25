@@ -5,3 +5,14 @@
 2. update equipmentcatagory view
 3. update standard view
 4. update equipment view
+
+
+
+备注：
+android端与服务器的职责分工
+
+服务器端负责工单生产，任务分派
+android端每日清晨连线从服务器获取工单，（离线检查、问题记录、备件管理*），连线上传检查结果
+
+
+
