@@ -6,94 +6,77 @@
 		<meta name="layout" content="luminoPro">
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
-
-        <script >
-
-
-           $(function(){
-                $('#ckAll').on('ifChecked', function(event) {
-                    $('.listcheckone').iCheck('check');
-                });
-                $('#ckAll').on('ifUnchecked', function(event) {
-                    $('.listcheckone').iCheck('uncheck');
-                });
-            });
-        </script>
-
-
 	</head>
 	<body>
 
 		<div >
 
-				<a  href="${createLink(uri: '/')}"><button class="btn btn-info btn-sm m-t-10"><g:message code="default.home.label"/></button></a>
-				<g:link  action="create"><button class="btn btn-info btn-sm m-t-10"><g:message code="default.new.label" args="[entityName]" /></button></g:link>
+			<div class="row">
+				<ol class="breadcrumb">
+					<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
+					<li class="active"><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></li>
+				</ol>
+			</div><!--/.row-->
 
-		</div>
-		<div id="list-equipmentCatagory" class="content scaffold-list" role="main">
-
-			<h1 class="block-title"><g:message code="default.list.label" args="[entityName]" /></h1>
-
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-<g:form method="post">
-
-    <table class="table tile">
-			<thead>
-					<tr>
-                        <th> <input type="checkbox" name="ckAll" id="ckAll" /></th>
-					
-						<g:sortableColumn property="name" title="${message(code: 'equipmentCatagory.name.label', default: 'Name')}" />
-
-						<g:sortableColumn property="code" title="${message(code: 'equipmentCatagory.code.label', default: 'Code')}" />
-
-						<th><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
-					
-						<g:sortableColumn property="isSpecial" title="${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}" />
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header"><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></h1>
+				</div>
+			</div><!--/.row-->
 
 
-						<g:sortableColumn property="specification" title="${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}" />
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<g:form method="post">
+						<div class="panel-heading"><g:message code="default.list.label" args="[entityName]" /></div>
+						<div class="panel-body">
+							                   <!--	sidePagination="client"
+							                    data-method="post"
+								                data-query-params="postQueryParams"
+							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
+							<table data-toggle="table" data-url="${request.contextPath}/equipmentCatagory/json"
+								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
+								   data-side-pagination="server"
+								   data-pagination="true"
+								   data-query-params="queryParams"
+								   data-select-item-name="toolbar1" data-sort-name="name" data-sort-order="desc">
+								<thead>
+								<tr>
+									<th data-field="name" data-checkbox="true" >${message(code: 'equipmentCatagory.name.label', default: 'Name')}</th>
 
-					
-                        <th>操作</th>
-                    </tr>
-				</thead>
-				<tbody>
-				<g:each in="${equipmentCatagoryInstanceList}" status="i" var="equipmentCatagoryInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <td><input type="checkbox" class="listcheckone" name="ids" value="${equipmentCatagoryInstance.id }"  style="vertical-align: middle;"/></td>
-                        
+									<th data-field="code" data-sortable="true" >${message(code: 'equipmentCatagory.code.label', default: 'Code')}</th>
 
-						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "name")}</g:link></td>
-						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "code")}</g:link></td>
+									<th data-field="parent" data-sortable="true" ><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 
+									<th data-field="isSpecial" data-sortable="true" >${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}</th>
 
-						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "parent")}</g:link></td>
+									<th data-field="specification" data-sortable="true" >${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}</th>
 
+									<th>操作</th>
+								</tr>
+								</thead>
+							</table>
 
-
-						<td><g:formatBoolean boolean="${equipmentCatagoryInstance.isSpecial}" /></td>
-                        <td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "isSpecial")}</g:link></td>
-
-
-						<td><g:link action="show" id="${equipmentCatagoryInstance.id}">${fieldValue(bean: equipmentCatagoryInstance, field: "specification")}</g:link></td>
-
-
-
-						<td><g:link action="edit" id="${equipmentCatagoryInstance.id}"  >编辑</g:link>|
-                            <a href="javascript:if(window.confirm('确认删除吗？')) window.location.href='${request.getContextPath()}/equipmentCatagory/delete/${equipmentCatagoryInstance.id }';">删除 </a></td>
-					</tr>
-				</g:each>
-				</tbody>
-                <div> <g:actionSubmit class="btn btn-info btn-sm m-t-10" onclick="return confirm('确定删除吗');" action="deleteAll"  value="删除" /></div>
-
-            </table>
-    </g:form>
-			<div class="pagination">
-
-				<g:paginate total="${equipmentCatagoryInstanceCount ?: 0}" />
-			</div>
+						</div>
+						</g:form>
+					</div>
+				</div>
+			</div><!--/.row-->
+			<script>
+				function queryParams(params) {
+					params.your_param1 = 1; // add param1
+					params.your_param2 = 2; // add param2
+					// console.log(JSON.stringify(params));
+					// {"limit":10,"offset":0,"order":"asc","your_param1":1,"your_param2":2}
+					return params;
+				}
+				function postQueryParams(params) {
+					params.your_param1 = 1; // add param1
+					params.your_param2 = 2; // add param2
+					return JSON.stringify(params); // body data
+				}
+			</script>
 		</div>
 	</body>
 </html>

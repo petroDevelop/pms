@@ -9,20 +9,12 @@
     <link href="${request.contextPath}/js/template/LuminoPro/css/datepicker3.css" rel="stylesheet">
     <link href="${request.contextPath}/js/template/LuminoPro/css/styles.css" rel="stylesheet">
     <link href='${request.contextPath}/js/template/LuminoPro/css/latoFamily.css' rel='stylesheet' type='text/css'>
-
+    <link href="${request.contextPath}/js/template/LuminoPro/css/bootstrap-table.css" rel="stylesheet">
     <!--[if lt IE 9]>
 <link href="${request.contextPath}/js/template/LuminoPro/css/rgba-fallback.css" rel="stylesheet">
 <script src="${request.contextPath}/js/template/LuminoPro/js/html5shiv.js"></script>
 <script src="${request.contextPath}/js/template/LuminoPro/js/respond.min.js"></script>
 <![endif]-->
-    <script src="${request.contextPath}/js/template/LuminoPro/js/jquery-1.11.1.min.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap.min.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/chart.min.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/chart-data.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/easypiechart.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/easypiechart-data.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-datepicker.js"></script>
-    <script src="${request.contextPath}/js/template/LuminoPro/js/custom.js"></script>
     <g:layoutHead/>
 </head>
 
@@ -160,9 +152,20 @@
     </ul>
 </div><!--/.sidebar-->
 
-<g:layoutBody/>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <g:layoutBody/>
+</div>
 <!--/.main-->
-
+<script src="${request.contextPath}/js/template/LuminoPro/js/jquery-1.11.1.min.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap.min.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/chart.min.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/chart-data.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/easypiechart.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/easypiechart-data.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-datepicker.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/custom.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table.js"></script>
+<script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
 </body>
 
 </html>

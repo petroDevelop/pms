@@ -1,5 +1,6 @@
 package com.petrodata.pms.equipment
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class EquipmentCatagoryController {
@@ -14,7 +15,18 @@ class EquipmentCatagoryController {
         params.max = Math.min(max ?: 10, 100)
         [equipmentCatagoryInstanceList: EquipmentCatagory.list(params), equipmentCatagoryInstanceTotal: EquipmentCatagory.count()]
     }
-
+    def json(){
+        def map=[:]
+        map.total=100;
+        def list=[];
+        (1..15).each{
+            def map1=[:];
+            map1.name=it;
+            list << map1;
+        }
+        map.rows=list;
+        render map as JSON;
+    }
     def create() {
         [equipmentCatagoryInstance: new EquipmentCatagory(params)]
     }
