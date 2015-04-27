@@ -1,4 +1,4 @@
-package com.bjrxht.poi
+package com.petrodata.poi
 
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment
 import org.apache.poi.xwpf.usermodel.XWPFParagraph

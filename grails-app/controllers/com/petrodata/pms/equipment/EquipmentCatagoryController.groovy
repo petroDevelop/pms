@@ -16,15 +16,29 @@ class EquipmentCatagoryController {
         [equipmentCatagoryInstanceList: EquipmentCatagory.list(params), equipmentCatagoryInstanceTotal: EquipmentCatagory.count()]
     }
     def json(){
-        def map=[:]
-        map.total=100;
-        def list=[];
-        (1..15).each{
-            def map1=[:];
-            map1.name=it;
-            list << map1;
+        println params
+        //
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def ecCount=EquipmentCatagory.createCriteria().count{
+            if(params.search){
+              ilike('name',"%${params.search}%");
+            }
         }
-        map.rows=list;
+        def ecList=EquipmentCatagory.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=ecCount;
+        map.rows=ecList;
         render map as JSON;
     }
     def create() {

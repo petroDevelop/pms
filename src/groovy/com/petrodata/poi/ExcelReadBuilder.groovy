@@ -1,4 +1,4 @@
-package com.bjrxht.poi
+package com.petrodata.poi
 
 import org.apache.poi.hssf.usermodel.HSSFFormulaEvaluator
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
@@ -240,7 +240,7 @@ new ExcelBuilder("customers.xls").eachLine {
   println "First column on row ${it.rowNum} = ${cell(0)}"
 }
 
-import com.bjrxht.poi.*
+import com.petrodata.poi.*
 def erb=new ExcelReadBuilder(new File("c://b.xls"))
 erb.eachLine([sheet:'sheet1',labels:true]) {
   println "${name}"

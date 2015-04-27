@@ -1,8 +1,12 @@
-import com.petrodata.pms.core.*;
+import com.petrodata.converters.marshaller.json.TableDomainClassMarshaller
+import com.petrodata.pms.core.*
+import grails.converters.JSON;
 
 class BootStrap {
 
     def init = { servletContext ->
+        JSON.registerObjectMarshaller(new TableDomainClassMarshaller(false,true,10));
+
         if(BaseUser.count()==0){
             createRole()
             createDefaultRoles()

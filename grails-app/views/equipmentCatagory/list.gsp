@@ -70,7 +70,8 @@
 								   data-select-item-name="toolbar1" data-sort-name="name" data-sort-order="desc">
 								<thead>
 								<tr>
-									<th data-field="name" data-checkbox="true" >${message(code: 'equipmentCatagory.name.label', default: 'Name')}</th>
+									<th data-field="id" data-checkbox="true"></th>
+									<th data-field="name" data-sortable="true" >${message(code: 'equipmentCatagory.name.label', default: 'Name')}</th>
 
 									<th data-field="code" data-sortable="true" >${message(code: 'equipmentCatagory.code.label', default: 'Code')}</th>
 
@@ -92,16 +93,8 @@
 			</div><!--/.row-->
 			<script>
 				function queryParams(params) {
-					params.your_param1 = 1; // add param1
-					params.your_param2 = 2; // add param2
-					// console.log(JSON.stringify(params));
-					// {"limit":10,"offset":0,"order":"asc","your_param1":1,"your_param2":2}
+					//params.your_param1 = 1;
 					return params;
-				}
-				function postQueryParams(params) {
-					params.your_param1 = 1; // add param1
-					params.your_param2 = 2; // add param2
-					return JSON.stringify(params); // body data
 				}
 			</script>
 		</div>

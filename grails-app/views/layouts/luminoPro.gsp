@@ -20,7 +20,7 @@
     <g:layoutHead/>
 </head>
 
-<body>
+<body class="skin-1">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
