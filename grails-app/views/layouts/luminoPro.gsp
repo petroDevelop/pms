@@ -10,6 +10,8 @@
     <link href="${request.contextPath}/js/template/LuminoPro/css/styles.css" rel="stylesheet">
     <link href='${request.contextPath}/js/template/LuminoPro/css/latoFamily.css' rel='stylesheet' type='text/css'>
     <link href="${request.contextPath}/js/template/LuminoPro/css/bootstrap-table.css" rel="stylesheet">
+    <link href="${request.contextPath}/js/template/LuminoPro/css/font-awesome.min.css" rel="stylesheet">
+    <link href="${request.contextPath}/js/template/LuminoPro/css/skin.css" rel="stylesheet">
     <!--[if lt IE 9]>
 <link href="${request.contextPath}/js/template/LuminoPro/css/rgba-fallback.css" rel="stylesheet">
 <script src="${request.contextPath}/js/template/LuminoPro/js/html5shiv.js"></script>
@@ -166,6 +168,69 @@
 <script src="${request.contextPath}/js/template/LuminoPro/js/custom.js"></script>
 <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table.js"></script>
 <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
+<script>
+    $(document).ready(function() {
+        /* --------------------------------------------------------
+     Template Settings
+     -----------------------------------------------------------*/
+
+        var settings =  '<a id= "settings" href="#changeSkin" data-toggle="modal">' +
+                '<i class="fa fa-gear"></i> Change Skin' +
+                '</a>' +
+                '<div class="modal fade" id="changeSkin" tabindex="-1" role="dialog" aria-hidden="true">' +
+                '<div class="modal-dialog" >' +
+                '<div class="modal-content">' +
+                '<div class="modal-header">' +
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
+                '<h4 class="modal-title">Change Template Skin</h4>' +
+                '</div>' +
+                '<div class="modal-body">' +
+                '<div class="row template-skins">' +
+                '<a data-skin="skin-1" class="skin-1 skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-2" class="skin-2 skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-3" class="skin-3  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-4" class="skin-4  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-5" class="skin-5  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-6" class="skin-6  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-7" class="skin-7  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-8" class="skin-8  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-9" class="skin-9  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '<a data-skin="skin-10" class="skin-10  skin-choise col-md-4" href="">' +
+                '</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+        $('body').prepend(settings);
+        $('body').on('click', '.template-skins > a', function(e){
+            e.preventDefault();
+            var skin = $(this).attr('data-skin');
+            $('#body').attr('class', function(i, v){
+                var classes = v.split(' ');
+                for(var i=0;i++;i<classes.length){
+                    if(classes[i].indexOf('skin-')>=0){
+                        $('body').removeClass(classes[i]);
+                    }
+                }
+                //position = $.inArray('class3', classes);
+                //return classes.slice(0, position + 1).join(' ');
+            });
+            $('body').addClass(skin);
+            $('#changeSkin').modal('hide');
+        });
+     });
+</script>
+
 </body>
 
 </html>

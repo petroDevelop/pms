@@ -2,8 +2,11 @@
 
 @todo
 1.   template change
+
 2.   excel import
+
 3.   modal dialog -- Bootstrap Modals
+     增加skin.css
 
 1. update position view and rotaiton view
 2. update equipmentcatagory view
