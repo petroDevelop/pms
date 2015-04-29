@@ -12,8 +12,8 @@
 	<div class="row">
 		<ol class="breadcrumb">
 			<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-			<li class="active" data-toggle="modal"
-				data-target="#myModal"><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></li>
+			<li class="active" ><a href="${request.contextPath}/equipmentCatagory/list"><g:message code="default.list.label" args="[entityName]" /></a></li>
+
 		</ol>
 	</div><!--/.row-->
 
@@ -69,10 +69,7 @@
 		}
 
 	</script>
-
-
-
-			<g:form url="[resource:equipmentCatagoryInstance, action:'save']" >
+    <g:form url="[resource:equipmentCatagoryInstance, action:'save']" >
 				<fieldset class="form">
 					<g:render template="form"/>
 				</fieldset>
@@ -81,7 +78,6 @@
 
 				</fieldset>
 			</g:form>
-
 
 	</body>
 </html>

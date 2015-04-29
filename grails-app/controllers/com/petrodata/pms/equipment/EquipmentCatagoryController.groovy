@@ -16,8 +16,6 @@ class EquipmentCatagoryController {
         [equipmentCatagoryInstanceList: EquipmentCatagory.list(params), equipmentCatagoryInstanceTotal: EquipmentCatagory.count()]
     }
     def json(){
-        println params
-        //
         params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
         params.limit=params.max;
         if(!params.offset) params.offset ='0'
@@ -125,15 +123,17 @@ class EquipmentCatagoryController {
             redirect(action: "show", id: id)
         }
     }
-    def deleteAll = {
+    def deleteAll(){
+        def map=[:]
         def ids = request.getParameterValues("ids")
         ids.each {
-
             def oneInstance = EquipmentCatagory.get(it.toLong());
-
             oneInstance.delete(flush: true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), ids])
-        redirect action: "index"
+        //redirect action: "list"
+        map.result=true;
+        map.message=flash.message;
+        render map as JSON;
     }
 }
