@@ -7,7 +7,11 @@ class UrlMappings {
 			}
 		}
 
-		"/"(view:"/index")
+		//"/"(view:"/index")
+		"/"{
+			controller="workspace"
+			action="index"
+		}
 
 		"500"(view:'/error')
 	}

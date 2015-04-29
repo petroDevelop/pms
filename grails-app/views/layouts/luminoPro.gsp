@@ -29,6 +29,17 @@
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
     <g:layoutHead/>
+    <style>
+     .box {
+        display: none;
+    }
+
+    .box.active {
+        display: block;
+        -webkit-animation-name: fadeIn;
+        animation-name: fadeIn;
+    }
+    </style>
 </head>
 
 <body class="skin-1">
@@ -275,6 +286,14 @@
             $('#changeSkin').modal('hide');
         });
      });
+    (function(){
+        $('body').on('click touchstart', '.box-switcher', function(e){
+            e.preventDefault();
+            var box = $(this).attr('data-switch');
+            $(this).closest('.box').toggleClass('active');
+            $('#'+box).closest('.box').addClass('active');
+        });
+    })();
 </script>
 
 </body>

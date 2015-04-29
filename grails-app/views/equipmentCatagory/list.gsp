@@ -105,14 +105,14 @@
 				<a href="#" class="pull-right" onclick="$('#alertFault').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
 			</div>
 
-			<div class="row">
+			<div class="row box animated tile active" id="box-list">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<g:form method="post">
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
 							<div style="float: right">
-							<g:link  action="create">
+							<g:link  class="box-switcher" data-switch="box-edit" >
 								<button class="btn btn-default margin" type="button">
 									<span class="glyphicon glyphicon-plus"></span>
 									<g:message code="default.new.label" args="[entityName]" />
@@ -158,6 +158,22 @@
 						</div>
 						</g:form>
 					</div>
+				</div>
+			</div><!--/.row-->
+
+			<div class="row box animated tile"  id="box-edit">
+				<div class="col-lg-12">
+					<g:form url="[resource:equipmentCatagoryInstance, action:'update']" method="PUT" >
+						<g:hiddenField name="version" value="${equipmentCatagoryInstance?.version}" />
+						<g:hiddenField name="id" value="${equipmentCatagoryInstance?.id}" />
+						<fieldset class="form">
+							<g:render template="form"/>
+						</fieldset>
+						<fieldset class="buttons">
+							<button class="btn btn-default margin" name="create" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+
+						</fieldset>
+					</g:form>
 				</div>
 			</div><!--/.row-->
 
