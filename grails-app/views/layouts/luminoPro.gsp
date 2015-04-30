@@ -13,9 +13,9 @@
     <link href="${request.contextPath}/js/template/LuminoPro/css/font-awesome.min.css" rel="stylesheet">
     <link href="${request.contextPath}/js/template/LuminoPro/css/skin.css" rel="stylesheet">
     <!--[if lt IE 9]>
-<link href="${request.contextPath}/js/template/LuminoPro/css/rgba-fallback.css" rel="stylesheet">
-<script src="${request.contextPath}/js/template/LuminoPro/js/html5shiv.js"></script>
-<script src="${request.contextPath}/js/template/LuminoPro/js/respond.min.js"></script>
+    <link href="${request.contextPath}/js/template/LuminoPro/css/rgba-fallback.css" rel="stylesheet">
+    <script src="${request.contextPath}/js/template/LuminoPro/js/html5shiv.js"></script>
+    <script src="${request.contextPath}/js/template/LuminoPro/js/respond.min.js"></script>
 <![endif]-->
 
     <script src="${request.contextPath}/js/template/LuminoPro/js/jquery-1.11.1.min.js"></script>
@@ -28,6 +28,8 @@
     <script src="${request.contextPath}/js/template/LuminoPro/js/custom.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
+
+    <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
     <g:layoutHead/>
     <style>
      .box {
@@ -39,6 +41,10 @@
         -webkit-animation-name: fadeIn;
         animation-name: fadeIn;
     }
+     .table-hover > tbody > tr:hover > td,
+     .table-hover > tbody > tr:hover > th {
+         background-color: #c0c0c0;
+     }
     </style>
 </head>
 

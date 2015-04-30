@@ -37,23 +37,58 @@
 						$.post("${request.contextPath}/equipmentCatagory/deleteAll", obj,
 								function (data, textStatus) {
 									if (data.result) {
-										//$('#alertSucess').show();
 										$('#alertSucess').removeClass('hide');
 										$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
 									} else {
-										//$('#alertFault').show();
 										$('#alertFault').removeClass('hide');
 									}
 								}, "json");
 					}
 				}
 			}
+			function newWindow(){
+				$('#equipmentCatagoryForm').form('clear');
+			}
+			function formSubmitAction(){
+				$('#equipmentCatagoryForm').form('validate');
+
+				$('#equipmentCatagoryForm').form('submit', {
+					url:'${request.contextPath}/equipmentCatagory/save',
+					success: function(data){
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object
+						if (data.result){
+							$('#alertSucess').removeClass('hide');
+							$('#box-edit').closest('.box').toggleClass('active');
+							$('#box-list').closest('.box').addClass('active');
+							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
+						}else{
+							$('#alertFault').removeClass('hide');
+						}
+					}
+				});
+
+				return false;
+			}
+			function importExcel(){
+				$('#excelForm').form('submit', {
+					url:'${request.contextPath}/equipmentCatagory/importExel',
+					success: function(data){
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object
+						$('#myModal').modal('hide');
+						if (data.result){
+							$('#alertSucess').removeClass('hide');
+							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
+						}else{
+							$('#alertFault').removeClass('hide');
+						}
+					}
+				});
+			}
 		</script>
 	</head>
 	<body>
 
-	<div class="modal fade panel" id="myModal" tabindex="-1" role="dialog"
-		 aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade panel" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" >
 				<div class="modal-header">
@@ -62,18 +97,23 @@
 					&times;
 					</button>
 					<h4 class="modal-title" id="myModalLabel">
-						标题
+						<g:message code="default.import.label" args="[entityName]" />
 					</h4>
 				</div>
 				<div class="modal-body">
-					文本
+					<form  role="form" id="excelForm"  class="easyui-form"
+						   enctype="multipart/form-data" method="post" >
+					<input type="file" name="file" class="form-control input-sm m-b-10" required="" />
+						</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default"
-							data-dismiss="modal">关闭
+					<button class="btn btn-default margin" onclick="importExcel()" type="button">
+						<span class="glyphicon glyphicon-check"></span>
+						<g:message code="default.submit.label" default="Submit"/>
 					</button>
-					<button type="button" class="btn btn-primary">
-						提交更改
+					<button class="btn btn-default margin" data-dismiss="modal" type="button">
+						<span class="glyphicon glyphicon-circle-arrow-down"></span>
+						<g:message code="default.close.label" default="Close"/>
 					</button>
 				</div>
 			</div><!-- /.modal-content -->
@@ -84,8 +124,7 @@
 			<div class="row">
 				<ol class="breadcrumb">
 					<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-					<li class="active" data-toggle="modal"
-						data-target="#myModal"><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></li>
+					<li class="active" ><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></li>
 				</ol>
 			</div><!--/.row-->
 
@@ -96,12 +135,14 @@
 			</div><!--/.row-->
 			<div class="alert bg-success hide" id="alertSucess" role="alert">
 				<span class="glyphicon glyphicon-check"></span>
-				操作成功！    <!--  data-dismiss="alert" -->
+				<g:message code="default.sucess.label" default="Sucess" />    <!--  data-dismiss="alert" -->
 				<a href="#" class="pull-right" onclick="$('#alertSucess').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
 			</div>
 
 			<div class="alert bg-danger hide" id="alertFault" role="alert">
-				<span class="glyphicon glyphicon-exclamation-sign">操作失败！</span>
+				<span class="glyphicon glyphicon-exclamation-sign"> </span>
+					<g:message code="default.fault.label" default="Fault" />
+
 				<a href="#" class="pull-right" onclick="$('#alertFault').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
 			</div>
 
@@ -112,12 +153,16 @@
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
 							<div style="float: right">
-							<g:link  class="box-switcher" data-switch="box-edit" >
-								<button class="btn btn-default margin" type="button">
+							<button class="btn btn-default margin" data-toggle="modal"
+									data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
+								<span class="glyphicon glyphicon-new-window"></span>
+								<g:message code="default.import.label" args="[entityName]" />
+							</button>
+
+								<button class="btn btn-default margin box-switcher" onclick="newWindow()" type="button" data-switch="box-edit">
 									<span class="glyphicon glyphicon-plus"></span>
 									<g:message code="default.new.label" args="[entityName]" />
 								</button>
-							</g:link>
 
 								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
 									<span class="glyphicon glyphicon-trash"></span>
@@ -162,18 +207,19 @@
 			</div><!--/.row-->
 
 			<div class="row box animated tile"  id="box-edit">
-				<div class="col-lg-12">
-					<g:form url="[resource:equipmentCatagoryInstance, action:'update']" method="PUT" >
+				<div class="col-lg-12 form-group">
+					<form  role="form" id="equipmentCatagoryForm"  onsubmit="formSubmitAction()"
+						  enctype="multipart/form-data" method="post" >
 						<g:hiddenField name="version" value="${equipmentCatagoryInstance?.version}" />
 						<g:hiddenField name="id" value="${equipmentCatagoryInstance?.id}" />
 						<fieldset class="form">
 							<g:render template="form"/>
 						</fieldset>
 						<fieldset class="buttons">
-							<button class="btn btn-default margin" name="create" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
-
+							<button class="btn btn-default margin" type="submit"  name="submit" id="submit" ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+							<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
 						</fieldset>
-					</g:form>
+					</form>
 				</div>
 			</div><!--/.row-->
 
