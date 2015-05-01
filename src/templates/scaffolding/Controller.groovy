@@ -31,12 +31,12 @@ class ${className}Controller {
         if(!params.order) params.order ='desc'
         def allCount=${className}.createCriteria().count{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                ilike('name',"%\${params.search}%");
             }
         }
         def allList=${className}.createCriteria().list{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                ilike('name',"%\${params.search}%");
             }
             order(params.sort,params.order)
             maxResults(params.max.toInteger())

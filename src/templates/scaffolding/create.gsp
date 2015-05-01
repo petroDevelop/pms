@@ -10,8 +10,8 @@
 
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-			<li class="active" ><g:link  action="list"><g:message code="default.list.label" args="[entityName]" /></a></li>
+			<li><a href="\${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
+			<li class="active" ><g:link  action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 
 		</ol>
 	</div><!--/.row-->

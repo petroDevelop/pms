@@ -2,40 +2,48 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="superAdmin">
+		<meta name="layout" content="luminoPro">
 		<g:set var="entityName" value="${message(code: 'baseDepartment.label', default: 'BaseDepartment')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 
 	</head>
 	<body>
-		<div>
-			<a  href="${createLink(uri: '/')}"><button class="btn btn-info btn-sm m-t-10"><g:message code="default.home.label"/></button></a>
-				<g:link  action="index"><button class="btn btn-info btn-sm m-t-10"><g:message code="default.list.label" args="[entityName]" /></button></g:link>
-				<g:link  action="create"><button class="btn btn-info btn-sm m-t-10"><g:message code="default.new.label" args="[entityName]" /></button></g:link>
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
+			<li class="active" ><g:link  action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+			<li class="active" ><g:link  action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+		</ol>
+	</div><!--/.row-->
 
-		</div>
-		<div id="edit-baseDepartment" class="content scaffold-edit" role="main">
-			<h1 class="block-title"><g:message code="default.edit.label" args="[entityName]" /></h1>
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header"><g:message code="default.edit.label" args="[entityName]" /></h1>
 			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+				<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<g:hasErrors bean="${baseDepartmentInstance}">
-			<ul class="errors" role="alert">
-				<g:eachError bean="${baseDepartmentInstance}" var="error">
-				<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-				</g:eachError>
-			</ul>
+				<ul class="errors" role="alert">
+					<g:eachError bean="${baseDepartmentInstance}" var="error">
+						<li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+					</g:eachError>
+				</ul>
 			</g:hasErrors>
-			<g:form url="[resource:baseDepartmentInstance, action:'update']" method="PUT" >
-				<g:hiddenField name="version" value="${baseDepartmentInstance?.version}" />
-            <g:hiddenField name="id" value="${baseDepartmentInstance?.id}" />
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:actionSubmit class="btn btn-info btn-sm m-t-10" action="update" value="更新" />
-				</fieldset>
-			</g:form>
 		</div>
+	</div><!--/.row-->
+
+
+	<g:form url="[resource:baseDepartmentInstance, action:'update']" method="PUT" >
+	<g:hiddenField name="version" value="${baseDepartmentInstance?.version}" />
+	<g:hiddenField name="id" value="${baseDepartmentInstance?.id}" />
+		<fieldset class="form">
+			<g:render template="form"/>
+		</fieldset>
+		<fieldset class="buttons">
+			<button class="btn btn-default margin" name="edit" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+
+		</fieldset>
+	</g:form>
+
 	</body>
 </html>

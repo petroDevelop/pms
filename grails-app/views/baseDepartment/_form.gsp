@@ -20,6 +20,15 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'reason', 'error')} ">
+	<label for="reason">
+		<g:message code="baseDepartment.reason.label" default="Reason" />
+		
+	</label>
+	<g:textField class="form-control input-sm m-b-10"  name="reason" maxlength="100" value="${baseDepartmentInstance?.reason}"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'baseUsers', 'error')} ">
 	<label for="baseUsers">
 		<g:message code="baseDepartment.baseUsers.label" default="Base Users" />
@@ -71,6 +80,15 @@
 		
 	</label>
 	<g:checkBox name="isTeam" value="${baseDepartmentInstance?.isTeam}" />
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'isWorking', 'error')} ">
+	<label for="isWorking">
+		<g:message code="baseDepartment.isWorking.label" default="Is Working" />
+		
+	</label>
+	<g:checkBox name="isWorking" value="${baseDepartmentInstance?.isWorking}" />
 
 </div>
 
