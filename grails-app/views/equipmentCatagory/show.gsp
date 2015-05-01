@@ -90,7 +90,7 @@
 
 	</table>
 
-			</ol>
+
 			<g:form url="[resource:equipmentCatagoryInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
 					<g:hiddenField name="id" value="${equipmentCatagoryInstance?.id}" />
@@ -104,6 +104,6 @@
 
 				</fieldset>
 			</g:form>
-		</div>
+
 	</body>
 </html>

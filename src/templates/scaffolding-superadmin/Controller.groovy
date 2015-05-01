@@ -1,13 +1,10 @@
 <%=packageName ? "package ${packageName}\n\n" : ''%>import org.springframework.dao.DataIntegrityViolationException
-import com.petrodata.poi.ExcelReadBuilder
-import grails.converters.JSON
 <%
     String idType='Long'
     if(domainClass.properties.find {it.name=='id'}.type==java.lang.String){
         idType='String'
     }
 %>
-
 class ${className}Controller {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: ["DELETE","GET","POST"]]
@@ -18,35 +15,9 @@ class ${className}Controller {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
-        params.limit=params.max
-        //[${propertyName}List: ${className}.list(params), ${propertyName}Total: ${className}.count()]
-        return []
+        [${propertyName}List: ${className}.list(params), ${propertyName}Total: ${className}.count()]
     }
-    def json(){
-        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
-        params.limit=params.max;
-        if(!params.offset) params.offset ='0'
-        if(!params.sort) params.sort ='id'
-        if(!params.order) params.order ='desc'
-        def allCount=${className}.createCriteria().count{
-            if(params.search){
-                ilike('name',"%${params.search}%");
-            }
-        }
-        def allList=${className}.createCriteria().list{
-            if(params.search){
-                ilike('name',"%${params.search}%");
-            }
-            order(params.sort,params.order)
-            maxResults(params.max.toInteger())
-            firstResult(params.offset.toInteger())
-        }
-        def map=[:];
-        map.total=allCount;
-        map.rows=allList;
-        render map as JSON;
-    }
+
     def create() {
         [${propertyName}: new ${className}(params)]
     }
@@ -132,11 +103,10 @@ class ${className}Controller {
         }
     }
     def deleteAll ={
-        def map=[:]
-        def list=params.ids.tokenize(',');
-        list.each{
+        def ids=request.getParameterValues("ids")
+        ids.each{
             <%
-            if(idType=='String'){
+            if(domainClass.properties.find {it.name=='id'}.type==java.lang.String){
                 %>
                 def oneInstance=${className}.get(it);
                 <%
@@ -146,28 +116,7 @@ class ${className}Controller {
             }%>
             oneInstance.delete(flush:true);
         }
-        flash.message = message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), params.ids])
-        map.result=true;
-        map.message=flash.message;
-        render map as JSON;
-    }
-    def importExel(){
-        def map=[:];
-        def file = request.getFile('file');
-        if(file ||!file?.empty) {  //file.originalFilename
-            try{
-                new ExcelReadBuilder(2003,file.bytes).eachLine([sheet:'sheet1',labels:true]) {
-                   println "\${it.rowNum},\${cell[0]},\${cell[1]},\${cell[2]},\${cell[3]}......"
-                }
-                map.result=true;
-            }catch(e){
-                map.result=false;
-                map.message=e.message;
-            }
-        }else{
-            map.result=false;
-            map.message="file is empty!";
-        }
-        render((map as JSON).toString());
+        flash.message = message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ids])
+        redirect action:"index"
     }
 }
