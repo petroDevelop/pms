@@ -46,7 +46,6 @@ class EquipmentCatagoryController {
     }
 
     def save() {
-        log.error params;
         def map=[:];
         def equipmentCatagoryInstance = new EquipmentCatagory(params)
         if (!equipmentCatagoryInstance.save(flush: true)) {
@@ -59,8 +58,8 @@ class EquipmentCatagoryController {
         flash.message = message(code: 'default.created.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), equipmentCatagoryInstance.id])
         map.result=true;
         map.message=flash.message;
-        //render map as JSON;
-        redirect(action: "list", id: equipmentCatagoryInstance.id)
+        render map as JSON;
+        //redirect(action: "list", id: equipmentCatagoryInstance.id)
     }
 
     def show(Long id) {
@@ -86,7 +85,6 @@ class EquipmentCatagoryController {
     }
 
     def update(Long id, Long version) {
-        log.error params;
         def equipmentCatagoryInstance = EquipmentCatagory.get(id)
         if (!equipmentCatagoryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), id])

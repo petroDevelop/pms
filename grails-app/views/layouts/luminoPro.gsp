@@ -32,18 +32,30 @@
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
     <g:layoutHead/>
     <style>
+    /*页内多个界面的切换样式*/
      .box {
         display: none;
+         -webkit-animation-name: fadeOut;
+         animation-name: fadeOut;
     }
-
     .box.active {
         display: block;
         -webkit-animation-name: fadeIn;
         animation-name: fadeIn;
     }
+     /*表格中鼠标滑过后的背景色*/
      .table-hover > tbody > tr:hover > td,
      .table-hover > tbody > tr:hover > th {
          background-color: #c0c0c0;
+     }
+     /*表格中checkbox选中行的背景色*/
+     /* the same color with .active */
+     .fixed-table-container tbody .selected td {
+         background-color: #2f8ac3;
+     }
+     /*输入框的字体颜色*/
+     .form-control {
+         color: #c9e8ff;
      }
     </style>
 </head>
@@ -150,8 +162,12 @@
     <ul class="nav menu">
         <li class="parent active">
             <a href="#">
-                <span  data-toggle="collapse" href="#sub-item-1"><span class="glyphicon glyphicon-list"></span> 用户管理
-                    <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span></span>
+                <div  data-toggle="collapse" href="#sub-item-1">
+                    <span class="glyphicon glyphicon-list"></span> 用户管理
+                    <span class="icon pull-right">
+                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
+                     </span>
+                </div>
             </a>
             <ul class="children collapse" id="sub-item-1">
                 <li>
@@ -173,8 +189,9 @@
         </li>
         <li class="parent ">
             <a href="#">
-                <span  data-toggle="collapse" href="#sub-item-2"><span class="glyphicon glyphicon-list"></span> 队伍管理
-                    <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span></span>
+                <div  data-toggle="collapse" href="#sub-item-2"><span class="glyphicon glyphicon-list"></span> 队伍管理
+                    <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                </div>
             </a>
             <ul class="children collapse" id="sub-item-2">
                 <li>
@@ -191,8 +208,9 @@
         </li>
         <li class="parent ">
             <a href="#">
-                <span  data-toggle="collapse" href="#sub-item-3"><span class="glyphicon glyphicon-list"></span> 设备管理
-                <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span></span>
+                <div  data-toggle="collapse" href="#sub-item-3"><span class="glyphicon glyphicon-list"></span> 设备管理
+                <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+                </div>
             </a>
             <ul class="children collapse" id="sub-item-3">
                 <li>
@@ -278,9 +296,9 @@
         $('body').on('click', '.template-skins > a', function(e){
             e.preventDefault();
             var skin = $(this).attr('data-skin');
-            $('#body').attr('class', function(i, v){
+            $('body').attr('class', function(i, v){
                 var classes = v.split(' ');
-                for(var i=0;i++;i<classes.length){
+                for(var i=0;i<classes.length;i++){
                     if(classes[i].indexOf('skin-')>=0){
                         $('body').removeClass(classes[i]);
                     }

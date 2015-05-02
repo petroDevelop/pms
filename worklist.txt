@@ -1,14 +1,17 @@
-@done
+@finish
+  1.   template change
+       1.1 alert 自动消失
+       1.2 提交前表单校验
+       1.3 服务器返回json，update 只允许put
+  2.   excel import
 
+  3.   modal dialog -- Bootstrap Modals
+       增加skin.css
 @todo
-1.   template change
-     1.1 alert 自动消失
-     1.2 提交前表单校验
-     1.3 服务器返回json，update 只允许put
-2.   excel import
-
-3.   modal dialog -- Bootstrap Modals
-     增加skin.css
+  input 框 blur时的字体颜色
+   select  框的背景色（白改为透明）
+   列表的checkbox选中时，本行的背景色 （白改为透明）
+   layout菜单的整个li 都可点击
 
 1. update position view and rotaiton view
 2. update equipmentcatagory view

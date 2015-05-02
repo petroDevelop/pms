@@ -51,7 +51,7 @@
 			}
 			function formSubmitAction(){
 				$('#equipmentCatagoryForm').form('validate');
-
+				//$('#equipmentCatagoryForm').validator('validate');
 				$('#equipmentCatagoryForm').form('submit', {
 					url:'${request.contextPath}/equipmentCatagory/save',
 					success: function(data){
@@ -208,15 +208,15 @@
 
 			<div class="row box animated tile"  id="box-edit">
 				<div class="col-lg-12 form-group">
-					<form  role="form" id="equipmentCatagoryForm"  onsubmit="formSubmitAction()"
-						  enctype="multipart/form-data" method="post" >
+					<form  role="form" id="equipmentCatagoryForm"
+						   enctype="multipart/form-data" method="post" >
 						<g:hiddenField name="version" value="${equipmentCatagoryInstance?.version}" />
 						<g:hiddenField name="id" value="${equipmentCatagoryInstance?.id}" />
 						<fieldset class="form">
 							<g:render template="form"/>
 						</fieldset>
 						<fieldset class="buttons">
-							<button class="btn btn-default margin" type="submit"  name="submit" id="submit" ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+							<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
 							<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
 						</fieldset>
 					</form>
@@ -224,5 +224,11 @@
 			</div><!--/.row-->
 
 		</div>
+	    <script>
+			$("#equipmentCatagoryForm").submit(function(e){
+				formSubmitAction();
+				e.preventDefault();
+			});
+	    </script>
 	</body>
 </html>
