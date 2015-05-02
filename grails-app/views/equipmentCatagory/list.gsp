@@ -1,4 +1,3 @@
-
 <%@ page import="com.petrodata.pms.equipment.EquipmentCatagory" %>
 <!DOCTYPE html>
 <html>
@@ -7,17 +6,16 @@
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
-			//$('#table').bootstrapTable('method', parameter);
 			function deleteFormatter(value, row) {
-				var str='<a href="${request.contextPath}/equipmentCatagory/delete/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
+				var str='<button class="btn btn-default margin" onclick="deleteOne('+row.id+')" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
 				return str;
 			}
-			function editFormatter(value, row) {
-				var str='<a href="${request.contextPath}/equipmentCatagory/edit/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+			function editFormatter(value, row,index) {
+				var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
-			function nameFormatter(value, row) {
-				var str='<a href="${request.contextPath}/equipmentCatagory/show/'+row.id+'">'+row.name+'</a>';
+			function nameFormatter(value, row,index) {
+				var str='<a href="javascript:void(0);" class="box-switcher" data-switch="box-edit" onclick="showOne('+index+','+row.id+')" >'+row.name+'</a>';
 				return str;
 			}
 			function queryParams(params) {
@@ -46,14 +44,25 @@
 					}
 				}
 			}
-			function newWindow(){
+			function newOne(){
 				$('#equipmentCatagoryForm').form('clear');
+			}
+			function deleteOne(id){
+
+			}
+			function editOne(index,id){
+				$('#equipmentCatagoryForm').form('clear');
+				var data=$('#equipmentCatagoryTable').bootstrapTable('getData');
+				$('#equipmentCatagoryForm').form('load',data[index]);
+			}
+			function showOne(index,id){
+				editOne(index,id);
 			}
 			function formSubmitAction(){
 				$('#equipmentCatagoryForm').form('validate');
 				//$('#equipmentCatagoryForm').validator('validate');
 				$('#equipmentCatagoryForm').form('submit', {
-					url:'${request.contextPath}/equipmentCatagory/save',
+					url:'${request.contextPath}/equipmentCatagory/serverSave',
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
 						if (data.result){
@@ -74,7 +83,7 @@
 					url:'${request.contextPath}/equipmentCatagory/importExel',
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
-						$('#myModal').modal('hide');
+						$('#importModal').modal('hide');
 						if (data.result){
 							$('#alertSucess').removeClass('hide');
 							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
@@ -88,7 +97,7 @@
 	</head>
 	<body>
 
-	<div class="modal fade panel" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal fade panel" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" >
 				<div class="modal-header">
@@ -96,7 +105,7 @@
 							data-dismiss="modal" aria-hidden="true">
 					&times;
 					</button>
-					<h4 class="modal-title" id="myModalLabel">
+					<h4 class="modal-title" id="importModalLabel">
 						<g:message code="default.import.label" args="[entityName]" />
 					</h4>
 				</div>
@@ -111,6 +120,7 @@
 						<span class="glyphicon glyphicon-check"></span>
 						<g:message code="default.submit.label" default="Submit"/>
 					</button>
+
 					<button class="btn btn-default margin" data-dismiss="modal" type="button">
 						<span class="glyphicon glyphicon-circle-arrow-down"></span>
 						<g:message code="default.close.label" default="Close"/>
@@ -154,12 +164,12 @@
 							<g:message code="default.list.label" args="[entityName]" />
 							<div style="float: right">
 							<button class="btn btn-default margin" data-toggle="modal"
-									data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
+									data-target="#importModal" type="button">
 								<span class="glyphicon glyphicon-new-window"></span>
 								<g:message code="default.import.label" args="[entityName]" />
 							</button>
 
-								<button class="btn btn-default margin box-switcher" onclick="newWindow()" type="button" data-switch="box-edit">
+								<button class="btn btn-default margin box-switcher" onclick="newOne()" type="button" data-switch="box-edit">
 									<span class="glyphicon glyphicon-plus"></span>
 									<g:message code="default.new.label" args="[entityName]" />
 								</button>
@@ -226,8 +236,8 @@
 		</div>
 	    <script>
 			$("#equipmentCatagoryForm").submit(function(e){
-				formSubmitAction();
 				e.preventDefault();
+				formSubmitAction();
 			});
 	    </script>
 	</body>
