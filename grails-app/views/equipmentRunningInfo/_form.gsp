@@ -2,21 +2,21 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'jobOrderInitDate', 'error')} required">
-	<label for="jobOrderInitDate">
-		<g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Check Init Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:datePicker name="jobOrderInitDate" precision="day"  value="${equipmentRunningInfoInstance?.jobOrderInitDate}"  />
-
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'equipment', 'error')} required">
 	<label for="equipment">
 		<g:message code="equipmentRunningInfo.equipment.label" default="Equipment" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="equipment" name="equipment.id" from="${com.petrodata.pms.equipment.Equipment.list()}" optionKey="id" required="" value="${equipmentRunningInfoInstance?.equipment?.id}" class="form-control input-lg m-b-10"/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'jobOrderInitDate', 'error')} required">
+	<label for="jobOrderInitDate">
+		<g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Job Order Init Date" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:datePicker name="jobOrderInitDate" precision="day"  value="${equipmentRunningInfoInstance?.jobOrderInitDate}"  />
 
 </div>
 
@@ -35,6 +35,15 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="maintenanceInitTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.maintenanceInitTime}" required=""/>
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'runningTime', 'error')} required">
+	<label for="runningTime">
+		<g:message code="equipmentRunningInfo.runningTime.label" default="Running Time" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="runningTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.runningTime}" required=""/>
 
 </div>
 

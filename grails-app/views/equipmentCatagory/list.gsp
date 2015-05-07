@@ -54,6 +54,11 @@
 				$('#equipmentCatagoryForm').form('clear');
 				var data=$('#equipmentCatagoryTable').bootstrapTable('getData');
 				$('#equipmentCatagoryForm').form('load',data[index]);
+
+				if(data[index]['parent.id'] && data[index]['parent.id']!=null){
+					$("#parent option[value='"+data[index][parent.id]+"']").remove();
+					jQuery("#parent").prepend("<option value='"+data[index]['parent.id']+"'>"+data[index]['parent.text']+"</option>");
+				}
 			}
 			function showOne(index,id){
 				editOne(index,id);
@@ -94,9 +99,50 @@
 				});
 			}
 		</script>
+
 	</head>
 	<body>
+	<div class="modal fade" id="catagoryShow" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
 
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">select EquipmentCatagory</h4>
+				</div>
+				<div class="modal-body" style="max-height: 500px;overflow: auto">
+					${EquipmentCatagory.generatorTreeDiv()}
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="changeSelect();"  class="btn btn-default margin" data-dismiss="modal">Change</button>
+					<button type="button"  class="btn btn-default margin"  data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script>
+		function changeSelect(){
+			var value=$('.easy-tree').find('li.li_selected').first().attr('value');
+			var text=$('.easy-tree').find('li.li_selected').first().text();
+			if(value && value!=null){
+				$("#parent option[value='"+value+"']").remove();
+				$("#parent").prepend("<option value='"+value+"'>"+text+"</option>");
+				$("#parent").val(value);
+			}
+		}
+		function changeTree(obj){
+			$('.easy-tree').EasyTree({
+				selectable: true,
+				deletable: false,
+				editable: false,
+				addable: false,
+				i18n:{}
+			});
+			$('#catagoryShow').modal('show');
+		}
+
+	</script>
 	<div class="modal fade panel" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" >
@@ -163,8 +209,7 @@
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
 							<div style="float: right">
-							<button class="btn btn-default margin" data-toggle="modal"
-									data-target="#importModal" type="button">
+							<button class="btn btn-default margin" data-toggle="modal" data-target="#importModal" type="button">
 								<span class="glyphicon glyphicon-new-window"></span>
 								<g:message code="default.import.label" args="[entityName]" />
 							</button>
@@ -197,7 +242,7 @@
 
 									<th data-field="code" data-sortable="true" >${message(code: 'equipmentCatagory.code.label', default: 'Code')}</th>
 
-									<th data-field="parent" data-sortable="true" ><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
+									<th data-field="parent.text" data-sortable="true" ><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 
 									<th data-field="isSpecial" data-sortable="true" >${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}</th>
 

@@ -1,4 +1,5 @@
-<%=packageName ? "package ${packageName}\n\n" : ''%>import org.springframework.dao.DataIntegrityViolationException
+<%=packageName ? "package ${packageName}\n\n" : ''%>
+import org.springframework.dao.DataIntegrityViolationException
 import com.petrodata.poi.ExcelReadBuilder
 import grails.converters.JSON
 <%
@@ -47,89 +48,77 @@ class ${className}Controller {
         map.rows=allList;
         render map as JSON;
     }
-    def create() {
-        [${propertyName}: new ${className}(params)]
+    def serverSave(){
+        def map=[:];
+        if(!params.version){
+            params.version=0l;
+        }
+        if(!params.id){
+            map=this.save();
+        }else{
+            map=this.update(${(idType=='String')?'params.id':'params.id?.toLong()'},params.version?.toLong()?:0);
+        }
+        render (map as JSON).toString();
     }
-
     def save() {
         def ${propertyName} = new ${className}(params)
         if (!${propertyName}.save(flush: true)) {
-            render(view: "create", model: [${propertyName}: ${propertyName}])
-            return
+            map.result=false;
+            //@todo
+            map.message=${propertyName}.errors.allErrors.toString();
         }
-
         flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        redirect(action: "list", id: ${propertyName}.id)
+        map.result=true;
+        map.message=flash.message;
+        return map;
     }
-
-    def show(${idType} id) {
-        def ${propertyName} = ${className}.get(id)
-        if (!${propertyName}) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [${propertyName}: ${propertyName}]
-    }
-
-    def edit(${idType} id) {
-        def ${propertyName} = ${className}.get(id)
-        if (!${propertyName}) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [${propertyName}: ${propertyName}]
-    }
-
     def update(${idType} id, Long version) {
         def ${propertyName} = ${className}.get(id)
         if (!${propertyName}) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "list")
-            return
+            map.result=false;
+            map.message=flash.message;
         }
-
         if (version != null) {
             if (${propertyName}.version > version) {<% def lowerCaseName = grails.util.GrailsNameUtils.getPropertyName(className) %>
                     ${propertyName}.errors.rejectValue("version", "default.optimistic.locking.failure",
                             [message(code: '${domainClass.propertyName}.label', default: '${className}')] as Object[],
                             "Another user has updated this ${className} while you were editing")
-                render(view: "edit", model: [${propertyName}: ${propertyName}])
-                return
+                map.result=false;
+                map.message=${propertyName}.errors.allErrors.toString();
             }
         }
-
         ${propertyName}.properties = params
 
         if (!${propertyName}.save(flush: true)) {
-            render(view: "edit", model: [${propertyName}: ${propertyName}])
-            return
+            map.result=false;
+            map.message=${propertyName}.errors.allErrors.toString();
         }
-
         flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        redirect(action: "list", id: ${propertyName}.id)
+        map.result=true;
+        map.message=flash.message;
+        return map;
     }
 
     def delete(${idType} id) {
         def ${propertyName} = ${className}.get(id)
         if (!${propertyName}) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "list")
-            return
+            map.result=false;
+            map.message=flash.message;
         }
-
         try {
             ${propertyName}.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "list")
+            map.result=true;
+            map.message=flash.message;
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
-            redirect(action: "show", id: id)
+            map.result=false;
+            map.message=flash.message;
         }
+        render map as JSON;
     }
     def deleteAll ={
         def map=[:]

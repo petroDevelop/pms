@@ -19,7 +19,9 @@
 	<label for="parent">
 		<g:message code="equipmentCatagory.parent.label" default="Parent" />
 	</label>
-	<g:select id="parent" data-toggle="modal" href="#show" name="parent.id"  onclick="changeTree(this);"  noSelection="${['':'Select One...']}" from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}" optionKey="id"  value="${equipmentCatagoryInstance?.parent?.id}" class="form-control input-lg m-b-10"/>
+	<g:select id="parent" data-toggle="modal" href="#show" name="parent.id"  onclick="changeTree(this);"
+			  noSelection="${['':'Select One...']}"
+			  from="${[]}" optionKey="id"  value="${equipmentCatagoryInstance?.parent?.id}" class="form-control input-lg m-b-10"/>
 
 </div>
 

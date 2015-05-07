@@ -8,7 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class EquipmentCatagoryController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: ["DELETE", "GET", "POST"]]
-
+    def sessionFactory
     def index() {
         redirect(action: "list", params: params)
     }
@@ -66,8 +66,8 @@ class EquipmentCatagoryController {
             map.result=false;
             //@todo
             map.message=equipmentCatagoryInstance.errors.allErrors.toString();
-            render(view: "create", model: [equipmentCatagoryInstance: equipmentCatagoryInstance])
-            return
+            //render(view: "create", model: [equipmentCatagoryInstance: equipmentCatagoryInstance])
+            //return
         }
         flash.message = message(code: 'default.created.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), equipmentCatagoryInstance.id])
         map.result=true;
@@ -209,9 +209,12 @@ class EquipmentCatagoryController {
                         new EquipmentCatagory(name:row.name2,code:row.name2,parent: EquipmentCatagory.findByName(row.name1?:'')).save(flush: true);
                     }
                 }
-                list2.each{row->
+                list2.eachWithIndex{row,i->
                     if(row.name3 && EquipmentCatagory.countByName(row.name3)==0){
                         new EquipmentCatagory(name:row.name3,code:row.name3,parent: EquipmentCatagory.findByName(row.name2?:'')).save(flush: true);
+                    }
+                    if(i % 100 == 0) {
+                        sessionFactory.getCurrentSession().clear();
                     }
                 }
                 map.result=true;

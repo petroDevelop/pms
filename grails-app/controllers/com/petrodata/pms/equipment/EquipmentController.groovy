@@ -1,6 +1,10 @@
 package com.petrodata.pms.equipment
 
+
 import org.springframework.dao.DataIntegrityViolationException
+import com.petrodata.poi.ExcelReadBuilder
+import grails.converters.JSON
+
 
 class EquipmentController {
 
@@ -12,102 +16,138 @@ class EquipmentController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [equipmentInstanceList: Equipment.list(params), equipmentInstanceTotal: Equipment.count()]
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        //[equipmentInstanceList: Equipment.list(params), equipmentInstanceTotal: Equipment.count()]
+        return []
     }
-
-    def create() {
-        [equipmentInstance: new Equipment(params)]
+    def json(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def allCount=Equipment.createCriteria().count{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+        }
+        def allList=Equipment.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
     }
-
+    def serverSave(){
+        def map=[:];
+        if(!params.version){
+            params.version=0l;
+        }
+        if(!params.id){
+            map=this.save();
+        }else{
+            map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
+        }
+        render (map as JSON).toString();
+    }
     def save() {
         def equipmentInstance = new Equipment(params)
         if (!equipmentInstance.save(flush: true)) {
-            render(view: "create", model: [equipmentInstance: equipmentInstance])
-            return
+            map.result=false;
+            //@todo
+            map.message=equipmentInstance.errors.allErrors.toString();
         }
-
         flash.message = message(code: 'default.created.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
-        redirect(action: "list", id: equipmentInstance.id)
+        map.result=true;
+        map.message=flash.message;
+        return map;
     }
-
-    def show(Long id) {
-        def equipmentInstance = Equipment.get(id)
-        if (!equipmentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [equipmentInstance: equipmentInstance]
-    }
-
-    def edit(Long id) {
-        def equipmentInstance = Equipment.get(id)
-        if (!equipmentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "list")
-            return
-        }
-
-        [equipmentInstance: equipmentInstance]
-    }
-
     def update(Long id, Long version) {
         def equipmentInstance = Equipment.get(id)
         if (!equipmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "list")
-            return
+            map.result=false;
+            map.message=flash.message;
         }
-
         if (version != null) {
             if (equipmentInstance.version > version) {
                     equipmentInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                             [message(code: 'equipment.label', default: 'Equipment')] as Object[],
                             "Another user has updated this Equipment while you were editing")
-                render(view: "edit", model: [equipmentInstance: equipmentInstance])
-                return
+                map.result=false;
+                map.message=equipmentInstance.errors.allErrors.toString();
             }
         }
-
         equipmentInstance.properties = params
 
         if (!equipmentInstance.save(flush: true)) {
-            render(view: "edit", model: [equipmentInstance: equipmentInstance])
-            return
+            map.result=false;
+            map.message=equipmentInstance.errors.allErrors.toString();
         }
-
         flash.message = message(code: 'default.updated.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
-        redirect(action: "list", id: equipmentInstance.id)
+        map.result=true;
+        map.message=flash.message;
+        return map;
     }
 
     def delete(Long id) {
         def equipmentInstance = Equipment.get(id)
         if (!equipmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "list")
-            return
+            map.result=false;
+            map.message=flash.message;
         }
-
         try {
             equipmentInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "list")
+            map.result=true;
+            map.message=flash.message;
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
-            redirect(action: "show", id: id)
+            map.result=false;
+            map.message=flash.message;
         }
+        render map as JSON;
     }
     def deleteAll ={
-        def ids=request.getParameterValues("ids")
-        ids.each{
+        def map=[:]
+        def list=params.ids.tokenize(',');
+        list.each{
             
                 def oneInstance=Equipment.get(it.toLong());
             
             oneInstance.delete(flush:true);
         }
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'equipment.label', default: 'Equipment'), ids])
-        redirect action:"index"
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'equipment.label', default: 'Equipment'), params.ids])
+        map.result=true;
+        map.message=flash.message;
+        render map as JSON;
+    }
+    def importExel(){
+        def map=[:];
+        def file = request.getFile('file');
+        if(file ||!file?.empty) {  //file.originalFilename
+            try{
+                new ExcelReadBuilder(2003,file.bytes).eachLine([sheet:'sheet1',labels:true]) {
+                   println "${it.rowNum},${cell[0]},${cell[1]},${cell[2]},${cell[3]}......"
+                }
+                map.result=true;
+            }catch(e){
+                map.result=false;
+                map.message=e.message;
+            }
+        }else{
+            map.result=false;
+            map.message="file is empty!";
+        }
+        render((map as JSON).toString());
     }
 }

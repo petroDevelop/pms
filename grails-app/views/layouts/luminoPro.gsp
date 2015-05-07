@@ -30,6 +30,8 @@
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
 
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" href="${request.contextPath}/js/EasyTree/css/easyTree.css">
+    <script src="${request.contextPath}/js/EasyTree/src/easyTree.js"></script>
     <g:layoutHead/>
     <style>
     /*页内多个界面的切换样式*/
@@ -57,6 +59,13 @@
      .form-control {
          color: #c9e8ff;
      }
+
+    select.form-control {
+        background: none repeat scroll 0% 0% ;
+    }
+    .easy-tree{
+        background-color:transparent;
+    }
     </style>
 </head>
 
