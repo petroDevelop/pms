@@ -272,7 +272,8 @@
 	</label>
 	<div class="input-group date form_date col-md-5" data-date=""
 		 data-date-format="yyyy-mm-dd" >
-		<input class="form-control" size="16" type="text"  id="operationDate" name="operationDate" value="${equipmentInstance?.operationDate?.format('yyyy-MM-dd')}"  readonly>
+		<input class="form-control" size="16" type="text"  id="operationDate"
+			   name="operationDate" value="${equipmentInstance?.operationDate?.format('yyyy-MM-dd')}"  readonly>
 		<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 	</div>
