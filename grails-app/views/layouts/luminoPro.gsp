@@ -74,7 +74,7 @@
         background-color:transparent;
     }
 
-    .dropdown-menu{
+    .datetimepicker{
         background-color:transparent;
     }
     .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
