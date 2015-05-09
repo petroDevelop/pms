@@ -50,6 +50,18 @@ class EquipmentController {
         if(!params.version){
             params.version=0l;
         }
+        if(params.factoryDate){
+            params.factoryDate=Date.parse('yyyy-MM-dd',params.factoryDate);
+        }
+        if(params.acceptDate){
+            params.acceptDate=Date.parse('yyyy-MM-dd',params.acceptDate);
+        }
+        if(params.arrivalDate){
+            params.arrivalDate=Date.parse('yyyy-MM-dd',params.arrivalDate);
+        }
+        if(params.operationDate){
+            params.operationDate=Date.parse('yyyy-MM-dd',params.operationDate);
+        }
         if(!params.id){
             map=this.save();
         }else{
@@ -58,18 +70,21 @@ class EquipmentController {
         render (map as JSON).toString();
     }
     def save() {
+        def map=[:]
         def equipmentInstance = new Equipment(params)
         if (!equipmentInstance.save(flush: true)) {
             map.result=false;
             //@todo
             map.message=equipmentInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.created.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.created.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
-        map.result=true;
-        map.message=flash.message;
         return map;
     }
     def update(Long id, Long version) {
+        def map=[:]
         def equipmentInstance = Equipment.get(id)
         if (!equipmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
@@ -90,14 +105,17 @@ class EquipmentController {
         if (!equipmentInstance.save(flush: true)) {
             map.result=false;
             map.message=equipmentInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'equipment.label', default: 'Equipment'), equipmentInstance.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
 
     def delete(Long id) {
+        def map=[:]
         def equipmentInstance = Equipment.get(id)
         if (!equipmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
