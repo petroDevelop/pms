@@ -90,6 +90,9 @@
         padding-left: 15px;
         padding-right: 15px;
     }
+    .input-group-addon {
+        color:white;
+    }
     </style>
 </head>
 
