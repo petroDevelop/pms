@@ -57,7 +57,7 @@
 
 				if(data[index]['parent.id'] && data[index]['parent.id']!=null){
 					$("#parent option[value='"+data[index][parent.id]+"']").remove();
-					jQuery("#parent").prepend("<option value='"+data[index]['parent.id']+"'>"+data[index]['parent.text']+"</option>");
+					$("#parent").prepend("<option value='"+data[index]['parent.id']+"'>"+data[index]['parent.text']+"</option>");
 				}
 			}
 			function showOne(index,id){

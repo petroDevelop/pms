@@ -5,7 +5,6 @@
 		<meta name="layout" content="luminoPro">
 		<g:set var="entityName" value="${message(code: 'baseDepartment.label', default: 'BaseDepartment')}" />
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
-
 	</head>
 	<body>
 	<div class="row">

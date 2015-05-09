@@ -2,13 +2,13 @@
 
 
 
+
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'name', 'error')} required">
 	<label for="name">
 		<g:message code="baseDepartment.name.label" default="Name" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="name" maxlength="50" required="" value="${baseDepartmentInstance?.name}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'parent', 'error')} ">
@@ -17,7 +17,6 @@
 		
 	</label>
 	<g:select id="parent" name="parent.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" value="${baseDepartmentInstance?.parent?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'reason', 'error')} ">
@@ -26,7 +25,6 @@
 		
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="reason" maxlength="100" value="${baseDepartmentInstance?.reason}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'baseUsers', 'error')} ">
@@ -43,7 +41,6 @@
 <g:link controller="baseUser" action="create" params="['baseDepartment.id': baseDepartmentInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'baseUser.label', default: 'BaseUser')])}</g:link>
 </li>
 </ul>
-
 
 </div>
 
@@ -62,7 +59,6 @@
 </li>
 </ul>
 
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'isContainer', 'error')} ">
@@ -71,7 +67,6 @@
 		
 	</label>
 	<g:checkBox name="isContainer" value="${baseDepartmentInstance?.isContainer}" />
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'isTeam', 'error')} ">
@@ -80,7 +75,6 @@
 		
 	</label>
 	<g:checkBox name="isTeam" value="${baseDepartmentInstance?.isTeam}" />
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'isWorking', 'error')} ">
@@ -89,6 +83,5 @@
 		
 	</label>
 	<g:checkBox name="isWorking" value="${baseDepartmentInstance?.isWorking}" />
-
 </div>
 
