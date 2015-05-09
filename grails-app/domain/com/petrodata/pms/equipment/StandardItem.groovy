@@ -3,10 +3,14 @@ package com.petrodata.pms.equipment
 class StandardItem {
     //关联标准
     Standard standard;
-    //标准类型
+    //标准类型 //'运行标准','检查标准','保养标准','大修标准'
     String type
     //执行依据  （时间 或 里程数）【运行项时为缺省值】
     String aim='time'
+    //检查周期    检查周期      B （班次） 7天
+    String checkType
+     //间隔日期
+    int checkDays
     //执行周期 【运行项时为缺省值0】
     long excuteCycle
     //运转项（检查项-保养项描述）名称
@@ -27,6 +31,8 @@ class StandardItem {
         //运行标准，检查标准，保养标准，大修标准  'OperationStandard','InspectionStandard','MaintenanceStandard','OverhaulStandard'
         type(size:0..40,nullable: true,inList: ['运行标准','检查标准','保养标准','大修标准'])
         aim(size: 0..40,nullable: true,inList: ['time','milage']);
+        checkType(size: 0..40,nullable: true,inList: ['班次','天数']);
+        checkDays();
         name(size:0..50,nullable: false,blank: false);
         range(size:0..100,nullable: true,blank: true);
         sop(size:0..100,nullable: true,blank: true);

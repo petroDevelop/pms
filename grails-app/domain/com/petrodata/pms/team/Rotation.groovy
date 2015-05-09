@@ -20,6 +20,8 @@ class Rotation {
     long checkTime
     //说明
     String description
+    //负责日检查工单
+    boolean chargeDailyCheck
     //岗位包含人员
     static hasMany = [baseUsers:BaseUser]
     static constraints = {

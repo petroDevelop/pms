@@ -7,6 +7,13 @@
 
   3.   modal dialog -- Bootstrap Modals
        增加skin.css
+
+  4.  变更：
+           标准项上增加了检查周期checkType和间隔时间 checkDays
+           班次上增加 负责日检查工单 chargeDailyCheck
+
+           增加JobOrder 数据 和 JobItem 数据
+
 @todo
   input 框 blur时的字体颜色
    select  框的背景色（白改为透明）
