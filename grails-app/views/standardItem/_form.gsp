@@ -2,13 +2,13 @@
 
 
 
+
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'type', 'error')} ">
 	<label for="type">
 		<g:message code="standardItem.type.label" default="Type" />
 		
 	</label>
 	<g:select name="type" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.type.inList}" value="${standardItemInstance?.type}" valueMessagePrefix="standardItem.type" noSelection="['': '']"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'aim', 'error')} ">
@@ -17,7 +17,6 @@
 		
 	</label>
 	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim" noSelection="['': '']"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'name', 'error')} required">
@@ -26,7 +25,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="name" maxlength="50" required="" value="${standardItemInstance?.name}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'range', 'error')} ">
@@ -35,7 +33,6 @@
 		
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="range" maxlength="100" value="${standardItemInstance?.range}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'sop', 'error')} ">
@@ -44,7 +41,6 @@
 		
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="sop" maxlength="100" value="${standardItemInstance?.sop}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'sopCode', 'error')} ">
@@ -53,7 +49,6 @@
 		
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="sopCode" maxlength="100" value="${standardItemInstance?.sopCode}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'accessory', 'error')} ">
@@ -62,7 +57,6 @@
 		
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="accessory" maxlength="100" value="${standardItemInstance?.accessory}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'excuteCycle', 'error')} required">
@@ -71,7 +65,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="excuteCycle" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.excuteCycle}" required=""/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'manhour', 'error')} required">
@@ -80,7 +73,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="manhour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.manhour}" required=""/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'standard', 'error')} required">
@@ -89,7 +81,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:select id="standard" name="standard.id" from="${com.petrodata.pms.equipment.Standard.list()}" optionKey="id" required="" value="${standardItemInstance?.standard?.id}" class="form-control input-lg m-b-10"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'warningHour', 'error')} required">
@@ -98,6 +89,5 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="warningHour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.warningHour}" required=""/>
-
 </div>
 

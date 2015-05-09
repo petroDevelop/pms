@@ -58,6 +58,7 @@ class EquipmentRunningInfoController {
         render (map as JSON).toString();
     }
     def save() {
+        def map=[:];
         def equipmentRunningInfoInstance = new EquipmentRunningInfo(params)
         if (!equipmentRunningInfoInstance.save(flush: true)) {
             map.result=false;
@@ -70,6 +71,7 @@ class EquipmentRunningInfoController {
         return map;
     }
     def update(Long id, Long version) {
+        def map=[:];
         def equipmentRunningInfoInstance = EquipmentRunningInfo.get(id)
         if (!equipmentRunningInfoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), id])
@@ -98,6 +100,7 @@ class EquipmentRunningInfoController {
     }
 
     def delete(Long id) {
+        def map=[:];
         def equipmentRunningInfoInstance = EquipmentRunningInfo.get(id)
         if (!equipmentRunningInfoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), id])

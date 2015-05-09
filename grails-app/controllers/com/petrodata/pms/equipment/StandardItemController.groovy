@@ -1,6 +1,5 @@
 package com.petrodata.pms.equipment
 
-
 import org.springframework.dao.DataIntegrityViolationException
 import com.petrodata.poi.ExcelReadBuilder
 import grails.converters.JSON
@@ -45,77 +44,89 @@ class StandardItemController {
         map.rows=allList;
         render map as JSON;
     }
-    def serverSave(){
-        def map=[:];
-        if(!params.version){
-            params.version=0l;
-        }
-        if(!params.id){
-            map=this.save();
-        }else{
-            map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
-        }
-        render (map as JSON).toString();
+    def create() {
+        [standardItemInstance: new StandardItem(params)]
     }
+
     def save() {
         def standardItemInstance = new StandardItem(params)
         if (!standardItemInstance.save(flush: true)) {
-            map.result=false;
-            //@todo
-            map.message=standardItemInstance.errors.allErrors.toString();
+            render(view: "create", model: [standardItemInstance: standardItemInstance])
+            return
         }
+
         flash.message = message(code: 'default.created.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
-        map.result=true;
-        map.message=flash.message;
-        return map;
+        redirect(action: "list", id: standardItemInstance.id)
     }
+
+    def show(Long id) {
+        def standardItemInstance = StandardItem.get(id)
+        if (!standardItemInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [standardItemInstance: standardItemInstance]
+    }
+
+    def edit(Long id) {
+        def standardItemInstance = StandardItem.get(id)
+        if (!standardItemInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [standardItemInstance: standardItemInstance]
+    }
+
     def update(Long id, Long version) {
         def standardItemInstance = StandardItem.get(id)
         if (!standardItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
-            map.result=false;
-            map.message=flash.message;
+            redirect(action: "list")
+            return
         }
+
         if (version != null) {
             if (standardItemInstance.version > version) {
                     standardItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                             [message(code: 'standardItem.label', default: 'StandardItem')] as Object[],
                             "Another user has updated this StandardItem while you were editing")
-                map.result=false;
-                map.message=standardItemInstance.errors.allErrors.toString();
+                render(view: "edit", model: [standardItemInstance: standardItemInstance])
+                return
             }
         }
+
         standardItemInstance.properties = params
 
         if (!standardItemInstance.save(flush: true)) {
-            map.result=false;
-            map.message=standardItemInstance.errors.allErrors.toString();
+            render(view: "edit", model: [standardItemInstance: standardItemInstance])
+            return
         }
+
         flash.message = message(code: 'default.updated.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
-        map.result=true;
-        map.message=flash.message;
-        return map;
+        redirect(action: "list", id: standardItemInstance.id)
     }
 
     def delete(Long id) {
         def standardItemInstance = StandardItem.get(id)
         if (!standardItemInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
-            map.result=false;
-            map.message=flash.message;
+            redirect(action: "list")
+            return
         }
+
         try {
             standardItemInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
-            map.result=true;
-            map.message=flash.message;
+            redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
-            map.result=false;
-            map.message=flash.message;
+            redirect(action: "show", id: id)
         }
-        render map as JSON;
     }
     def deleteAll ={
         def map=[:]

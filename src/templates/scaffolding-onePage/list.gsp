@@ -70,7 +70,7 @@
 							\$('#alertSucess').removeClass('hide');
 							\$('#box-edit').closest('.box').toggleClass('active');
 							\$('#box-list').closest('.box').addClass('active');
-							\$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
+							\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);
 						}else{
 							\$('#alertFault').removeClass('hide');
 						}
@@ -221,7 +221,7 @@
 
 		<div class="row box animated tile"  id="box-edit">
 			<div class="col-lg-12 form-group">
-				<form  role="form" id="${domainClass.propertyName}Form" enctype="multipart/form-data" method="post" >
+				<form  role="form"  class="form-horizontal" id="${domainClass.propertyName}Form" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="\${${propertyName}?.version}" />
 					<g:hiddenField name="id" value="\${${propertyName}?.id}" />
 					<fieldset class="form">

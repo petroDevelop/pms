@@ -32,6 +32,9 @@
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
     <link rel="stylesheet" href="${request.contextPath}/js/EasyTree/css/easyTree.css">
     <script src="${request.contextPath}/js/EasyTree/src/easyTree.js"></script>
+    <link href="${request.contextPath}/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <g:layoutHead/>
     <style>
     /*页内多个界面的切换样式*/
@@ -62,9 +65,30 @@
 
     select.form-control {
         background: none repeat scroll 0% 0% ;
+        background-color:transparent;
+    }
+    select.form-control option{
+        background-color:#619ECC;
     }
     .easy-tree{
         background-color:transparent;
+    }
+
+    .dropdown-menu{
+        background-color:transparent;
+    }
+    .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+        background-color:transparent;
+    }
+    input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly] {
+        background-color:transparent;
+    }
+    .input-group-addon{
+        background-color:transparent;
+    }
+    .input-group[class*="col-"]  {
+        padding-left: 15px;
+        padding-right: 15px;
     }
     </style>
 </head>
@@ -235,6 +259,16 @@
                 <li>
                     <a class="" href="${request.contextPath}/equipment/list">
                         <span class="glyphicon glyphicon-share-alt"></span> 设备台帐管理
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="${request.contextPath}/EquipmentRunningInfo/list">
+                        <span class="glyphicon glyphicon-share-alt"></span> 设备运行情况管理
+                    </a>
+                </li>
+                <li>
+                    <a class="" href="${request.contextPath}/EquipmentStandardHistory/list">
+                        <span class="glyphicon glyphicon-share-alt"></span> 设备标准历史管理
                     </a>
                 </li>
             </ul>

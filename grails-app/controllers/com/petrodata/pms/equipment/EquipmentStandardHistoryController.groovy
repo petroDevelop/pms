@@ -58,6 +58,7 @@ class EquipmentStandardHistoryController {
         render (map as JSON).toString();
     }
     def save() {
+        def map=[:];
         def equipmentStandardHistoryInstance = new EquipmentStandardHistory(params)
         if (!equipmentStandardHistoryInstance.save(flush: true)) {
             map.result=false;
@@ -70,6 +71,7 @@ class EquipmentStandardHistoryController {
         return map;
     }
     def update(Long id, Long version) {
+        def map=[:];
         def equipmentStandardHistoryInstance = EquipmentStandardHistory.get(id)
         if (!equipmentStandardHistoryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentStandardHistory.label', default: 'EquipmentStandardHistory'), id])
@@ -98,6 +100,7 @@ class EquipmentStandardHistoryController {
     }
 
     def delete(Long id) {
+        def map=[:];
         def equipmentStandardHistoryInstance = EquipmentStandardHistory.get(id)
         if (!equipmentStandardHistoryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentStandardHistory.label', default: 'EquipmentStandardHistory'), id])

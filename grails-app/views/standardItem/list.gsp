@@ -8,15 +8,15 @@
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
 			function deleteFormatter(value, row) {
-				var str='<button class="btn btn-default margin" onclick="deleteOne('+row.id+')" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
+				var str='<a href="${request.contextPath}/standardItem/delete/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
 				return str;
 			}
-			function editFormatter(value, row,index) {
-				var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+			function editFormatter(value, row) {
+				var str='<a href="${request.contextPath}/standardItem/edit/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
-			function nameFormatter(value, row,index) {
-				var str='<a href="javascript:void(0);" class="box-switcher" data-switch="box-edit" onclick="showOne('+index+','+row.id+')" >'+row.name+'</a>';
+			function nameFormatter(value, row) {
+				var str='<a href="${request.contextPath}/standardItem/show/'+row.id+'">'+row.name+'</a>';
 				return str;
 			}
 			function queryParams(params) {
@@ -45,39 +45,7 @@
 					}
 				}
 			}
-			function newOne(){
-				$('#standardItemForm').form('clear');
-			}
-			function deleteOne(id){
 
-			}
-			function editOne(index,id){
-				$('#standardItemForm').form('clear');
-				var data=$('#standardItemTable').bootstrapTable('getData');
-				$('#standardItemForm').form('load',data[index]);
-			}
-			function showOne(index,id){
-				editOne(index,id);
-			}
-			function formSubmitAction(){
-				$('#standardItemForm').form('validate');
-				//$('#standardItemForm').validator('validate');
-				$('#standardItemForm').form('submit', {
-					url:'${request.contextPath}/standardItem/serverSave',
-					success: function(data){
-						var data = eval('(' + data + ')'); // change the JSON string to javascript object
-						if (data.result){
-							$('#alertSucess').removeClass('hide');
-							$('#box-edit').closest('.box').toggleClass('active');
-							$('#box-list').closest('.box').addClass('active');
-							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
-						}else{
-							$('#alertFault').removeClass('hide');
-						}
-					}
-				});
-				return false;
-			}
 			function importExcel(){
 				$('#excelForm').form('submit', {
 					url:'${request.contextPath}/standardItem/importExel',
@@ -93,10 +61,13 @@
 					}
 				});
 			}
+			function newWindow(){
+				document.location.href="${createLink(controller: 'standardItem',action:'create')}";
+			}
 		</script>
 	</head>
 	<body>
-	<div class="modal fade panel" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+	<div class="modal fade panel" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" >
 				<div class="modal-header">
@@ -104,7 +75,7 @@
 							data-dismiss="modal" aria-hidden="true">
 					&times;
 					</button>
-					<h4 class="modal-title" id="importModalLabel">
+					<h4 class="modal-title" id="myModalLabel">
 						<g:message code="default.import.label" args="[entityName]" />
 					</h4>
 				</div>
@@ -119,7 +90,6 @@
 						<span class="glyphicon glyphicon-check"></span>
 						<g:message code="default.submit.label" default="Submit"/>
 					</button>
-
 					<button class="btn btn-default margin" data-dismiss="modal" type="button">
 						<span class="glyphicon glyphicon-circle-arrow-down"></span>
 						<g:message code="default.close.label" default="Close"/>
@@ -162,20 +132,21 @@
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
 							<div style="float: right">
-								<button class="btn btn-default margin" data-toggle="modal" data-target="#importModal" type="button">
+								<button class="btn btn-default margin" data-toggle="modal"
+										data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
 									<span class="glyphicon glyphicon-new-window"></span>
 									<g:message code="default.import.label" args="[entityName]" />
 								</button>
 
-							<button class="btn btn-default margin box-switcher" onclick="newOne()" type="button" data-switch="box-edit">
-								<span class="glyphicon glyphicon-plus"></span>
-								<g:message code="default.new.label" args="[entityName]" />
-							</button>
+								<button class="btn btn-default margin " onclick="newWindow()" type="button" >
+									<span class="glyphicon glyphicon-plus"></span>
+									<g:message code="default.new.label" args="[entityName]" />
+								</button>
 
-							<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
-								<span class="glyphicon glyphicon-trash"></span>
-								<g:message code="default.button.delete.label" default="Delete" />
-							</button>
+								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
+									<span class="glyphicon glyphicon-trash"></span>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
 
 							</div>
 						</div>
@@ -218,28 +189,9 @@
 			</div>
 		</div><!--/.row-->
 
-		<div class="row box animated tile"  id="box-edit">
-			<div class="col-lg-12 form-group">
-				<form  role="form" id="standardItemForm" enctype="multipart/form-data" method="post" >
-					<g:hiddenField name="version" value="${standardItemInstance?.version}" />
-					<g:hiddenField name="id" value="${standardItemInstance?.id}" />
-					<fieldset class="form">
-						<g:render template="form"/>
-					</fieldset>
-					<fieldset class="buttons">
-						<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
-						<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
-					</fieldset>
-				</form>
-			</div>
-		</div><!--/.row-->
+
 
 	</div>
-	<script>
-		$("#standardItemForm").submit(function(e){
-			e.preventDefault();
-			formSubmitAction();
-		});
-	</script>
+
 	</body>
 </html>

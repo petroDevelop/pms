@@ -61,18 +61,22 @@ class ${className}Controller {
         render (map as JSON).toString();
     }
     def save() {
+        def map=[:]
         def ${propertyName} = new ${className}(params)
         if (!${propertyName}.save(flush: true)) {
             map.result=false;
             //@todo
             map.message=${propertyName}.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.created.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
     def update(${idType} id, Long version) {
+        def map=[:]
         def ${propertyName} = ${className}.get(id)
         if (!${propertyName}) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])
@@ -93,14 +97,17 @@ class ${className}Controller {
         if (!${propertyName}.save(flush: true)) {
             map.result=false;
             map.message=${propertyName}.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.updated.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), ${propertyName}.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
 
     def delete(${idType} id) {
+        def map=[:]
         def ${propertyName} = ${className}.get(id)
         if (!${propertyName}) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: '${domainClass.propertyName}.label', default: '${className}'), id])

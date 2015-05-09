@@ -58,6 +58,7 @@ class StandardController {
         render (map as JSON).toString();
     }
     def save() {
+        def map=[:];
         def standardInstance = new Standard(params)
         if (!standardInstance.save(flush: true)) {
             map.result=false;
@@ -70,6 +71,7 @@ class StandardController {
         return map;
     }
     def update(Long id, Long version) {
+        def map=[:];
         def standardInstance = Standard.get(id)
         if (!standardInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standard.label', default: 'Standard'), id])
@@ -98,6 +100,7 @@ class StandardController {
     }
 
     def delete(Long id) {
+        def map=[:];
         def standardInstance = Standard.get(id)
         if (!standardInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standard.label', default: 'Standard'), id])
@@ -121,9 +124,7 @@ class StandardController {
         def map=[:]
         def list=params.ids.tokenize(',');
         list.each{
-            
-                def oneInstance=Standard.get(it.toLong());
-            
+            def oneInstance=Standard.get(it.toLong());
             oneInstance.delete(flush:true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'standard.label', default: 'Standard'), params.ids])

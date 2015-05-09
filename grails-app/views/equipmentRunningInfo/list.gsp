@@ -70,7 +70,7 @@
 							$('#alertSucess').removeClass('hide');
 							$('#box-edit').closest('.box').toggleClass('active');
 							$('#box-list').closest('.box').addClass('active');
-							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
+							$('#equipmentRunningInfoTable').bootstrapTable('refresh',[]);
 						}else{
 							$('#alertFault').removeClass('hide');
 						}
