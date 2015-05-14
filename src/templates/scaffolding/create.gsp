@@ -19,8 +19,7 @@
 		<div class="col-lg-12 form-group">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h1 class="page-header">
-						<g:message code="default.create.label" args="[entityName]" /></h1>
+						<g:message code="default.create.label" args="[entityName]" />
 					<g:if test="\${flash.message}">
 						<div class="message" role="status">\${flash.message}</div>
 					</g:if>
