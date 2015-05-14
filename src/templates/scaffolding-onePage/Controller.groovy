@@ -58,7 +58,7 @@ class ${className}Controller {
         }else{
             map=this.update(${(idType=='String')?'params.id':'params.id?.toLong()'},params.version?.toLong()?:0);
         }
-        render (map as JSON).toString();
+        render "\${(map as JSON).toString()}";
     }
     def save() {
         def map=[:]
@@ -165,6 +165,6 @@ class ${className}Controller {
             map.result=false;
             map.message="file is empty!";
         }
-        render((map as JSON).toString());
+        render "\${(map as JSON).toString()}";
     }
 }

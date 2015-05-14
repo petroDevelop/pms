@@ -63,14 +63,6 @@
 			function showOne(index,id){
 				editOne(index,id);
 			}
-			function formSubmitAction(){
-
-				$('#equipmentCatagoryForm').form('validate');
-				//$('#equipmentCatagoryForm').validator('validate');
-				$('#equipmentCatagoryForm').form('submit');
-
-				return false;
-			}
 			function importExcel(){
 				$('#excelForm').form('submit', {
 					url:'${request.contextPath}/equipmentCatagory/importExel',
@@ -232,7 +224,7 @@
 								</button>
 
 							</div>
-							<br/>
+
 							<table id="equipmentCatagoryTable" data-toolbar="#toolbar" data-toggle="table"
 								   data-url="${request.contextPath}/equipmentCatagory/json" data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"

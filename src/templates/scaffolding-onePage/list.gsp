@@ -59,25 +59,6 @@
 			function showOne(index,id){
 				editOne(index,id);
 			}
-			function formSubmitAction(){
-				\$('#${domainClass.propertyName}Form').form('validate');
-				//\$('#${domainClass.propertyName}Form').validator('validate');
-				\$('#${domainClass.propertyName}Form').form('submit', {
-					url:'\${request.contextPath}/${domainClass.propertyName}/serverSave',
-					success: function(data){
-						var data = eval('(' + data + ')'); // change the JSON string to javascript object
-						if (data.result){
-							\$('#alertSucess').removeClass('hide');
-							\$('#box-edit').closest('.box').toggleClass('active');
-							\$('#box-list').closest('.box').addClass('active');
-							\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);
-						}else{
-							\$('#alertFault').removeClass('hide');
-						}
-					}
-				});
-				return false;
-			}
 			function importExcel(){
 				\$('#excelForm').form('submit', {
 					url:'\${request.contextPath}/${domainClass.propertyName}/importExel',
@@ -93,6 +74,34 @@
 					}
 				});
 			}
+			$(function(){
+				$('#equipmentCatagoryForm').form({
+					success: function(data){
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object
+						if (data.result){
+							$('#alertSucess').removeClass('hide');
+							$('#box-edit').closest('.box').toggleClass('active');
+							$('#box-list').closest('.box').addClass('active');
+							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
+						}else{
+							$('#alertFault').removeClass('hide');
+						}
+					}
+				});
+				\$('#${domainClass.propertyName}Form').form({
+					success: function(data){
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object
+						if (data.result){
+						    \$('#alertSucess').removeClass('hide');
+							\$('#box-edit').closest('.box').toggleClass('active');
+							\$('#box-list').closest('.box').addClass('active');
+							\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);
+						}else{
+						   \$('#alertFault').removeClass('hide');
+						}
+					}
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -161,30 +170,27 @@
 					<g:form method="post">
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
-							<div style="float: right">
+						</div>
+						<div class="panel-body">
+							<div  id="toolbar">
 								<button class="btn btn-default margin" data-toggle="modal" data-target="#importModal" type="button">
 									<span class="glyphicon glyphicon-new-window"></span>
 									<g:message code="default.import.label" args="[entityName]" />
 								</button>
 
-							<button class="btn btn-default margin box-switcher" onclick="newOne()" type="button" data-switch="box-edit">
-								<span class="glyphicon glyphicon-plus"></span>
-								<g:message code="default.new.label" args="[entityName]" />
-							</button>
+								<button class="btn btn-default margin box-switcher" onclick="newOne()" type="button" data-switch="box-edit">
+									<span class="glyphicon glyphicon-plus"></span>
+									<g:message code="default.new.label" args="[entityName]" />
+								</button>
 
-							<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
-								<span class="glyphicon glyphicon-trash"></span>
-								<g:message code="default.button.delete.label" default="Delete" />
-							</button>
+								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
+									<span class="glyphicon glyphicon-trash"></span>
+									<g:message code="default.button.delete.label" default="Delete" />
+								</button>
 
 							</div>
-						</div>
-						<div class="panel-body">
-							<!--	sidePagination="client"
-							                    data-method="post"
-								                data-query-params="postQueryParams"
-							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
-							<table id="${domainClass.propertyName}Table" data-toggle="table" data-url="\${request.contextPath}/${domainClass.propertyName}/json"
+							<table id="${domainClass.propertyName}Table" data-toggle="table"   data-toolbar="#toolbar"
+								   data-url="\${request.contextPath}/${domainClass.propertyName}/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
@@ -221,7 +227,10 @@
 
 		<div class="row box animated tile"  id="box-edit">
 			<div class="col-lg-12 form-group">
-				<form  role="form"  class="form-horizontal" id="${domainClass.propertyName}Form" enctype="multipart/form-data" method="post" >
+						<div class="panel panel-default">
+							<div class="panel-heading">Info</div>
+							<div class="panel-body">
+				<form  role="form"  action='\${request.contextPath}/${domainClass.propertyName}/serverSave'  class="form-horizontal" id="${domainClass.propertyName}Form" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="\${${propertyName}?.version}" />
 					<g:hiddenField name="id" value="\${${propertyName}?.id}" />
 					<fieldset class="form">
@@ -232,16 +241,12 @@
 						<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;\${message(code: 'default.button.back.label', default: 'Back')}</button>
 					</fieldset>
 				</form>
+							</div>
+						</div>
 			</div>
-		</div><!--/.row-->
+	</div><!--/.row-->
 
 	</div>
-	<script>
-		\$("#${domainClass.propertyName}Form").submit(function(e){
-			e.preventDefault();
-			formSubmitAction();
-		});
-	</script>
 
 	</body>
 </html>
