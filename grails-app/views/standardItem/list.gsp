@@ -131,7 +131,10 @@
 					<g:form method="post">
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
-							<div style="float: right">
+
+						</div>
+						<div class="panel-body">
+							<div  id="toolbar">
 								<button class="btn btn-default margin" data-toggle="modal"
 										data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
 									<span class="glyphicon glyphicon-new-window"></span>
@@ -149,13 +152,8 @@
 								</button>
 
 							</div>
-						</div>
-						<div class="panel-body">
-							<!--	sidePagination="client"
-							                    data-method="post"
-								                data-query-params="postQueryParams"
-							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
-							<table id="standardItemTable" data-toggle="table" data-url="${request.contextPath}/standardItem/json"
+							<table id="standardItemTable" data-toggle="table"  data-toolbar="#toolbar"
+								   data-url="${request.contextPath}/standardItem/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
@@ -168,13 +166,13 @@
 									
 									<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>
 									
+									<th data-field="checkType"  data-sortable="true"   >${message(code: 'standardItem.checkType.label', default: 'Check Type')}</th>
+									
+									<th data-field="checkDays"  data-sortable="true"   >${message(code: 'standardItem.checkDays.label', default: 'Check Days')}</th>
+									
 									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
 									
 									<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
-									
-									<th data-field="sop"  data-sortable="true"   >${message(code: 'standardItem.sop.label', default: 'Sop')}</th>
-									
-									<th data-field="sopCode"  data-sortable="true"   >${message(code: 'standardItem.sopCode.label', default: 'Sop Code')}</th>
 									
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->

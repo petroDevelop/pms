@@ -74,20 +74,7 @@
 					}
 				});
 			}
-			$(function(){
-				$('#equipmentCatagoryForm').form({
-					success: function(data){
-						var data = eval('(' + data + ')'); // change the JSON string to javascript object
-						if (data.result){
-							$('#alertSucess').removeClass('hide');
-							$('#box-edit').closest('.box').toggleClass('active');
-							$('#box-list').closest('.box').addClass('active');
-							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
-						}else{
-							$('#alertFault').removeClass('hide');
-						}
-					}
-				});
+			\$(function(){
 				\$('#${domainClass.propertyName}Form').form({
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object

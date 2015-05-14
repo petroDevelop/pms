@@ -55,23 +55,25 @@ class EquipmentRunningInfoController {
         }else{
             map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
         }
-        render (map as JSON).toString();
+        render "${(map as JSON).toString()}";
     }
     def save() {
-        def map=[:];
+        def map=[:]
         def equipmentRunningInfoInstance = new EquipmentRunningInfo(params)
         if (!equipmentRunningInfoInstance.save(flush: true)) {
             map.result=false;
             //@todo
             map.message=equipmentRunningInfoInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.created.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), equipmentRunningInfoInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.created.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), equipmentRunningInfoInstance.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
     def update(Long id, Long version) {
-        def map=[:];
+        def map=[:]
         def equipmentRunningInfoInstance = EquipmentRunningInfo.get(id)
         if (!equipmentRunningInfoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), id])
@@ -92,15 +94,17 @@ class EquipmentRunningInfoController {
         if (!equipmentRunningInfoInstance.save(flush: true)) {
             map.result=false;
             map.message=equipmentRunningInfoInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), equipmentRunningInfoInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), equipmentRunningInfoInstance.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
 
     def delete(Long id) {
-        def map=[:];
+        def map=[:]
         def equipmentRunningInfoInstance = EquipmentRunningInfo.get(id)
         if (!equipmentRunningInfoInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo'), id])
@@ -120,6 +124,7 @@ class EquipmentRunningInfoController {
         }
         render map as JSON;
     }
+
     def deleteAll ={
         def map=[:]
         def list=params.ids.tokenize(',');
@@ -151,6 +156,6 @@ class EquipmentRunningInfoController {
             map.result=false;
             map.message="file is empty!";
         }
-        render((map as JSON).toString());
+        render "${(map as JSON).toString()}";
     }
 }

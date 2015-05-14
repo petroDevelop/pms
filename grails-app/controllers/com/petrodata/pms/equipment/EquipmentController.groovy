@@ -50,24 +50,12 @@ class EquipmentController {
         if(!params.version){
             params.version=0l;
         }
-        if(params.factoryDate){
-            params.factoryDate=Date.parse('yyyy-MM-dd',params.factoryDate);
-        }
-        if(params.acceptDate){
-            params.acceptDate=Date.parse('yyyy-MM-dd',params.acceptDate);
-        }
-        if(params.arrivalDate){
-            params.arrivalDate=Date.parse('yyyy-MM-dd',params.arrivalDate);
-        }
-        if(params.operationDate){
-            params.operationDate=Date.parse('yyyy-MM-dd',params.operationDate);
-        }
         if(!params.id){
             map=this.save();
         }else{
             map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
         }
-        render (map as JSON).toString();
+        render "${(map as JSON).toString()}";
     }
     def save() {
         def map=[:]
@@ -81,6 +69,7 @@ class EquipmentController {
             map.result=true;
             map.message=flash.message;
         }
+
         return map;
     }
     def update(Long id, Long version) {
@@ -135,6 +124,7 @@ class EquipmentController {
         }
         render map as JSON;
     }
+
     def deleteAll ={
         def map=[:]
         def list=params.ids.tokenize(',');
@@ -166,6 +156,6 @@ class EquipmentController {
             map.result=false;
             map.message="file is empty!";
         }
-        render((map as JSON).toString());
+        render "${(map as JSON).toString()}";
     }
 }

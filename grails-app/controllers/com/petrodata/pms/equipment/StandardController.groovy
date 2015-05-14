@@ -55,23 +55,25 @@ class StandardController {
         }else{
             map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
         }
-        render (map as JSON).toString();
+        render "${(map as JSON).toString()}";
     }
     def save() {
-        def map=[:];
+        def map=[:]
         def standardInstance = new Standard(params)
         if (!standardInstance.save(flush: true)) {
             map.result=false;
             //@todo
             map.message=standardInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.created.message', args: [message(code: 'standard.label', default: 'Standard'), standardInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.created.message', args: [message(code: 'standard.label', default: 'Standard'), standardInstance.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
     def update(Long id, Long version) {
-        def map=[:];
+        def map=[:]
         def standardInstance = Standard.get(id)
         if (!standardInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standard.label', default: 'Standard'), id])
@@ -92,15 +94,17 @@ class StandardController {
         if (!standardInstance.save(flush: true)) {
             map.result=false;
             map.message=standardInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'standard.label', default: 'Standard'), standardInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'standard.label', default: 'Standard'), standardInstance.id])
-        map.result=true;
-        map.message=flash.message;
+
         return map;
     }
 
     def delete(Long id) {
-        def map=[:];
+        def map=[:]
         def standardInstance = Standard.get(id)
         if (!standardInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'standard.label', default: 'Standard'), id])
@@ -120,11 +124,14 @@ class StandardController {
         }
         render map as JSON;
     }
+
     def deleteAll ={
         def map=[:]
         def list=params.ids.tokenize(',');
         list.each{
-            def oneInstance=Standard.get(it.toLong());
+            
+                def oneInstance=Standard.get(it.toLong());
+            
             oneInstance.delete(flush:true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'standard.label', default: 'Standard'), params.ids])
@@ -149,6 +156,6 @@ class StandardController {
             map.result=false;
             map.message="file is empty!";
         }
-        render((map as JSON).toString());
+        render "${(map as JSON).toString()}";
     }
 }

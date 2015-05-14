@@ -131,7 +131,10 @@
 					<g:form method="post">
 						<div class="panel-heading">
 							<g:message code="default.list.label" args="[entityName]" />
-							<div style="float: right">
+
+						</div>
+						<div class="panel-body">
+							<div  id="toolbar">
 								<button class="btn btn-default margin" data-toggle="modal"
 										data-target="#myModal" type="button"> <!--\$('#myModal').modal('show');-->
 									<span class="glyphicon glyphicon-new-window"></span>
@@ -149,13 +152,8 @@
 								</button>
 
 							</div>
-						</div>
-						<div class="panel-body">
-							<!--	sidePagination="client"
-							                    data-method="post"
-								                data-query-params="postQueryParams"
-							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
-							<table id="${domainClass.propertyName}Table" data-toggle="table" data-url="\${request.contextPath}/${domainClass.propertyName}/json"
+							<table id="${domainClass.propertyName}Table" data-toggle="table"  data-toolbar="#toolbar"
+								   data-url="\${request.contextPath}/${domainClass.propertyName}/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">

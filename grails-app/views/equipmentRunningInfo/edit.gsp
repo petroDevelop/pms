@@ -32,7 +32,6 @@
 		</div>
 	</div><!--/.row-->
 
-
 	<g:form url="[resource:equipmentRunningInfoInstance, action:'update']" method="PUT" >
 	<g:hiddenField name="version" value="${equipmentRunningInfoInstance?.version}" />
 	<g:hiddenField name="id" value="${equipmentRunningInfoInstance?.id}" />

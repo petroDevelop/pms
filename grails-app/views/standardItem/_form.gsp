@@ -19,6 +19,22 @@
 	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim" noSelection="['': '']"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'checkType', 'error')} ">
+	<label for="checkType">
+		<g:message code="standardItem.checkType.label" default="Check Type" />
+		
+	</label>
+	<g:select name="checkType" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.checkType.inList}" value="${standardItemInstance?.checkType}" valueMessagePrefix="standardItem.checkType" noSelection="['': '']"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'checkDays', 'error')} required">
+	<label for="checkDays">
+		<g:message code="standardItem.checkDays.label" default="Check Days" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="checkDays" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.checkDays}" required=""/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'name', 'error')} required">
 	<label for="name">
 		<g:message code="standardItem.name.label" default="Name" />
