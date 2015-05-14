@@ -1,14 +1,13 @@
 <%@ page import="com.petrodata.pms.equipment.Standard" %>
 
 
-
-<div class="form-group fieldcontain ${hasErrors(bean: standardInstance, field: 'attention', 'error')} required">
-	<label class="col-sm-2  control-label" for="attention">
-		<g:message code="standard.attention.label" default="Attention" />
+<div class="form-group fieldcontain ${hasErrors(bean: standardInstance, field: 'name', 'error')} required">
+	<label class="col-sm-2  control-label" for="name">
+		<g:message code="standard.name.label" default="Name" />
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="attention" required="" value="${standardInstance?.attention}"/>
+		<g:textField class="form-control input-sm m-b-10"  name="name" required="" value="${standardInstance?.name}"/>
 
 	</div>
 </div>
@@ -19,18 +18,20 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:select id="equipmentCatagory" name="equipmentCatagory.id" from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}" optionKey="id" required="" value="${standardInstance?.equipmentCatagory?.id}" class="form-control input-lg m-b-10"/>
+		<g:select id="equipmentCatagory" name="equipmentCatagory.id"       onclick="changeTree(this);"
+				  from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}"
+				  optionKey="id" required="" value="${standardInstance?.equipmentCatagory?.id}" class="form-control input-lg m-b-10"/>
 
 	</div>
 </div>
 
-<div class="form-group fieldcontain ${hasErrors(bean: standardInstance, field: 'name', 'error')} required">
-	<label class="col-sm-2  control-label" for="name">
-		<g:message code="standard.name.label" default="Name" />
+<div class="form-group fieldcontain ${hasErrors(bean: standardInstance, field: 'attention', 'error')} required">
+	<label class="col-sm-2  control-label" for="attention">
+		<g:message code="standard.attention.label" default="Attention" />
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="name" required="" value="${standardInstance?.name}"/>
+		<g:textField class="form-control input-sm m-b-10"  name="attention" required="" value="${standardInstance?.attention}"/>
 
 	</div>
 </div>

@@ -1,5 +1,5 @@
 
-<%@ page import="com.petrodata.pms.equipment.Standard" %>
+<%@ page import="com.petrodata.pms.equipment.EquipmentCatagory; com.petrodata.pms.equipment.Standard" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -89,9 +89,48 @@
 					}
 				});
 			});
+			function changeSelect(){
+				var value=$('.easy-tree').find('li.li_selected').first().attr('value');
+				var text=$('.easy-tree').find('li.li_selected').first().text();
+				if(value && value!=null){
+					$("#equipmentCatagory option[value='"+value+"']").remove();
+					$("#equipmentCatagory").prepend("<option value='"+value+"'>"+text+"</option>");
+					$("#equipmentCatagory").val(value);
+				}
+				$('#catagoryShow').modal('hide');
+			}
+			function changeTree(obj){
+				$('.easy-tree').EasyTree({
+					selectable: true,
+					deletable: false,
+					editable: false,
+					addable: false,
+					i18n:{}
+				});
+				$('#catagoryShow').modal('show');
+			}
 		</script>
 	</head>
 	<body>
+	<div class="modal fade" id="catagoryShow" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">select EquipmentCatagory</h4>
+				</div>
+				<div class="modal-body" style="max-height: 500px;overflow: auto">
+					${com.petrodata.pms.equipment.EquipmentCatagory.generatorTreeDiv()}
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="changeSelect();"  class="btn btn-default margin" data-dismiss="modal">Change</button>
+					<button type="button"  class="btn btn-default margin"  data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 	<div class="modal fade panel" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content" >
@@ -222,7 +261,7 @@
 						<g:render template="form"/>
 					</fieldset>
 					<fieldset class="buttons">
-						<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+						<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.submit.label', default: 'Submit')}</button>
 						<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
 					</fieldset>
 				</form>

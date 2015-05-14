@@ -250,7 +250,11 @@
                         }
 
                     }
-
+                    if(changeSelect && typeof(changeSelect)=='function'){
+                         try{
+                             changeSelect();
+                         }catch(e){}
+                    }
                     e.stopPropagation();
 
                 });

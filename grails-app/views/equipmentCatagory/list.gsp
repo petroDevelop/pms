@@ -125,6 +125,7 @@
 				$("#parent").prepend("<option value='"+value+"'>"+text+"</option>");
 				$("#parent").val(value);
 			}
+			$('#catagoryShow').modal('hide');
 		}
 		function changeTree(obj){
 			$('.easy-tree').EasyTree({
@@ -270,7 +271,7 @@
 							<g:render template="form"/>
 						</fieldset>
 						<fieldset class="buttons">
-							<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.edit.label', default: 'Edit')}</button>
+							<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.submit.label', default: 'Submit')}</button>
 							<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
 						</fieldset>
 					</form>
