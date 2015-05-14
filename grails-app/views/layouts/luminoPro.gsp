@@ -30,6 +30,8 @@
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
 
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
+    <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.mobile.js"></script>
+
     <link rel="stylesheet" href="${request.contextPath}/js/EasyTree/css/easyTree.css">
     <script src="${request.contextPath}/js/EasyTree/src/easyTree.js"></script>
     <link href="${request.contextPath}/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">

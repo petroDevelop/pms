@@ -57,7 +57,8 @@ class EquipmentCatagoryController {
         }else{
            map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
         }
-        render (map as JSON).toString();
+        println map
+        render "${(map as JSON).toString()}"   //此样式支持IE9
     }
     def save() {
         def map=[:];
@@ -226,6 +227,6 @@ class EquipmentCatagoryController {
             map.result=false;
             map.message="file is empty!";
         }
-        render((map as JSON).toString());
+        render "${(map as JSON).toString()}"   //此样式支持IE9
     }
 }
