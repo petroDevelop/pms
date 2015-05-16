@@ -66,7 +66,7 @@ class Equipment {
         alias(nullable: true);
         standard(nullable: true);
         equipmentRunningInfo(nullable: true);
-        techState(size:0..20,nullable: true,inList: ['完好','修理','待报废','报废']);
+        techState(size:0..20,nullable: true,inList: ['完好','修理','待报废','报废']);  //修理分为内修、外修、大修
         serviceState(size:0..20,nullable: true,inList: ['待处理','在用','停运']);
         feature(size:0..20,nullable: true,inList: ['主体设备','辅助设备']);
         series(size:0..100,nullable: true);

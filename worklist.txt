@@ -7,6 +7,10 @@
 
   3.   modal dialog -- Bootstrap Modals
        增加skin.css
+         input 框 blur时的字体颜色
+          select  框的背景色（白改为透明）
+          列表的checkbox选中时，本行的背景色 （白改为透明）
+          layout菜单的整个li 都可点击
 
   4.  变更：
            标准项上增加了检查周期checkType和间隔时间 checkDays
@@ -18,15 +22,29 @@
   7.   修改返回的数据样式支持IE9
 
 @todo
-  input 框 blur时的字体颜色
-   select  框的背景色（白改为透明）
-   列表的checkbox选中时，本行的背景色 （白改为透明）
-   layout菜单的整个li 都可点击
-
 1. update position view and rotaiton view
 2. update equipmentcatagory view
 3. update standard view
 4. update equipment view
+  5. 小队增加地理位置（此位置为latitude longtitude）
+  6. 设备维修分为（内修、外修、大修）维修期间设备 ，增加设备历史维修表
+
+ ***7. 保养工时计算原则
+       7.1 累加 （设备运行时间记录表，累加记录表）
+           1. 定时（24小时）扫描设备，若正常，累加24小时
+           2. 记录累加日期及正常状态
+           3.
+
+       7.2 倒推  （****推荐）
+           0. 定时任务周期 x小时
+           1. 计算运行时间
+              1.1 从上次本设备的保养时间，若无则从开工时间算起，至当前时间，算每天的班次的工单数（若有本班次工单（工单数>0）,增加本班次的小时数）
+              再减去维修时间，为本设备的运行时间
+           2. 运行时间 与 保养周期
+                   当运行时间大于等于保养周期时，取模，若值小于x小时，则生成保养工单。
+
+
+
 
 
 
