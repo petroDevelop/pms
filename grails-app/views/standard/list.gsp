@@ -46,6 +46,7 @@
 				}
 			}
 			function newOne(){
+				$('#standardItemDiv').hide();
 				$('#standardForm').form('clear');
 			}
 			function deleteOne(id){
@@ -55,6 +56,11 @@
 				$('#standardForm').form('clear');
 				var data=$('#standardTable').bootstrapTable('getData');
 				$('#standardForm').form('load',data[index]);
+				//show standard item table
+				$('#standardItemDiv').show();
+				<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+				$('#standardItemTable${i}').bootstrapTable('refresh', {url: '${request.contextPath}/standard/itemjson/'+id+'?type=${tabOne}'});
+				</g:each>
 			}
 			function showOne(index,id){
 				editOne(index,id);
@@ -108,6 +114,9 @@
 					i18n:{}
 				});
 				$('#catagoryShow').modal('show');
+			}
+			function newStandItem(type){
+
 			}
 		</script>
 	</head>
@@ -259,7 +268,60 @@
 					<g:hiddenField name="id" value="${standardInstance?.id}" />
 					<fieldset class="form">
 						<g:render template="form"/>
+
 					</fieldset>
+					<div class="row" id="standardItemDiv">
+						<div class="col-lg-12">
+							<div class="form-group">
+								<div class="panel panel-default">
+									<div class="panel-body tabs">
+										<input type="hidden" id="selectType"/>
+										<ul class="nav nav-tabs">
+											<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+												<li <g:if test="${i==0}">class="active"</g:if>><a href="#tab${i}" data-toggle="tab">${tabOne}</a></li>
+											</g:each>
+										</ul>
+
+										<div class="tab-content">
+											<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+												<div class="tab-pane fade <g:if test="${i==0}">in active</g:if>" id="tab${i}">
+													<div  id="toolbar${i}">
+														<button class="btn btn-default margin " onclick="newStandItem('${tabOne}')" type="button" >
+															<span class="glyphicon glyphicon-plus"></span>
+															<g:message code="default.new.label" args="[g.message(code: 'standardItem.label', default: 'StandardItem')]" />
+														</button>
+													</div>
+												<table id="standardItemTable${i}" data-toggle="table"
+													    data-cache="false"     data-toolbar="#toolbar${i}"
+													   data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-search="false"
+													   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
+													   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+													<thead>
+													<tr>
+														<th data-field="id"  data-sortable="true" ></th>
+														<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
+
+														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>
+
+														<th data-field="checkType"  data-sortable="true"   >${message(code: 'standardItem.checkType.label', default: 'Check Type')}</th>
+
+														<th data-field="checkDays"  data-sortable="true"   >${message(code: 'standardItem.checkDays.label', default: 'Check Days')}</th>
+
+
+														<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
+													</tr>
+													</thead>
+												</table>
+
+												</div>
+											</g:each>
+
+										</div>
+									</div>
+								</div><!--/.panel-->
+							</div>
+						</div>
+					</div>
 					<fieldset class="buttons">
 						<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.submit.label', default: 'Submit')}</button>
 						<button class="btn btn-default margin  box-switcher"  data-switch="box-list"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>

@@ -21,6 +21,26 @@ class StandardController {
         //[standardInstanceList: Standard.list(params), standardInstanceTotal: Standard.count()]
         return []
     }
+    def itemjson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def standard=Standard.get(params.id);
+        def allCount=StandardItem.countByStandardAndType(standard,params.type);
+        def allList=StandardItem.createCriteria().list{
+            eq('type',params.type)
+            eq("standard.id",standard.id)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
+    }
     def json(){
         params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
         params.limit=params.max;
