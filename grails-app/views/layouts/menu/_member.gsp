@@ -1,3 +1,13 @@
+<li>
+    <a class="" href="${request.contextPath}/workspace/myTask">
+        <span class="glyphicon glyphicon-info-sign"></span> 代办事项
+    </a>
+</li>
+<li>
+    <a class="" href="${request.contextPath}/baseUser/myInfo">
+        <span class="glyphicon glyphicon-info-sign"></span> 我的信息
+    </a>
+</li>
 <li class="parent ">
     <a href="#">
         <div  data-toggle="collapse" href="#sub-item-4"><span class="glyphicon glyphicon-list"></span> 监控管理

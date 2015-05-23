@@ -7,40 +7,41 @@
     <ul class="children collapse" id="sub-item-2">
         <li>
             <a class="" href="${request.contextPath}/equipment/teamList">
-                <span class="glyphicon glyphicon-list-alt"></span> 设备台帐管理
+                <span class="glyphicon glyphicon-th"></span> 设备台帐管理
             </a>
         </li>
         <li>
             <a class="" href="${request.contextPath}/baseUser/teamList">
-                <span class="glyphicon glyphicon-share-alt"></span> 下属人员管理
+                <span class="glyphicon glyphicon-stats"></span> 下属人员管理
             </a>
         </li>
         <li>
             <a class="" href="${request.contextPath}/rotation/teamList">
-                <span class="glyphicon glyphicon-share-alt"></span> 班次管理
+                <span class="glyphicon glyphicon-list-alt"></span> 班次管理
             </a>
         </li>
         <li>
             <a class="" href="${request.contextPath}/position/teamList">
-                <span class="glyphicon glyphicon-share-alt"></span> 岗位管理
+                <span class="glyphicon glyphicon-pencil"></span> 岗位管理
+            </a>
+        </li>
+        <li>
+            <a class="" href="${request.contextPath}/baseUser/myTeam">
+                <span class="glyphicon glyphicon-hand-up"></span> 小队状态管理
             </a>
         </li>
     </ul>
 </li>
 
-<li>
-    <a class="" href="${request.contextPath}/rotation/list">
-        <span class="glyphicon glyphicon-share-alt"></span> 班次管理
-    </a>
-</li>
+
 <li>
     <a class="" href="${request.contextPath}/equipmentRunningInfo/list">
-        <span class="glyphicon glyphicon-share-alt"></span> 设备运行情况管理
+        <span class="glyphicon glyphicon-info-sign"></span> 设备运行情况管理
     </a>
 </li>
 <li>
     <a class="" href="${request.contextPath}/equipmentStandardHistory/list">
-        <span class="glyphicon glyphicon-share-alt"></span> 设备标准历史管理
+        <span class="glyphicon glyphicon-info-sign"></span> 设备标准历史管理
     </a>
 </li>
 
