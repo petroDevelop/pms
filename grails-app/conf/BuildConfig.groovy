@@ -69,6 +69,8 @@ grails.project.dependency.resolution = {
 
         //compile ":activiti-spring-security:0.5.0"
         //compile ":rendering:1.0.0"
-        //compile ":atmosphere:0.4.2.1"
+
+        compile ":quartz:1.0.2"
+        compile ":quartz-monitor:1.0"
     }
 }

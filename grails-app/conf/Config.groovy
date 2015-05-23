@@ -114,3 +114,12 @@ auditLog {
         return username
     }
 }
+
+quartz {
+    autoStartup = true
+    jdbcStore = false
+}
+quartz.monitor.layout='luminoPro';
+quartz.monitor.showTriggerNames=true;
+quartz.monitor.showCountdown=true;
+quartz.monitor.showTickingClock=true;
