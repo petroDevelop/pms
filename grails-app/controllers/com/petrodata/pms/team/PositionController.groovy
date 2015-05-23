@@ -1,5 +1,6 @@
 package com.petrodata.pms.team
 
+import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class PositionController {
@@ -12,7 +13,33 @@ class PositionController {
 
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        [positionInstanceList: Position.list(params), positionInstanceTotal: Position.count()]
+        //[positionInstanceList: Position.list(params), positionInstanceTotal: Position.count()]
+        return []
+    }
+
+    def json(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def ecCount=Position.createCriteria().count{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+        }
+        def ecList=Position.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=ecCount;
+        map.rows=ecList;
+        render map as JSON;
     }
 
     def create() {
@@ -20,14 +47,20 @@ class PositionController {
     }
 
     def save() {
-        def positionInstance = new Position(params)
-        if (!positionInstance.save(flush: true)) {
-            render(view: "create", model: [positionInstance: positionInstance])
-            return
-        }
+        def pos = Position.findByName(params.name)
+        if (!pos) {
+            def positionInstance = new Position(params)
+            if (!positionInstance.save(flush: true)) {
+                render(view: "create", model: [positionInstance: positionInstance])
+                return
+            }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'position.label', default: 'Position'), positionInstance.id])
-        redirect(action: "list", id: positionInstance.id)
+            flash.message = message(code: 'default.created.message', args: [message(code: 'position.label', default: 'Position'), positionInstance.id])
+            redirect(action: "list", id: positionInstance.id)
+        }else{
+            flash.message = 'The [' + params.name + '] position exists'
+            redirect(action: "list")
+        }
     }
 
     def show(Long id) {
@@ -99,6 +132,7 @@ class PositionController {
             redirect(action: "show", id: id)
         }
     }
+
     def deleteAll ={
         def ids=request.getParameterValues("ids")
         ids.each{

@@ -121,7 +121,6 @@
 	<div class="alert bg-danger hide" id="alertFault" role="alert">
 		<span class="glyphicon glyphicon-exclamation-sign"> </span>
 		<g:message code="default.fault.label" default="Fault" />
-
 		<a href="#" class="pull-right" onclick="$('#alertFault').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
 	</div>
 
@@ -131,7 +130,6 @@
 				<g:form method="post">
 					<div class="panel-heading">
 						<g:message code="default.list.label" args="[entityName]" />
-
 					</div>
 					<div class="panel-body">
 						<div  id="toolbar">
@@ -146,16 +144,10 @@
 								<g:message code="default.new.label" args="[entityName]" />
 							</button>
 
-							<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
+							<button class="btn btn-default margin" type="button" onclick="deleteAll()" >
 								<span class="glyphicon glyphicon-trash"></span>
 								<g:message code="default.button.delete.label" default="Delete" />
 							</button>
-
-							<button class="btn btn-default margin " onclick="" type="button" >
-								<span class="glyphicon glyphicon-plus"></span>
-								<g:message code="default.button.edit.label" default="Edit" args="[entityName]" />
-							</button>
-
 						</div>
 						<table id="rotationTable" data-toggle="table"  data-toolbar="#toolbar"
 							   data-url="${request.contextPath}/rotation/json"   data-cache="false"
@@ -174,13 +166,14 @@
 								</th>
 								<th data-field="beginTime"  data-sortable="true">${message(code: 'rotation.beginTime.label', default: 'Begin Time')}</th>
 								<th data-field="endTime"  data-sortable="true">${message(code: 'rotation.endTime.label', default: 'End Time')}</th>
+								<th data-field="hours" data-sortable="true">${message(code: 'rotation.hours.label', default: 'Hours')}</th>
 								<th data-field="checkTime"  data-sortable="true">${message(code: 'rotation.checkTime.label', default: 'Check Time')}</th>
 								<th data-field="chargeDailyCheck"  data-sortable="true">${message(code: 'rotation.chargeDailyCheck.label', default: 'Charge Daily Check')}</th>
 								<th data-field="timeZone" data-sortable="true">${message(code: 'rotation.timeZone.label', default: 'Time Zone')}</th>
 								<th data-field="description"  data-sortable="true">
 									${message(code: 'rotation.description.label', default: 'Description')}
 								</th>
-								%{--<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>--}%
+								<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 
 								<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 

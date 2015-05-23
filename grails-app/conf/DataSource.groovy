@@ -14,8 +14,14 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+            //url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
             //url = "jdbc:h2:prodDb;MVCC=TRUE;LOCK_TIMEOUT=10000"
+
+            driverClassName="oracle.jdbc.driver.OracleDriver"
+            url = "jdbc:oracle:thin:@192.168.1.210:1521:pdata"
+            username = "pms"
+            password = "pms123"
+            dialect = "org.hibernate.dialect.Oracle10gDialect"
         }
     }
     test {
