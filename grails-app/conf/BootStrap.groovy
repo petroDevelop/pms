@@ -40,6 +40,11 @@ class BootStrap {
             role.id=role.name;
             role.save(flush: true)
         }
+        if (!BaseRole.findByAuthority('ROLE_PROJECT')){
+            def role=new BaseRole(id:'ROLE_PROJECT',name:'ROLE_PROJECT',authority:'ROLE_PROJECT',description:"项目部角色")
+            role.id=role.name;
+            role.save(flush: true)
+        }
         if (!BaseRole.findByAuthority('ROLE_CAPTAIN')){
             def role=new BaseRole(id:'ROLE_CAPTAIN',name:'ROLE_CAPTAIN',authority:'ROLE_CAPTAIN',description:"小队队长角色")
             role.id=role.name;
@@ -59,10 +64,12 @@ class BootStrap {
             d2.save(flush: true);
             def d21=new BaseDepartment(name:'设备管理处',parent: d2,isContainer: true);
             d21.save(flush: true);
-            def d3=new BaseDepartment(name:'小队',parent: d1);
+            def d3=new BaseDepartment(name:'项目部1',parent: d1);
             d3.save(flush: true);
             def d4=new BaseDepartment(name:'第一小队',parent: d3,isContainer: true,isTeam: true);
             d4.save(flush: true);
+            def d5=new BaseDepartment(name:'第二小队',parent: d3,isContainer: true,isTeam: true);
+            d5.save(flush: true);
         }
     }
     private def createDefaultUsers() {
@@ -78,6 +85,12 @@ class BootStrap {
             manager = new BaseUser(username:'manager',userRealName:'设备管理处工作人员', password : 'manager',firstName:'manager' ,lastName: '1',
                     baseDepartment: BaseDepartment.findByName('设备管理处'),email:'manager@petrodata.com',enabled:true)
             manager.save(flush: true)
+        }
+        def project1 = BaseUser.findByUsername('project')
+        if (project1 == null) {
+            project1 = new BaseUser(username:'project',userRealName:'项目部工作人员', password : 'project',firstName:'project' ,lastName: '1',
+                    baseDepartment: BaseDepartment.findByName('项目部1'),email:'project@petrodata.com',enabled:true)
+            project1.save(flush: true)
         }
         def user1 = BaseUser.findByUsername('captain')
         if (user1 == null) {
@@ -95,6 +108,7 @@ class BootStrap {
         try{
             BaseUserBaseRole.create(admin,BaseRole.findByAuthority('ROLE_ADMIN'),true);
             BaseUserBaseRole.create(manager,BaseRole.findByAuthority('ROLE_MANAGER'),true);
+            BaseUserBaseRole.create(project1,BaseRole.findByAuthority('ROLE_PROJECT'),true);
             BaseUserBaseRole.create(user1,BaseRole.findByAuthority('ROLE_CAPTAIN'),true);
             BaseUserBaseRole.create(user2,BaseRole.findByAuthority('ROLE_MEMBER'),true);
         }catch(e){

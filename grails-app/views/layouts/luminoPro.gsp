@@ -103,13 +103,14 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">导航</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span>Lumino</span>Pro</a>
+            <a class="navbar-brand" href="#"><span>生产设备</span>管理系统</a>
             <ul class="nav navbar-top-links navbar-right">
+                <!-- message -->
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="glyphicon glyphicon-envelope"></i>  <span class="label label-danger">2</span>
@@ -153,6 +154,8 @@
                         </li>
                     </ul>
                 </li>
+                <!-- end message -->
+                <!-- warning -->
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="glyphicon glyphicon-bell"></i>  <span class="label label-primary">18</span>
@@ -186,6 +189,7 @@
                         </li>
                     </ul>
                 </li>
+                <!-- end warning-->
             </ul>
         </div>
     </div><!-- /.container-fluid -->
@@ -198,97 +202,21 @@
         </div>
     </form>
     <ul class="nav menu">
-        <li class="parent active">
-            <a href="#">
-                <div  data-toggle="collapse" href="#sub-item-1">
-                    <span class="glyphicon glyphicon-list"></span> 用户管理
-                    <span class="icon pull-right">
-                        <em class="glyphicon glyphicon-s glyphicon-plus"></em>
-                     </span>
-                </div>
-            </a>
-            <ul class="children collapse" id="sub-item-1">
-                <li>
-                    <a class="" href="${request.contextPath}/baseUser/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 用户管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/baseRole/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 角色管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/baseUserBaseRole/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 权限管理
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="parent ">
-            <a href="#">
-                <div  data-toggle="collapse" href="#sub-item-2"><span class="glyphicon glyphicon-list"></span> 队伍管理
-                    <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
-                </div>
-            </a>
-            <ul class="children collapse" id="sub-item-2">
-                <li>
-                    <a class="" href="${request.contextPath}/position/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 岗位管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/rotation/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 班次管理
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="parent ">
-            <a href="#">
-                <div  data-toggle="collapse" href="#sub-item-3"><span class="glyphicon glyphicon-list"></span> 设备管理
-                <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
-                </div>
-            </a>
-            <ul class="children collapse" id="sub-item-3">
-                <li>
-                    <a class="" href="${request.contextPath}/equipmentCatagory/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 设备类别管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/standard/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 标准管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/equipment/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 设备台帐管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/EquipmentRunningInfo/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 设备运行情况管理
-                    </a>
-                </li>
-                <li>
-                    <a class="" href="${request.contextPath}/EquipmentStandardHistory/list">
-                        <span class="glyphicon glyphicon-share-alt"></span> 设备标准历史管理
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <li ><a href="index.html"><span class="glyphicon glyphicon-dashboard"></span> Dashboard</a></li>
-        <li><a href="widgets.html"><span class="glyphicon glyphicon-th"></span> Widgets</a></li>
-        <li><a href="charts.html"><span class="glyphicon glyphicon-stats"></span> Charts</a></li>
-        <li><a href="tables.html"><span class="glyphicon glyphicon-list-alt"></span> Tables</a></li>
-        <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
-        <li><a href="buttons.html"><span class="glyphicon glyphicon-hand-up"></span> Buttons</a></li>
-        <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
-
+        <li ><a href="${request.contextPath}/"><span class="glyphicon glyphicon-dashboard"></span> 首页</a></li>
+         <sec:ifAnyGranted roles="ROLE_ADMIN">
+             <g:render template="/layouts/menu/admin"/>
+         </sec:ifAnyGranted>
+         <sec:ifAnyGranted roles="ROLE_MANAGER">
+             <g:render template="/layouts/menu/manager"/>
+         </sec:ifAnyGranted>
+         <sec:ifAnyGranted roles="ROLE_CAPTAIN">
+             <g:render template="/layouts/menu/captain"/>
+         </sec:ifAnyGranted>
+         <sec:ifAnyGranted roles="ROLE_MEMBER">
+             <g:render template="/layouts/menu/member"/>
+         </sec:ifAnyGranted>
         <li role="presentation" class="divider"></li>
-        <li><a href="login.html"><span class="glyphicon glyphicon-user"></span> Logout</a></li>
+        <li><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 登出</a></li>
     </ul>
 </div><!--/.sidebar-->
 
@@ -304,14 +232,14 @@
      -----------------------------------------------------------*/
 
         var settings =  '<a id= "settings" href="#changeSkin" data-toggle="modal">' +
-                '<i class="fa fa-gear"></i> Change Skin' +
+                '<i class="fa fa-gear"></i> 切换风格' +
                 '</a>' +
                 '<div class="modal fade" id="changeSkin" tabindex="-1" role="dialog" aria-hidden="true">' +
                 '<div class="modal-dialog" >' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
                 '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                '<h4 class="modal-title">Change Template Skin</h4>' +
+                '<h4 class="modal-title">选择风格模式</h4>' +
                 '</div>' +
                 '<div class="modal-body">' +
                 '<div class="row template-skins">' +
