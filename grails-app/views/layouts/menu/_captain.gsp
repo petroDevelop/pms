@@ -15,6 +15,16 @@
                 <span class="glyphicon glyphicon-share-alt"></span> 下属人员管理
             </a>
         </li>
+        <li>
+            <a class="" href="${request.contextPath}/rotation/teamList">
+                <span class="glyphicon glyphicon-share-alt"></span> 班次管理
+            </a>
+        </li>
+        <li>
+            <a class="" href="${request.contextPath}/position/teamList">
+                <span class="glyphicon glyphicon-share-alt"></span> 岗位管理
+            </a>
+        </li>
     </ul>
 </li>
 
