@@ -1,5 +1,6 @@
 package com.petrodata.pms.team
 
+import com.petrodata.pms.core.BaseDepartment
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
@@ -17,28 +18,28 @@ class RotationController {
     }
 
     def json(){
-        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
-        params.limit=params.max;
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100)
+        params.limit=params.max
         if(!params.offset) params.offset ='0'
         if(!params.sort) params.sort ='id'
         if(!params.order) params.order ='desc'
         def ecCount=Rotation.createCriteria().count{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                ilike('name',"%${params.search}%")
             }
         }
         def ecList=Rotation.createCriteria().list{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                ilike('name',"%${params.search}%")
             }
             order(params.sort,params.order)
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
         }
-        def map=[:];
-        map.total=ecCount;
-        map.rows=ecList;
-        render map as JSON;
+        def map=[:]
+        map.total=ecCount
+        map.rows=ecList
+        render map as JSON
     }
 
     def create() {
@@ -46,14 +47,40 @@ class RotationController {
     }
 
     def save() {
-        def rotationInstance = new Rotation(params)
-        if (!rotationInstance.save(flush: true)) {
-            render(view: "create", model: [rotationInstance: rotationInstance])
-            return
+        //check the same rotation
+        def roLt = Rotation.createCriteria().list {
+            eq('baseDepartment', BaseDepartment.get(params.baseDepartment.id.toLong()))
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'rotation.label', default: 'Rotation'), rotationInstance.id])
-        redirect(action: "list", id: rotationInstance.id)
+        def msg = '', bCreate = true
+        if (roLt) {
+            def hours = 0
+            roLt.each {ro ->
+                if (ro.name == params.name) {
+                    msg = 'The Rotation exists'
+                    bCreate = false
+                    return
+                }
+                hours += ro.hours
+            }
+            if (hours >= 24) {
+                msg = 'The Team has enough rotation'
+                bCreate = true
+            }
+        }
+
+        if (bCreate) {
+            def rotationInstance = new Rotation(params)
+            if (!rotationInstance.save(flush: true)) {
+                render(view: "create", model: [rotationInstance: rotationInstance])
+                return
+            }
+            flash.message = message(code: 'default.created.message', args: [message(code: 'rotation.label', default: 'Rotation'), rotationInstance.id])
+            redirect(action: "list", id: rotationInstance.id)
+        }else{
+            flash.message = msg
+            redirect(action: "list")
+        }
     }
 
     def show(Long id) {
@@ -125,6 +152,7 @@ class RotationController {
             redirect(action: "show", id: id)
         }
     }
+
     def deleteAll = {
         def ids = request.getParameterValues("ids")
         ids.each {
@@ -134,6 +162,6 @@ class RotationController {
             oneInstance.delete(flush: true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'rotation.label', default: 'Rotation'), ids])
-        redirect action: "index"
+        redirect action: "list"
     }
 }

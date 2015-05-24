@@ -18,6 +18,8 @@ class Rotation {
     String endTime
     //检查工单生成时间
     String checkTime
+    //本班工作时长
+    Integer hours
     //说明
     String description
     //负责日检查工单
@@ -48,5 +50,9 @@ class Rotation {
             lt << "UTC" + (it >= 0 ? "+"+it : it)
         }
         return lt
+    }
+
+    static listHours() {
+        [6, 8, 12]
     }
 }
