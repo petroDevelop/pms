@@ -57,7 +57,6 @@ class EquipmentCatagoryController {
         }else{
            map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
         }
-        println map
         render "${(map as JSON).toString()}"   //此样式支持IE9
     }
     def save() {

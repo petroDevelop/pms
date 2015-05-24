@@ -1,14 +1,17 @@
 <%@ page import="com.petrodata.pms.equipment.StandardItem" %>
 
 
-
+<g:if test="${!standardItemInstance}">
+	<g:set var="standardItemInstance" value="${new com.petrodata.pms.equipment.StandardItem()}"/>
+</g:if>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'type', 'error')} ">
 	<label for="type">
 		<g:message code="standardItem.type.label" default="Type" />
 		
 	</label>
-	<g:select name="type" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.type.inList}" value="${standardItemInstance?.type}" valueMessagePrefix="standardItem.type" noSelection="['': '']"/>
+	<g:select name="type" id="standardItemType" class="form-control input-lg m-b-10"
+			  from="${standardItemInstance?.constraints.type.inList}" value="${standardItemInstance?.type}" valueMessagePrefix="standardItem.type" noSelection="['': '']"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'aim', 'error')} ">
@@ -16,7 +19,7 @@
 		<g:message code="standardItem.aim.label" default="Aim" />
 		
 	</label>
-	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim" noSelection="['': '']"/>
+	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance?.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim" noSelection="['': '']"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'checkType', 'error')} ">
@@ -24,7 +27,24 @@
 		<g:message code="standardItem.checkType.label" default="Check Type" />
 		
 	</label>
-	<g:select name="checkType" class="form-control input-lg m-b-10"  from="${standardItemInstance.constraints.checkType.inList}" value="${standardItemInstance?.checkType}" valueMessagePrefix="standardItem.checkType" noSelection="['': '']"/>
+	<!--
+	<ul>
+		<g:set var="drawi" value="${-1}"/>
+		<g:each in="${standardItemInstance?.constraints.checkType.inList}" var="one" status="i">
+			<g:if test="${one==standardItemInstance.checkType}">
+				<g:set var="drawi" value="${i}"/>
+			</g:if>
+			<li><input id="checkType${i}"  name="checkType" type="radio"><label for="checkType${i}">${one}</label></li>
+		</g:each>
+		<g:if test="${drawi>=0}">
+			<script>
+				document.getElementById("checkType${drawi}").click();
+			</script>
+		</g:if>
+	</ul>
+     -->
+	<g:select name="checkType" class="form-control input-lg m-b-10"  from="${standardItemInstance?.constraints.checkType.inList}" value="${standardItemInstance?.checkType}" valueMessagePrefix="standardItem.checkType" noSelection="['': '']"/>
+
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'checkDays', 'error')} required">
@@ -32,7 +52,7 @@
 		<g:message code="standardItem.checkDays.label" default="Check Days" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="checkDays" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.checkDays}" required=""/>
+	<g:field name="checkDays" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.checkDays}" required=""/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'name', 'error')} required">
@@ -80,7 +100,7 @@
 		<g:message code="standardItem.excuteCycle.label" default="Excute Cycle" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="excuteCycle" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.excuteCycle}" required=""/>
+	<g:field name="excuteCycle" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.excuteCycle}" required=""/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'manhour', 'error')} required">
@@ -88,10 +108,10 @@
 		<g:message code="standardItem.manhour.label" default="Manhour" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="manhour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.manhour}" required=""/>
+	<g:field name="manhour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.manhour}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'standard', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'standard', 'error')} required" style="display: none;">
 	<label for="standard">
 		<g:message code="standardItem.standard.label" default="Standard" />
 		<span class="required-indicator">*</span>
@@ -104,6 +124,6 @@
 		<g:message code="standardItem.warningHour.label" default="Warning Hour" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="warningHour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance.warningHour}" required=""/>
+	<g:field name="warningHour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.warningHour}" required=""/>
 </div>
 

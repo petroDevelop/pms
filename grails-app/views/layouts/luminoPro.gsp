@@ -96,6 +96,11 @@
         color:white;
     }
     </style>
+
+    <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/component.css" />
+    <script src="${request.contextPath}/js/html5checkandradio/js/modernizr.custom.js"></script>
+    <script src="${request.contextPath}/js/html5checkandradio/js/svgcheckbx.js"></script>
 </head>
 
 <body class="skin-1">

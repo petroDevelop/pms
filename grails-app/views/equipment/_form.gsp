@@ -1,7 +1,9 @@
 <%@ page import="com.petrodata.pms.equipment.Equipment" %>
 
+<g:if test="${!equipmentInstance}">
+	<g:set var="equipmentInstance" value="${new com.petrodata.pms.equipment.Equipment()}"/>
+</g:if>
 
-<g:set var="equipmentInstance" value="${new com.petrodata.pms.equipment.Equipment()}"/>
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'alias', 'error')} ">
 	<label class="col-sm-2  control-label"  for="alias">
 		<g:message code="equipment.alias.label" default="Alias" />
