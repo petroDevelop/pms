@@ -68,13 +68,15 @@
 			}
 			function editItemOne(index,id){
 				$('#standardItemForm').form('clear');
-				for(var i=0;i<4;i++){
+				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				for(var i=0;i<array.length;i++){
+					$('#'+array[i]).hide();
 					var data=$('#standardItemTable'+i).bootstrapTable('getData');
 					if(data.length>=(index+1)){
 						if(data[index].id==id){
 							$('#standardItemForm').form('load',data[index]);
-							//document.getElementById("checkType1").click();
-							break;
+							$('#'+array[i]).show();
+							//break;
 						}
 					}
 				}
@@ -150,6 +152,13 @@
 				$('#catagoryShow').modal('show');
 			}
 			function newStandItem(type){
+				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				for(var i=0;i<array.length;i++){
+					$('#'+array[i]).hide();
+					if(type==array[i]){
+						$('#'+array[i]).show();
+					}
+				}
 				$('#standardItemForm').form('clear');
 				$('#standardItemType').val(type);
 				$('#standard').val($('#standardId').val());
@@ -272,17 +281,18 @@
 									<th data-field="nofield" data-checkbox="true"></th>
 									<th data-field="id"  data-sortable="true" ></th>
 									
-									<th data-field="attention"  data-sortable="true"   >${message(code: 'standard.attention.label', default: 'Attention')}</th>
+
+									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standard.name.label', default: 'Name')}</th>
+
+									<th data-field="equipmentCatagory.text"  >${message(code: 'standard.equipmentCatagory.label', default: 'Equipment Catagory')}</th>
+
 									
 
-									<th>
-									<th data-field="equipmentCatagory"  >${message(code: 'standard.equipmentCatagory.label', default: 'Equipment Catagory')}</th>
-								    </th>
-									
-									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standard.name.label', default: 'Name')}</th>
-									
 									<th data-field="reference"  data-sortable="true"   >${message(code: 'standard.reference.label', default: 'Reference')}</th>
-									
+
+									<th data-field="attention"  data-sortable="true"   >${message(code: 'standard.attention.label', default: 'Attention')}</th>
+
+
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 

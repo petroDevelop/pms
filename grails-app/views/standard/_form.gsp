@@ -46,7 +46,7 @@
 
 	</div>
 </div>
-
+<!--
 <div class="form-group fieldcontain ${hasErrors(bean: standardInstance, field: 'standardItems', 'error')} ">
 	<label class="col-sm-2  control-label" for="standardItems">
 		<g:message code="standard.standardItems.label" default="Standard Items" />
@@ -66,4 +66,4 @@
 
 	</div>
 </div>
-
+-->
