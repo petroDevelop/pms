@@ -4,6 +4,16 @@
 	<g:set var="equipmentInstance" value="${new com.petrodata.pms.equipment.Equipment()}"/>
 </g:if>
 
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'name', 'error')} required">
+	<label class="col-sm-2  control-label"  for="name">
+		<g:message code="equipment.name.label" default="Name" />
+		<span class="required-indicator">*</span>
+	</label>
+	<div class="col-sm-10">
+		<g:textField class="form-control input-sm m-b-10"  name="name" required="" value="${equipmentInstance?.name}"/>
+	</div>
+</div>
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'alias', 'error')} ">
 	<label class="col-sm-2  control-label"  for="alias">
 		<g:message code="equipment.alias.label" default="Alias" />
@@ -13,7 +23,6 @@
 		<g:textField class="form-control "  name="alias" value="${equipmentInstance?.alias}"/>
 	</div>
 </div>
-
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'standard', 'error')} ">
 	<label class="col-sm-2  control-label"  for="standard" >
 		<g:message code="equipment.standard.label" default="Standard" />
@@ -24,65 +33,19 @@
 	</div>
 </div>
 
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'equipmentRunningInfo', 'error')} ">
-	<label class="col-sm-2  control-label"  for="equipmentRunningInfo">
-		<g:message code="equipment.equipmentRunningInfo.label" default="Equipment Running Info" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:select id="equipmentRunningInfo" name="equipmentRunningInfo.id" from="${com.petrodata.pms.equipment.EquipmentRunningInfo.list()}" optionKey="id" value="${equipmentInstance?.equipmentRunningInfo?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'techState', 'error')} ">
-	<label class="col-sm-2  control-label"  for="techState">
-		<g:message code="equipment.techState.label" default="Tech State" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:select name="techState" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.techState.inList}" value="${equipmentInstance?.techState}" valueMessagePrefix="equipment.techState" noSelection="['': '']"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'serviceState', 'error')} ">
-	<label class="col-sm-2  control-label"  for="serviceState">
-		<g:message code="equipment.serviceState.label" default="Service State" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:select name="serviceState" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.serviceState.inList}" value="${equipmentInstance?.serviceState}" valueMessagePrefix="equipment.serviceState" noSelection="['': '']"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'feature', 'error')} ">
-	<label class="col-sm-2  control-label"  for="feature">
-		<g:message code="equipment.feature.label" default="Feature" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:select name="feature" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.feature.inList}" value="${equipmentInstance?.feature}" valueMessagePrefix="equipment.feature" noSelection="['': '']"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'series', 'error')} ">
-	<label class="col-sm-2  control-label"  for="series">
-		<g:message code="equipment.series.label" default="Series" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="series" maxlength="100" value="${equipmentInstance?.series}"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'factoryCode', 'error')} required">
-	<label class="col-sm-2  control-label"  for="factoryCode">
-		<g:message code="equipment.factoryCode.label" default="Factory Code" />
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'operationDate', 'error')} required">
+	<label class="col-sm-2  control-label"  for="operationDate">
+		<g:message code="equipment.operationDate.label" default="Operation Date" />
 		<span class="required-indicator">*</span>
 	</label>
-	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="factoryCode" maxlength="100" required="" value="${equipmentInstance?.factoryCode}"/>
+	<div class="input-group date form_date col-md-5" data-date=""
+		 data-date-format="yyyy-mm-dd" >
+		<input class="form-control" size="16" type="text"  id="operationDate" name="operationDate" value="${equipmentInstance?.operationDate?.format('yyyy-MM-dd')}"  readonly>
+		<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 	</div>
 </div>
+
 
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'factoryDate', 'error')} ">
 	<label class="col-sm-2  control-label"  for="factoryDate">
@@ -127,26 +90,16 @@
 	</div>
 </div>
 
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'assetsType', 'error')} ">
-	<label class="col-sm-2  control-label"  for="assetsType">
-		<g:message code="equipment.assetsType.label" default="Assets Type" />
 
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'factoryCode', 'error')} required">
+	<label class="col-sm-2  control-label"  for="factoryCode">
+		<g:message code="equipment.factoryCode.label" default="Factory Code" />
+		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:select name="assetsType" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.assetsType.inList}" value="${equipmentInstance?.assetsType}" valueMessagePrefix="equipment.assetsType" noSelection="['': '']"/>
+		<g:textField class="form-control input-sm m-b-10"  name="factoryCode" maxlength="100" required="" value="${equipmentInstance?.factoryCode}"/>
 	</div>
 </div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'purchaseContractNo', 'error')} ">
-	<label class="col-sm-2  control-label"  for="purchaseContractNo">
-		<g:message code="equipment.purchaseContractNo.label" default="Purchase Contract No" />
-
-	</label>
-	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="purchaseContractNo" maxlength="100" value="${equipmentInstance?.purchaseContractNo}"/>
-	</div>
-</div>
-
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'baseDepartment', 'error')} required">
 	<label class="col-sm-2  control-label"  for="baseDepartment">
 		<g:message code="equipment.baseDepartment.label" default="Base Department" />
@@ -187,16 +140,6 @@
 	</div>
 </div>
 
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'creater', 'error')} required">
-	<label class="col-sm-2  control-label"  for="creater">
-		<g:message code="equipment.creater.label" default="Creater" />
-		<span class="required-indicator">*</span>
-	</label>
-	<div class="col-sm-10">
-		<g:select id="creater" name="creater.id" from="${com.petrodata.pms.core.BaseUser.list()}" optionKey="id" required="" value="${equipmentInstance?.creater?.id}" class="form-control input-lg m-b-10"/>
-	</div>
-</div>
-
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'equipmentCatagory', 'error')} required">
 	<label class="col-sm-2  control-label"  for="equipmentCatagory">
 		<g:message code="equipment.equipmentCatagory.label" default="Equipment Catagory" />
@@ -214,6 +157,70 @@
 	</label>
 	<div class="col-sm-10">
 		<g:select id="inDepartment" name="inDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${equipmentInstance?.inDepartment?.id}" class="form-control input-lg m-b-10"/>
+	</div>
+</div>
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'techState', 'error')} ">
+	<label class="col-sm-2  control-label"  for="techState">
+		<g:message code="equipment.techState.label" default="Tech State" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:select name="techState" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.techState.inList}" value="${equipmentInstance?.techState}" valueMessagePrefix="equipment.techState" noSelection="['': '']"/>
+	</div>
+</div>
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'serviceState', 'error')} ">
+	<label class="col-sm-2  control-label"  for="serviceState">
+		<g:message code="equipment.serviceState.label" default="Service State" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:select name="serviceState" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.serviceState.inList}" value="${equipmentInstance?.serviceState}" valueMessagePrefix="equipment.serviceState" noSelection="['': '']"/>
+	</div>
+</div>
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'feature', 'error')} ">
+	<label class="col-sm-2  control-label"  for="feature">
+		<g:message code="equipment.feature.label" default="Feature" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:select name="feature" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.feature.inList}" value="${equipmentInstance?.feature}" valueMessagePrefix="equipment.feature" noSelection="['': '']"/>
+	</div>
+</div>
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'series', 'error')} ">
+	<label class="col-sm-2  control-label"  for="series">
+		<g:message code="equipment.series.label" default="Series" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:textField class="form-control input-sm m-b-10"  name="series" maxlength="100" value="${equipmentInstance?.series}"/>
+	</div>
+</div>
+
+
+
+
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'assetsType', 'error')} ">
+	<label class="col-sm-2  control-label"  for="assetsType">
+		<g:message code="equipment.assetsType.label" default="Assets Type" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:select name="assetsType" class="form-control input-lg m-b-10"  from="${equipmentInstance.constraints.assetsType.inList}" value="${equipmentInstance?.assetsType}" valueMessagePrefix="equipment.assetsType" noSelection="['': '']"/>
+	</div>
+</div>
+
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'purchaseContractNo', 'error')} ">
+	<label class="col-sm-2  control-label"  for="purchaseContractNo">
+		<g:message code="equipment.purchaseContractNo.label" default="Purchase Contract No" />
+
+	</label>
+	<div class="col-sm-10">
+		<g:textField class="form-control input-sm m-b-10"  name="purchaseContractNo" maxlength="100" value="${equipmentInstance?.purchaseContractNo}"/>
 	</div>
 </div>
 
@@ -257,28 +264,6 @@
 	</div>
 </div>
 
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'name', 'error')} required">
-	<label class="col-sm-2  control-label"  for="name">
-		<g:message code="equipment.name.label" default="Name" />
-		<span class="required-indicator">*</span>
-	</label>
-	<div class="col-sm-10">
-		<g:textField class="form-control input-sm m-b-10"  name="name" required="" value="${equipmentInstance?.name}"/>
-	</div>
-</div>
-
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'operationDate', 'error')} required">
-	<label class="col-sm-2  control-label"  for="operationDate">
-		<g:message code="equipment.operationDate.label" default="Operation Date" />
-		<span class="required-indicator">*</span>
-	</label>
-	<div class="input-group date form_date col-md-5" data-date=""
-		 data-date-format="yyyy-mm-dd" >
-		<input class="form-control" size="16" type="text"  id="operationDate" name="operationDate" value="${equipmentInstance?.operationDate?.format('yyyy-MM-dd')}"  readonly>
-		<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-	</div>
-</div>
 <script>
 	$('.form_date').datetimepicker({
 		language:  'zh-CN',

@@ -186,17 +186,11 @@
 									<th data-field="nofield" data-checkbox="true"></th>
 									<th data-field="id"  data-sortable="true" ></th>
 									
-									<th data-field="alias"  data-sortable="true"   >${message(code: 'equipment.alias.label', default: 'Alias')}</th>
-									
+									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter"  >${message(code: 'equipment.name.label', default: 'Name')}</th>
 
-									<th>
-									<th data-field="standard"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
-								    </th>
-									
+									<th data-field="standard.text"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
 
-									<th>
-									<th data-field="equipmentRunningInfo"  >${message(code: 'equipment.equipmentRunningInfo.label', default: 'Equipment Running Info')}</th>
-								    </th>
+
 									
 									<th data-field="techState"  data-sortable="true"   >${message(code: 'equipment.techState.label', default: 'Tech State')}</th>
 									

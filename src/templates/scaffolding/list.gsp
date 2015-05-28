@@ -169,9 +169,9 @@
 										if (i < 6) {
 											if (p.isAssociation()) { %>
 
-									<th>
-									<th data-field="${p.name}" <%if (p.name=='name'){%>data-formatter="nameFormatter"<%}%> >\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}</th>
-								    </th>
+
+									<th data-field="${p.name}.text" <%if (p.name=='name'){%>data-formatter="nameFormatter"<%}%> >\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}</th>
+
 									<%      } else { %>
 									<th data-field="${p.name}"  data-sortable="true"  <%if (p.name=='name'){%>data-formatter="nameFormatter"<%}%> >\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}</th>
 									<%  }   }   } %>
