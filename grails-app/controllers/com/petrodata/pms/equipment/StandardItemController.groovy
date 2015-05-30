@@ -47,16 +47,32 @@ class StandardItemController {
     def create() {
         [standardItemInstance: new StandardItem(params)]
     }
-
+    def serverSave(){
+        def map=[:];
+        if(!params.version){
+            params.version=0l;
+        }
+        if(!params.id){
+            map=this.save();
+        }else{
+            map=this.update(params.id?.toLong(),params.version?.toLong()?:0);
+        }
+        render "${(map as JSON).toString()}";
+    }
     def save() {
+        def map=[:]
         def standardItemInstance = new StandardItem(params)
         if (!standardItemInstance.save(flush: true)) {
-            render(view: "create", model: [standardItemInstance: standardItemInstance])
-            return
+            map.result=false;
+            //@todo
+            map.message=standardItemInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.created.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
-        redirect(action: "list", id: standardItemInstance.id)
+        return map;
     }
 
     def show(Long id) {
@@ -82,32 +98,34 @@ class StandardItemController {
     }
 
     def update(Long id, Long version) {
+        def map=[:]
         def standardItemInstance = StandardItem.get(id)
         if (!standardItemInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), id])
-            redirect(action: "list")
-            return
+            flash.message = message(code: 'default.not.found.message', args: [message(code:  'standardItem.label', default: 'StandardItem'), id])
+            map.result=false;
+            map.message=flash.message;
         }
-
         if (version != null) {
             if (standardItemInstance.version > version) {
-                    standardItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                            [message(code: 'standardItem.label', default: 'StandardItem')] as Object[],
-                            "Another user has updated this StandardItem while you were editing")
-                render(view: "edit", model: [standardItemInstance: standardItemInstance])
-                return
+                standardItemInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+                        [message(code: 'standard.label', default: 'Standard')] as Object[],
+                        "Another user has updated this Standard while you were editing")
+                map.result=false;
+                map.message=standardItemInstance.errors.allErrors.toString();
             }
         }
-
         standardItemInstance.properties = params
 
         if (!standardItemInstance.save(flush: true)) {
-            render(view: "edit", model: [standardItemInstance: standardItemInstance])
-            return
+            map.result=false;
+            map.message=standardInstance.errors.allErrors.toString();
+        }else{
+            flash.message = message(code: 'default.updated.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
+            map.result=true;
+            map.message=flash.message;
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'standardItem.label', default: 'StandardItem'), standardItemInstance.id])
-        redirect(action: "list", id: standardItemInstance.id)
+        return map;
     }
 
     def delete(Long id) {

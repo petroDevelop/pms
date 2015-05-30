@@ -21,6 +21,7 @@ class StandardController {
         //[standardInstanceList: Standard.list(params), standardInstanceTotal: Standard.count()]
         return []
     }
+    //不同标准的列表
     def itemjson(){
         params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
         params.limit=params.max;

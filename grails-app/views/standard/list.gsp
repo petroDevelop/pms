@@ -15,6 +15,10 @@
 				var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
+			function editItemFormatter(value, row,index) {
+				var str='<button class="btn btn-default margin box-switcher" data-switch="box-itemedit" onclick="editItemOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+				return str;
+			}
 			function nameFormatter(value, row,index) {
 				var str='<a href="javascript:void(0);" class="box-switcher" data-switch="box-edit" onclick="showOne('+index+','+row.id+')" >'+row.name+'</a>';
 				return str;
@@ -62,6 +66,23 @@
 				$('#standardItemTable${i}').bootstrapTable('refresh', {url: '${request.contextPath}/standard/itemjson/'+id+'?type=${tabOne}'});
 				</g:each>
 			}
+			function editItemOne(index,id){
+				$('#standardItemForm').form('clear');
+				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				for(var i=0;i<array.length;i++){
+					$('#'+array[i]).hide();
+					var data=$('#standardItemTable'+i).bootstrapTable('getData');
+					if(data.length>=(index+1)){
+						if(data[index].id==id){
+							$('#standardItemForm').form('load',data[index]);
+							$('#'+array[i]).show();
+							//break;
+						}
+					}
+				}
+
+
+			}
 			function showOne(index,id){
 				editOne(index,id);
 			}
@@ -94,6 +115,21 @@
 						}
 					}
 				});
+				$('#standardItemForm').form({
+					success: function(data){
+						var data = eval('(' + data + ')'); // change the JSON string to javascript object
+						if (data.result){
+							$('#box-itemedit').closest('.box').toggleClass('active');
+							$('#box-edit').closest('.box').addClass('active');
+							$('#standardItemTable0').bootstrapTable('refresh',[]);
+							$('#standardItemTable1').bootstrapTable('refresh',[]);
+							$('#standardItemTable2').bootstrapTable('refresh',[]);
+							$('#standardItemTable3').bootstrapTable('refresh',[]);
+						}else{
+
+						}
+					}
+				});
 			});
 			function changeSelect(){
 				var value=$('.easy-tree').find('li.li_selected').first().attr('value');
@@ -116,7 +152,18 @@
 				$('#catagoryShow').modal('show');
 			}
 			function newStandItem(type){
-
+				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				for(var i=0;i<array.length;i++){
+					$('#'+array[i]).hide();
+					if(type==array[i]){
+						$('#'+array[i]).show();
+					}
+				}
+				$('#standardItemForm').form('clear');
+				$('#standardItemType').val(type);
+				$('#standard').val($('#standardId').val());
+				$('#box-edit').closest('.box').toggleClass('active');
+				$('#box-itemedit').closest('.box').addClass('active');
 			}
 		</script>
 	</head>
@@ -234,17 +281,18 @@
 									<th data-field="nofield" data-checkbox="true"></th>
 									<th data-field="id"  data-sortable="true" ></th>
 									
-									<th data-field="attention"  data-sortable="true"   >${message(code: 'standard.attention.label', default: 'Attention')}</th>
+
+									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standard.name.label', default: 'Name')}</th>
+
+									<th data-field="equipmentCatagory.text"  >${message(code: 'standard.equipmentCatagory.label', default: 'Equipment Catagory')}</th>
+
 									
 
-									<th>
-									<th data-field="equipmentCatagory"  >${message(code: 'standard.equipmentCatagory.label', default: 'Equipment Catagory')}</th>
-								    </th>
-									
-									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standard.name.label', default: 'Name')}</th>
-									
 									<th data-field="reference"  data-sortable="true"   >${message(code: 'standard.reference.label', default: 'Reference')}</th>
-									
+
+									<th data-field="attention"  data-sortable="true"   >${message(code: 'standard.attention.label', default: 'Attention')}</th>
+
+
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 
@@ -265,7 +313,7 @@
 							<div class="panel-body">
 				<form  role="form"  action='${request.contextPath}/standard/serverSave'  class="form-horizontal" id="standardForm" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="${standardInstance?.version}" />
-					<g:hiddenField name="id" value="${standardInstance?.id}" />
+					<g:hiddenField name="id" id="standardId" value="${standardInstance?.id}" />
 					<fieldset class="form">
 						<g:render template="form"/>
 
@@ -309,6 +357,8 @@
 
 
 														<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
+
+														<th data-field="id" data-formatter="editItemFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 													</tr>
 													</thead>
 												</table>
@@ -331,6 +381,28 @@
 						</div>
 			</div>
 	</div><!--/.row-->
+
+		<div class="row box animated tile"  id="box-itemedit">
+			<div class="col-lg-12 form-group">
+				<div class="panel panel-default">
+					<div class="panel-heading">Item Info</div>
+					<div class="panel-body">
+						<form  role="form"  action='${request.contextPath}/standardItem/serverSave'  class="form-horizontal ac-custom ac-radio ac-circle" id="standardItemForm" enctype="multipart/form-data" method="post" >
+							<g:hiddenField name="version" value="" />
+							<g:hiddenField name="id" value="" />
+							<fieldset class="form">
+								<g:render template="/standardItem/form"/>
+
+							</fieldset>
+							<fieldset class="buttons">
+								<button class="btn btn-default margin" type="submit"  ><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.submit.label', default: 'Submit')}</button>
+								<button class="btn btn-default margin  box-switcher"  data-switch="box-edit"  type="button"><span class="glyphicon glyphicon-list-alt"></span> &nbsp;${message(code: 'default.button.back.label', default: 'Back')}</button>
+							</fieldset>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
 
 	</div>
 

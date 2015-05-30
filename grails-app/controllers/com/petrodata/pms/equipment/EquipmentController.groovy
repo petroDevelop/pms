@@ -1,6 +1,6 @@
 package com.petrodata.pms.equipment
 
-
+import com.petrodata.pms.core.BaseUser
 import org.springframework.dao.DataIntegrityViolationException
 import com.petrodata.poi.ExcelReadBuilder
 import grails.converters.JSON
@@ -9,7 +9,7 @@ import grails.converters.JSON
 class EquipmentController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: ["DELETE","GET","POST"]]
-
+    def springSecurityService
     def index() {
         redirect(action: "list", params: params)
     }
@@ -46,9 +46,22 @@ class EquipmentController {
         render map as JSON;
     }
     def serverSave(){
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id);
         def map=[:];
         if(!params.version){
             params.version=0l;
+        }
+        if(params.factoryDate){
+            params.factoryDate=java.util.Date.parse('yyyy-MM-dd',params.factoryDate);
+        }
+        if(params.arrivalDate){
+            params.arrivalDate=java.util.Date.parse('yyyy-MM-dd',params.arrivalDate);
+        }
+        if(params.acceptDate){
+            params.acceptDate=java.util.Date.parse('yyyy-MM-dd',params.acceptDate);
+        }
+        if(params.operationDate){
+            params.operationDate=java.util.Date.parse('yyyy-MM-dd',params.operationDate);
         }
         if(!params.id){
             map=this.save();
@@ -58,8 +71,10 @@ class EquipmentController {
         render "${(map as JSON).toString()}";
     }
     def save() {
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id);
         def map=[:]
         def equipmentInstance = new Equipment(params)
+        equipmentInstance.creater=currentUser;
         if (!equipmentInstance.save(flush: true)) {
             map.result=false;
             //@todo
@@ -73,6 +88,7 @@ class EquipmentController {
         return map;
     }
     def update(Long id, Long version) {
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id);
         def map=[:]
         def equipmentInstance = Equipment.get(id)
         if (!equipmentInstance) {
@@ -90,7 +106,7 @@ class EquipmentController {
             }
         }
         equipmentInstance.properties = params
-
+        //equipmentInstance.creater=currentUser;
         if (!equipmentInstance.save(flush: true)) {
             map.result=false;
             map.message=equipmentInstance.errors.allErrors.toString();
