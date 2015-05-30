@@ -40,12 +40,25 @@
 
 		<tr><th>	<span id="parent-label" class="property-label"><g:message code="baseDepartment.parent.label" default="Parent" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="parent-label"><g:link controller="baseDepartment" action="show" id="${baseDepartmentInstance?.parent?.id}">${baseDepartmentInstance?.parent?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="parent-label">${baseDepartmentInstance?.parent?.encodeAsHTML()}
+					<!--<g:link controller="baseDepartment" action="show" id="${baseDepartmentInstance?.parent?.id}"></g:link>--></span>
 				</td>
 
 		</tr>
 
-		
+		<tr><th>	<span id="type-label" class="property-label"><g:message code="baseDepartment.type.label" default="type" /></span></th>
+			<td>
+				<span class="property-value" aria-labelledby="type-label"><g:fieldValue bean="${baseDepartmentInstance}" field="type"/></span>
+			</td>
+
+		</tr>
+
+		<tr><th>	<span id="isWorking-label" class="property-label"><g:message code="baseDepartment.isWorking.label" default="Is Working" /></span></th>
+			<td>
+				<span class="property-value" aria-labelledby="isWorking-label"><g:formatBoolean boolean="${baseDepartmentInstance?.isWorking}" /></span>
+			</td>
+
+		</tr>
 
 		<tr><th>	<span id="reason-label" class="property-label"><g:message code="baseDepartment.reason.label" default="Reason" /></span></th>
 			<td>
@@ -59,7 +72,8 @@
 		<tr><th>	<span id="baseUsers-label" class="property-label"><g:message code="baseDepartment.baseUsers.label" default="Base Users" /></span></th>
 			<td>
 				<g:each in="${baseDepartmentInstance.baseUsers}" var="b">
-					<span class="property-value" aria-labelledby="baseUsers-label"><g:link controller="baseUser" action="show" id="${b.id}">${b?.encodeAsHTML()}</g:link></span>
+					<span class="property-value" aria-labelledby="baseUsers-label"> ${b?.encodeAsHTML()}
+						<!--<g:link controller="baseUser" action="show" id="${b.id}"></g:link>--></span>
 				</g:each>
 				</td>
 
@@ -70,46 +84,22 @@
 		<tr><th>	<span id="children-label" class="property-label"><g:message code="baseDepartment.children.label" default="Children" /></span></th>
 			<td>
 				<g:each in="${baseDepartmentInstance.children}" var="c">
-					<span class="property-value" aria-labelledby="children-label"><g:link controller="baseDepartment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></span>
+					<span class="property-value" aria-labelledby="children-label"> ${c?.encodeAsHTML()}
+						<!--<g:link controller="baseDepartment" action="show" id="${c.id}"></g:link>--></span>
 				</g:each>
 				</td>
 
 		</tr>
 
-		
-
-		<tr><th>	<span id="isContainer-label" class="property-label"><g:message code="baseDepartment.isContainer.label" default="Is Container" /></span></th>
-			<td>
-				<span class="property-value" aria-labelledby="isContainer-label"><g:formatBoolean boolean="${baseDepartmentInstance?.isContainer}" /></span>
-				</td>
-
-		</tr>
-
-		
-
-		<tr><th>	<span id="isTeam-label" class="property-label"><g:message code="baseDepartment.isTeam.label" default="Is Team" /></span></th>
-			<td>
-				<span class="property-value" aria-labelledby="isTeam-label"><g:formatBoolean boolean="${baseDepartmentInstance?.isTeam}" /></span>
-				</td>
-
-		</tr>
-
-		
-
-		<tr><th>	<span id="isWorking-label" class="property-label"><g:message code="baseDepartment.isWorking.label" default="Is Working" /></span></th>
-			<td>
-				<span class="property-value" aria-labelledby="isWorking-label"><g:formatBoolean boolean="${baseDepartmentInstance?.isWorking}" /></span>
-				</td>
-
-		</tr>
 
 		   </table>
 
 
 	<g:form url="[resource:baseDepartmentInstance, action:'delete']" method="DELETE">
+		<input type="hidden" name="from" value="${params.from}"/>
 		<fieldset class="buttons">
 			<g:hiddenField name="id" value="${baseDepartmentInstance?.id}" />
-			<g:link class="btn btn-default margin" action="edit"  id="${baseDepartmentInstance?.id}" resource="${baseDepartmentInstance}">
+			<g:link class="btn btn-default margin" action="edit" params="[from:params.from]"  id="${baseDepartmentInstance?.id}" resource="${baseDepartmentInstance}">
 				<span class="glyphicon glyphicon-edit"></span>
 				<g:message code="default.button.edit.label" default="Edit" /></g:link>
 			<button type="submit" name="_action_delete"

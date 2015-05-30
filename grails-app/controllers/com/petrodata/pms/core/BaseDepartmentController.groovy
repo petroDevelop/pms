@@ -51,19 +51,18 @@ class BaseDepartmentController {
     def save() {
         def baseDepartmentInstance = new BaseDepartment(params)
         if (!baseDepartmentInstance.save(flush: true)) {
-            render(view: "create", model: [baseDepartmentInstance: baseDepartmentInstance])
+            render(view: "create", model: [baseDepartmentInstance: baseDepartmentInstance,from:params.from])
             return
         }
-
         flash.message = message(code: 'default.created.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), baseDepartmentInstance.id])
-        redirect(action: "list", id: baseDepartmentInstance.id)
+        redirect(action: params.from?:"list", id: baseDepartmentInstance.id)
     }
 
     def show(Long id) {
         def baseDepartmentInstance = BaseDepartment.get(id)
         if (!baseDepartmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -74,7 +73,7 @@ class BaseDepartmentController {
         def baseDepartmentInstance = BaseDepartment.get(id)
         if (!baseDepartmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -85,7 +84,7 @@ class BaseDepartmentController {
         def baseDepartmentInstance = BaseDepartment.get(id)
         if (!baseDepartmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -94,7 +93,7 @@ class BaseDepartmentController {
                     baseDepartmentInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                             [message(code: 'baseDepartment.label', default: 'BaseDepartment')] as Object[],
                             "Another user has updated this BaseDepartment while you were editing")
-                render(view: "edit", model: [baseDepartmentInstance: baseDepartmentInstance])
+                render(view: "edit", model: [baseDepartmentInstance: baseDepartmentInstance,from:params.from])
                 return
             }
         }
@@ -102,39 +101,37 @@ class BaseDepartmentController {
         baseDepartmentInstance.properties = params
 
         if (!baseDepartmentInstance.save(flush: true)) {
-            render(view: "edit", model: [baseDepartmentInstance: baseDepartmentInstance])
+            render(view: "edit", model: [baseDepartmentInstance: baseDepartmentInstance,from:params.from])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), baseDepartmentInstance.id])
-        redirect(action: "list", id: baseDepartmentInstance.id)
+        redirect(action: params.from?:"list", id: baseDepartmentInstance.id)
     }
 
     def delete(Long id) {
         def baseDepartmentInstance = BaseDepartment.get(id)
         if (!baseDepartmentInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
         try {
             baseDepartmentInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), id])
-            redirect(action: "show", id: id)
+            redirect(action: "show", id: id,params:[from:params.from])
         }
     }
     def deleteAll ={
         def map=[:]
         def list=params.ids.tokenize(',');
         list.each{
-            
-                def oneInstance=BaseDepartment.get(it.toLong());
-            
+            def oneInstance=BaseDepartment.get(it.toLong());
             oneInstance.delete(flush:true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'baseDepartment.label', default: 'BaseDepartment'), params.ids])
@@ -185,6 +182,41 @@ class BaseDepartmentController {
         }
         def allList=BaseDepartment.createCriteria().list{
             eq('type','项目部节点')
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
+    }
+
+    //设备处角色的 小队管理菜单
+    def teamList(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        //[baseDepartmentInstanceList: BaseDepartment.list(params), baseDepartmentInstanceTotal: BaseDepartment.count()]
+        return []
+    }
+    def teamJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def allCount=BaseDepartment.createCriteria().count{
+            eq('type','小队节点')
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+        }
+        def allList=BaseDepartment.createCriteria().list{
+            eq('type','小队节点')
             if(params.search){
                 ilike('name',"%${params.search}%");
             }

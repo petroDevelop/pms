@@ -144,7 +144,7 @@ class BootStrap {
         new Requestmap(url: '/securityInfo/**', configAttribute: 'IS_AUTHENTICATED_FULLY').save()
 
         //application
-        new Requestmap(url: '/baseUser/**', configAttribute: 'ROLE_ADMIN').save()
+        new Requestmap(url: '/baseUser/**', configAttribute: 'ROLE_ADMIN,ROLE_MANAGER,ROLE_PROJECT,ROLE_CAPTAIN').save()
         new Requestmap(url: '/baseRole/**', configAttribute: 'ROLE_ADMIN').save()
         new Requestmap(url: '/baseUserBaseRole/**', configAttribute: 'ROLE_ADMIN').save()
         new Requestmap(url: '/requestmap/**', configAttribute: 'ROLE_ADMIN').save()

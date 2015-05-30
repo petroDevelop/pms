@@ -12,11 +12,11 @@
 				return str;
 			}
 			function editFormatter(value, row) {
-				var str='<a href="${request.contextPath}/baseDepartment/edit/'+row.id+'?from=projectList"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+				var str='<a href="${request.contextPath}/baseDepartment/edit/'+row.id+'?from=teamList"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
 			function nameFormatter(value, row) {
-				var str='<a href="${request.contextPath}/baseDepartment/show/'+row.id+'?from=projectList">'+row.name+'</a>';
+				var str='<a href="${request.contextPath}/baseDepartment/show/'+row.id+'?from=teamList">'+row.name+'</a>';
 				return str;
 			}
 			function queryParams(params) {
@@ -62,7 +62,7 @@
 				});
 			}
 			function newWindow(){
-				document.location.href="${createLink(controller: 'baseDepartment',action:'create')}?from=projectList";
+				document.location.href="${createLink(controller: 'baseDepartment',action:'create')}?from=teamList";
 			}
 		</script>
 	</head>
@@ -103,13 +103,13 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active" >项目部管理</li>
+				<li class="active" >小队管理</li>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">项目部管理</h1>
+				<h1 class="page-header">小队管理</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="alert bg-success hide" id="alertSucess" role="alert">
@@ -130,14 +130,14 @@
 				<div class="panel panel-default">
 					<g:form method="post">
 						<div class="panel-heading">
-							项目部列表
+							小队列表
 						</div>
 
 						<div class="panel-body">
 							<div  id="toolbar">
 								<button class="btn btn-default margin " onclick="newWindow()" type="button" >
 									<span class="glyphicon glyphicon-plus"></span>
-									新建项目部
+									新建小队
 								</button>
 
 								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
@@ -146,7 +146,7 @@
 								</button>
 
 							</div>
-							<table id="baseDepartmentTable" data-toggle="table"  data-toolbar="#toolbar" data-url="${request.contextPath}/baseDepartment/projectJson"
+							<table id="baseDepartmentTable" data-toggle="table"  data-toolbar="#toolbar" data-url="${request.contextPath}/baseDepartment/teamJson"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">

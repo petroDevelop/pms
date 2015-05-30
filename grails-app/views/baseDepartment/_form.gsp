@@ -1,7 +1,10 @@
 <%@ page import="com.petrodata.pms.core.BaseDepartment" %>
 
 
-
+ <input type="hidden" name="from" value="${params.from}"/>
+<g:if test="${!baseDepartmentInstance}">
+	<g:set var="baseDepartmentInstance" value="${new com.petrodata.pms.core.BaseDepartment()}"/>
+</g:if>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'name', 'error')} required">
 	<label for="name">
@@ -20,7 +23,17 @@
 </div>
 
 
+<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'type', 'error')} ">
+	<label for="type">
+		<g:message code="baseDepartment.type.label" default="Type" />
 
+	</label>
+
+	<g:select name="type" id="type" class="form-control input-lg m-b-10"
+			  from="${baseDepartmentInstance?.constraints.type.inList}"
+			  value="${baseDepartmentInstance?.type}"
+			  valueMessagePrefix="baseDepartment.type"  />
+</div>
 
 
 
