@@ -2,13 +2,13 @@
 
 
 
+
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'username', 'error')} required">
 	<label for="username">
 		<g:message code="baseUser.username.label" default="Username" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="username" required="" value="${baseUserInstance?.username}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'password', 'error')} required">
@@ -17,7 +17,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="password" required="" value="${baseUserInstance?.password}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'email', 'error')} required">
@@ -26,7 +25,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field type="email" class="form-control input-sm m-b-10"  name="email" required="" value="${baseUserInstance?.email}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'firstName', 'error')} required">
@@ -35,7 +33,6 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="firstName" required="" value="${baseUserInstance?.firstName}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'lastName', 'error')} required">
@@ -44,16 +41,14 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="lastName" required="" value="${baseUserInstance?.lastName}"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'baseDepartment', 'error')} required">
-    <label for="baseDepartment">
-        <g:message code="baseUser.baseDepartment.label" default="Base Department" />
-        <span class="required-indicator">*</span>
-    </label>
-    <g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" optionValue="name" required="" value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
-
+	<label for="baseDepartment">
+		<g:message code="baseUser.baseDepartment.label" default="Base Department" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'position', 'error')} ">
@@ -62,7 +57,6 @@
 		
 	</label>
 	<g:select id="position" name="position.id" from="${com.petrodata.pms.team.Position.list()}" optionKey="id" value="${baseUserInstance?.position?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'accountExpired', 'error')} ">
@@ -71,7 +65,6 @@
 		
 	</label>
 	<g:checkBox name="accountExpired" value="${baseUserInstance?.accountExpired}" />
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'accountLocked', 'error')} ">
@@ -80,7 +73,6 @@
 		
 	</label>
 	<g:checkBox name="accountLocked" value="${baseUserInstance?.accountLocked}" />
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'enabled', 'error')} ">
@@ -89,7 +81,6 @@
 		
 	</label>
 	<g:checkBox name="enabled" value="${baseUserInstance?.enabled}" />
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'passwordExpired', 'error')} ">
@@ -98,6 +89,5 @@
 		
 	</label>
 	<g:checkBox name="passwordExpired" value="${baseUserInstance?.passwordExpired}" />
-
 </div>
 
