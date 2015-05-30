@@ -13,6 +13,22 @@
 		<g:message code="position.equipmentCatagory.label" default="Equipment Catagory" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="eptCatas" name="eptCatas" from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}" multiple="multiple" optionKey="id" required="" value="${positionInstance?.eptCatas*.id}" class="form-control input-lg m-b-10"/>
+
+	<ul>
+	<g:each in="${com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc'])}" var="ec" status="i">
+		<li><input type="checkbox" name="eptCatas" id="eptCatas${i}"
+			   <g:if test="${positionInstance?.eptCatas?.contains(ec)}">
+				   checked="true"
+			   </g:if>
+			   value="${ec?.id}" /><label for="eptCatas${i}">${ec?.name}</label></li>
+		<g:if test="${positionInstance?.eptCatas?.contains(ec)}">
+		<script>
+			(function() {
+				document.getElementById("eptCatas${i}").click();
+			});
+		</script>
+		</g:if>
+	</g:each>
+	</ul>
 </div>
 

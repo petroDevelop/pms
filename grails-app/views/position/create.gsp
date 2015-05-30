@@ -32,7 +32,7 @@
 				</g:hasErrors>
 			</div>
 			<div class="panel-body">
-				<g:form url="[resource:positionInstance, action:'save']" >
+				<g:form class="ac-custom ac-checkbox ac-checkmark" autocomplete="off" url="[resource:positionInstance, action:'save']" >
 					<fieldset class="form">
 						<g:render template="form"/>
 					</fieldset>

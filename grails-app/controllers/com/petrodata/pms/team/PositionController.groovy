@@ -37,8 +37,16 @@ class PositionController {
             firstResult(params.offset.toInteger())
         }
         def map=[:];
+        def list=[]
+        ecList.each{
+            def map1=[:]
+            map1.id=it.id
+            map1.name=it.name;
+            map1.eptCatas=it.eptCatas?.collect{it.name}?.join(",")
+            list<<map1;
+        }
         map.total=ecCount;
-        map.rows=ecList;
+        map.rows=list;
         render map as JSON;
     }
 
@@ -50,11 +58,14 @@ class PositionController {
         def pos = Position.findByName(params.name)
         if (!pos) {
             def positionInstance = new Position(params)
+            //positionInstance.name=params.name;
             if (!positionInstance.save(flush: true)) {
                 render(view: "create", model: [positionInstance: positionInstance])
                 return
             }
-
+            if(params.eptCatas){
+                println params.eptCatas.class.name
+            }
             flash.message = message(code: 'default.created.message', args: [message(code: 'position.label', default: 'Position'), positionInstance.id])
             redirect(action: "list", id: positionInstance.id)
         }else{
@@ -123,6 +134,8 @@ class PositionController {
         }
 
         try {
+            positionInstance.eptCatas=[];
+            positionInstance.save(flush: true);
             positionInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'position.label', default: 'Position'), id])
             redirect(action: "list")
@@ -134,14 +147,18 @@ class PositionController {
     }
 
     def deleteAll ={
-        def ids=request.getParameterValues("ids")
+        def map=[:]
+        def ids=params.ids?.toString().tokenize(",");
         ids.each{
-            
-                def oneInstance=Position.get(it.toLong());
-            
+            def oneInstance=Position.get(it.toLong());
+            oneInstance.eptCatas=[];
+            oneInstance.save(flush: true);
             oneInstance.delete(flush:true);
         }
-        flash.message = message(code: 'default.deleted.message', args: [message(code: 'position.label', default: 'Position'), ids])
-        redirect action:"index"
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'position.label', default: 'Position'), ids.join(",")])
+        //redirect action:"index"
+        map.result=true;
+        map.message=flash.message;
+        render map as JSON;
     }
 }

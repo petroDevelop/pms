@@ -119,7 +119,7 @@
 	<script>
 		function changeSelect(){
 			var value=$('.easy-tree').find('li.li_selected').first().attr('value');
-			var text=$('.easy-tree').find('li.li_selected').first().text();
+			var text=$('.easy-tree').find('li.li_selected').first().children().first().text();
 			if(value && value!=null){
 				$("#parent option[value='"+value+"']").remove();
 				$("#parent").prepend("<option value='"+value+"'>"+text+"</option>");

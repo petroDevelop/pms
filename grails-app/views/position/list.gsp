@@ -64,6 +64,9 @@
 		function newWindow(){
 			document.location.href="${createLink(controller: 'position',action:'create')}";
 		}
+		function autoCreate(){
+
+		}
 	</script>
 </head>
 <body>
@@ -135,10 +138,9 @@
 					</div>
 					<div class="panel-body">
 						<div  id="toolbar">
-							<button class="btn btn-default margin" data-toggle="modal"
-									data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
+							<button class="btn btn-default margin" onclick="autoCreate()" type="button" >
 								<span class="glyphicon glyphicon-new-window"></span>
-								<g:message code="default.import.label" args="[entityName]" />
+								依据设备类别自动创建
 							</button>
 
 							<button class="btn btn-default margin " onclick="newWindow()" type="button" >
@@ -164,8 +166,8 @@
 								<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >
 									${message(code: 'position.name.label', default: 'Name')}
 								</th>
-								<th data-field="equipmentCatagory">
-									${message(code: 'position.equipmentCatagory.label', default: 'Equipment Catagory')}
+								<th data-field="eptCatas">
+									${message(code: 'position.eptCatas.label', default: 'Equipment Catagorys')}
 								</th>
 								<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 								<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->

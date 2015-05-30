@@ -32,7 +32,7 @@
 				</g:hasErrors>
 			</div>
 			<div class="panel-body">
-				<g:form url="[resource:positionInstance, action:'update']" method="PUT" >
+				<g:form   url="[resource:positionInstance, action:'update']" method="PUT" >
 					<g:hiddenField name="version" value="${positionInstance?.version}" />
 					<g:hiddenField name="id" value="${positionInstance?.id}" />
 					<fieldset class="form">

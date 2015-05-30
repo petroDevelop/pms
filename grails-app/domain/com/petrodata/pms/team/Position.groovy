@@ -11,7 +11,7 @@ class Position {
     //EquipmentCatagory equipmentCatagory
 
     static constraints = {
-        name(size:0..100);
+        name(size:0..100,unique: true);
     }
     String toString(){
         return name;
