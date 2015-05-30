@@ -45,7 +45,7 @@
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseUser/managerList">
+            <a class="" href="${request.contextPath}/baseUser/list">
                 <span class="glyphicon glyphicon-share-alt"></span> 人员管理
             </a>
         </li>

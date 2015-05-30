@@ -7,17 +7,14 @@ import com.petrodata.pms.team.Rotation
 class JobOrder {
     //班次
     Rotation rotation
-    //班次检查时间
-    long checkTime
     //岗位
     Position position
-    //工单日期
+    //工单日期 (当地时区时间yyyy-MM-dd)
     Date jobDate
     //是否完结
     boolean isFinish
     static constraints = {
         rotation(nullable: false)
-        checkTime()
         position(nullable: false)
         jobDate(nullable: false)
     }
