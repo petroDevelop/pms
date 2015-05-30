@@ -1,5 +1,6 @@
 package com.petrodata.pms.team
 
+import com.petrodata.pms.equipment.EquipmentCatagory
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
@@ -159,6 +160,21 @@ class PositionController {
         //redirect action:"index"
         map.result=true;
         map.message=flash.message;
+        render map as JSON;
+    }
+
+    def autoCteate(){
+        def map=[:]
+        def list=EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']);
+        list.each{
+            if(!Position.findByName(it.name)){
+                def pos=new Position();
+                pos.name=it.name;
+                pos.eptCatas=[it]
+                pos.save(flush: true);
+            }
+        }
+        map.result=true;
         render map as JSON;
     }
 }

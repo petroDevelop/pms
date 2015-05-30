@@ -65,7 +65,18 @@
 			document.location.href="${createLink(controller: 'position',action:'create')}";
 		}
 		function autoCreate(){
-
+			var r = window.confirm("确定从设备类别顶层树节点自动映射岗位么？");
+			if(r){
+				$.post("${request.contextPath}/position/autoCteate", null,
+						function (data, textStatus) {
+							if (data.result) {
+								$('#alertSucess').removeClass('hide');
+								$('#positionTable').bootstrapTable('refresh',[]);
+							} else {
+								$('#alertFault').removeClass('hide');
+							}
+						}, "json");
+			}
 		}
 	</script>
 </head>
