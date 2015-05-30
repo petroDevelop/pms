@@ -24,7 +24,10 @@
         -webkit-animation-name: fadeIn;
         animation-name: fadeIn;
     }
-
+    /*输入框的字体颜色*/
+    .form-control {
+        color: #c9e8ff;
+    }
 
   </style>
 </head>

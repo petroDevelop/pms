@@ -58,17 +58,17 @@ class BootStrap {
     }
     private createDefaultDepartment(){
         if (BaseDepartment.count==0){
-            def d1=new BaseDepartment(name:'A设备公司');
+            def d1=new BaseDepartment(name:'A设备公司',type: '公司节点');
             d1.save(flush: true);
-            def d2=new BaseDepartment(name:'总部',parent: d1);
+            def d2=new BaseDepartment(name:'总部',parent: d1,type: '');
             d2.save(flush: true);
-            def d21=new BaseDepartment(name:'设备管理处',parent: d2,isContainer: true);
+            def d21=new BaseDepartment(name:'设备管理处',parent: d2,type: '设备处节点');
             d21.save(flush: true);
-            def d3=new BaseDepartment(name:'项目部1',parent: d1);
+            def d3=new BaseDepartment(name:'项目部1',parent: d1,type: '项目部节点');
             d3.save(flush: true);
-            def d4=new BaseDepartment(name:'第一小队',parent: d3,isContainer: true,isTeam: true);
+            def d4=new BaseDepartment(name:'第一小队',parent: d3,type: '小队节点' );
             d4.save(flush: true);
-            def d5=new BaseDepartment(name:'第二小队',parent: d3,isContainer: true,isTeam: true);
+            def d5=new BaseDepartment(name:'第二小队',parent: d3,type: '小队节点');
             d5.save(flush: true);
         }
     }

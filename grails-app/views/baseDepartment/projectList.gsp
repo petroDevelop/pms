@@ -103,13 +103,13 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active" ><g:message code="baseDepartment.label" default="BaseDepartment" /></li>
+				<li class="active" >项目部管理</li>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"><g:message code="baseDepartment.label" default="BaseDepartment" /></h1>
+				<h1 class="page-header">项目部管理</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="alert bg-success hide" id="alertSucess" role="alert">
@@ -130,12 +130,14 @@
 				<div class="panel panel-default">
 					<g:form method="post">
 						<div class="panel-heading">
-							<g:message code="default.list.label" args="[entityName]" />
-							<div style="float: right">
+							项目部列表
+						</div>
 
+						<div class="panel-body">
+							<div  id="toolbar">
 								<button class="btn btn-default margin " onclick="newWindow()" type="button" >
 									<span class="glyphicon glyphicon-plus"></span>
-									<g:message code="default.new.label" args="[entityName]" />
+									新建项目部
 								</button>
 
 								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
@@ -144,13 +146,7 @@
 								</button>
 
 							</div>
-						</div>
-						<div class="panel-body">
-							<!--	sidePagination="client"
-							                    data-method="post"
-								                data-query-params="postQueryParams"
-							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
-							<table id="baseDepartmentTable" data-toggle="table" data-url="${request.contextPath}/baseDepartment/projectJson"
+							<table id="baseDepartmentTable" data-toggle="table"  data-toolbar="#toolbar" data-url="${request.contextPath}/baseDepartment/projectJson"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
@@ -158,22 +154,18 @@
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
 									<th data-field="id"  data-sortable="true" ></th>
-									
-									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'baseDepartment.name.label', default: 'Name')}</th>
-									
 
-									<th>
-									<th data-field="parent"  >${message(code: 'baseDepartment.parent.label', default: 'Parent')}</th>
-								    </th>
-									
+									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'baseDepartment.name.label', default: 'Name')}</th>
+
+									<th data-field="type"  >${message(code: 'baseDepartment.type.label', default: 'Type')}</th>
+									<th data-field="parent.text"  >${message(code: 'baseDepartment.parent.label', default: 'Parent')}</th>
+
+
 									<th data-field="reason"  data-sortable="true"   >${message(code: 'baseDepartment.reason.label', default: 'Reason')}</th>
-									
-									<th data-field="isContainer"  data-sortable="true"   >${message(code: 'baseDepartment.isContainer.label', default: 'Is Container')}</th>
-									
-									<th data-field="isTeam"  data-sortable="true"   >${message(code: 'baseDepartment.isTeam.label', default: 'Is Team')}</th>
-									
+
+
 									<th data-field="isWorking"  data-sortable="true"   >${message(code: 'baseDepartment.isWorking.label', default: 'Is Working')}</th>
-									
+
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 

@@ -178,11 +178,13 @@ class BaseDepartmentController {
         if(!params.sort) params.sort ='id'
         if(!params.order) params.order ='desc'
         def allCount=BaseDepartment.createCriteria().count{
+            eq('type','项目部节点')
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
         }
         def allList=BaseDepartment.createCriteria().list{
+            eq('type','项目部节点')
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
