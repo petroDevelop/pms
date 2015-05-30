@@ -61,8 +61,9 @@
 		<g:message code="rotation.checkTime.label" default="Check Time" />
 		<span class="required-indicator">*</span>
 	</label>
+	&nbsp;&nbsp;<g:checkBox id="checkTimeCheck" name="checkTimeCheck" value="${(rotationInstance.beginTime && rotationInstance.beginTime == rotationInstance.checkTime) ? true : false}" onclick="checkedTime()" />与班次开始时间相同
 	<div class="input-group date form_time col-md-5" data-date="" data-date-format="hh:ii" data-link-format="hh:ii">
-		<input class="form-control" size="16" type="text"  id="checkTime" name="checkTime" value="${rotationInstance.checkTime}" readonly>
+		<input class="form-control" size="16" type="text" id="checkTime" name="checkTime" value="${rotationInstance.checkTime}" readonly>
 		<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
 		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 	</div>
@@ -110,5 +111,14 @@
 		maxView: 1,
 		forceParse: 0
 	});
+
+	function checkedTime() {
+		if(document.all.checkTimeCheck.checked) {
+			var beginTimeValue = document.all.beginTime.value;
+			if(beginTimeValue != "") {
+				document.all.checkTime.value = beginTimeValue;
+			}
+		}
+	}
 </script>
 
