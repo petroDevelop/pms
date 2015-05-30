@@ -161,4 +161,38 @@ class BaseDepartmentController {
         }
         render((map as JSON).toString());
     }
+
+
+    //设备处角色的 项目部管理菜单
+    def projectList(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        //[baseDepartmentInstanceList: BaseDepartment.list(params), baseDepartmentInstanceTotal: BaseDepartment.count()]
+        return []
+    }
+    def projectJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def allCount=BaseDepartment.createCriteria().count{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+        }
+        def allList=BaseDepartment.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
+    }
 }

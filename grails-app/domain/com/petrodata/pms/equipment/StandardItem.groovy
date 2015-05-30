@@ -5,8 +5,8 @@ class StandardItem {
     Standard standard;
     //标准类型 //'运行标准','检查标准','保养标准','大修标准'
     String type
-    //执行依据  （时间 或 里程数）【运行项时为缺省值】
-    String aim='time'
+    //执行依据  （时间 或 里程）【运行项时为缺省值】
+    String aim='时间'
     //检查周期    检查周期      B （班次） 7天
     String checkType
      //间隔日期
@@ -30,7 +30,7 @@ class StandardItem {
     static constraints = {
         //运行标准，检查标准，保养标准，大修标准  'OperationStandard','InspectionStandard','MaintenanceStandard','OverhaulStandard'
         type(size:0..40,nullable: true,inList: ['运行标准','检查标准','保养标准','大修标准'])
-        aim(size: 0..40,nullable: true,inList: ['time','milage']);
+        aim(size: 0..40,nullable: true,inList: ['时间','里程']);
         checkType(size: 0..40,nullable: true,inList: ['班次','天数']);
         checkDays();
         name(size:0..50,nullable: false,blank: false);
