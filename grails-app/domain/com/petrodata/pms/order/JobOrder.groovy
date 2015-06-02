@@ -13,6 +13,8 @@ class JobOrder {
     Date jobDate
     //是否完结
     boolean isFinish
+    Date dateCreated
+    Date lastUpdated
     static constraints = {
         rotation(nullable: false)
         position(nullable: false)

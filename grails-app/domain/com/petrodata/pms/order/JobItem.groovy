@@ -24,6 +24,8 @@ class JobItem {
     String checkResult
     //备注
     String remark
+    Date dateCreated
+    Date lastUpdated
     static constraints = {
         checker(nullable: true)
         checkDate(nullable: true)
