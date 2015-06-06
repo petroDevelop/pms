@@ -1,6 +1,7 @@
 package com.petrodata.pms.job
 
 import com.petrodata.pms.order.JobItem
+import com.petrodata.pms.order.JobOrder
 
 //保养项及大修项的定时任务
 class RepairJob {
@@ -35,11 +36,21 @@ class RepairJob {
 
             def last=JobItem.findByStandardItemAndEquipment(standardItem,equipment,['sort':'id','order':'desc']);
             if(last){
-                if(((new Date().time-last.dateCreated.time)/(1000*60*60)).intValue()>=standardItem.excuteCycle){
+                //以时间判断，可能会多增加小队停工、收工后的时间，出现误差
+                //if(((new Date().time-last.dateCreated.time)/(1000*60*60)).intValue()>=standardItem.excuteCycle){
                     //new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                //}
+                // 数工单数
+                def count=JobOrder.countByRotationAndPositionAndDateCreatedBetween(rotation,position,last.jobOrder.dateCreated,new Date());
+                if(count*24>=standardItem.excuteCycle){  //设备运行信息
+                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
                 }
             }else{
-
+                //if(((new Date().time-team.workTime.time)/(1000*60*60)).intValue()>=standardItem.excuteCycle){}
+                def count=JobOrder.countByRotationAndPositionAndDateCreatedBetween(rotation,position,team.workTime,new Date());
+                if(count*24>=standardItem.excuteCycle){  //设备运行信息
+                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                }
             }
         }
 
