@@ -13,6 +13,8 @@ class BaseDepartment {
     String type
     //是否作业 只记录当前状态
     boolean isWorking
+    //开工开钻时间
+    Date workTime
     //停工原因  只记录当前停工原因
     String reason
     static belongsTo =[parent:BaseDepartment]
@@ -22,8 +24,21 @@ class BaseDepartment {
         parent(nullable:true)
         reason(size: 0..100,nullable: true,blank: true)
         type(size:0..50,nullable: true,inList: ['','公司节点','设备处节点','项目部节点','小队节点'])
+        workTime(nullable: true)
     }
     String toString(){
         return name;
+    }
+
+    def beforeInsert() {
+        if (isWorking && type=='小队节点') {
+            workTime=new Date();
+        }
+    }
+
+    def beforeUpdate() {
+        if (isDirty('isWorking') && isWorking && type=='小队节点') {
+            workTime=new Date();
+        }
     }
 }
