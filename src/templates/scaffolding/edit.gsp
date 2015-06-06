@@ -32,7 +32,7 @@
 					</g:hasErrors>
 				</div>
 				<div class="panel-body">
-					<g:form url="[resource:${propertyName}, action:'update']" method="PUT" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
+					<g:form url="[resource:${propertyName},controller:'${domainClass.propertyName}', action:'update']" method="PUT" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
 					<g:hiddenField name="version" value="\${${propertyName}?.version}" />
 					<g:hiddenField name="id" value="\${${propertyName}?.id}" />
 					<fieldset class="form">

@@ -49,15 +49,12 @@ class BaseUserController {
     }
 
     def save() {
-         println params
         def baseUserInstance = new BaseUser(params)
         if (!baseUserInstance.save(flush: true)) {
             render(view: "create", model: [baseUserInstance: baseUserInstance,from:params.from])
             return
         }
-         println 234
         flash.message = message(code: 'default.created.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])
-       println 1111
         redirect(action: params.from?:"list", id: baseUserInstance.id)
     }
 
