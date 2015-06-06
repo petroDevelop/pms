@@ -146,13 +146,16 @@ class StandardController {
         render map as JSON;
     }
 
-    def deleteAll ={
+    def deleteAll(){
         def map=[:]
         def list=params.ids.tokenize(',');
         list.each{
-            
-                def oneInstance=Standard.get(it.toLong());
-            
+            def oneInstance=Standard.get(it.toLong());
+            Standard.withNewSession {session->
+                StandardItem.findAllByStandard(oneInstance).each{item->
+                     item.delete(flush: true);
+                }
+            }
             oneInstance.delete(flush:true);
         }
         flash.message = message(code: 'default.deleted.message', args: [message(code: 'standard.label', default: 'Standard'), params.ids])
@@ -160,6 +163,19 @@ class StandardController {
         map.message=flash.message;
         render map as JSON;
     }
+    def deleteAllItem(){
+        def map=[:]
+        def list=params.ids.tokenize(',');
+        list.each{
+            def oneInstance=StandardItem.get(it.toLong());
+            oneInstance.delete(flush:true);
+        }
+        flash.message = message(code: 'default.deleted.message', args: [message(code: 'standard.label', default: 'Standard'), params.ids])
+        map.result=true;
+        map.message=flash.message;
+        render map as JSON;
+    }
+
     def importExel(){
         def map=[:];
         def file = request.getFile('file');

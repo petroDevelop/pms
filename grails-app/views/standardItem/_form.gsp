@@ -20,7 +20,7 @@
 		
 	</label>
 	<g:select name="type" id="standardItemType" class="form-control input-lg m-b-10"
-			  from="${standardItemInstance?.constraints.type.inList}" value="${standardItemInstance?.type}" valueMessagePrefix="standardItem.type" noSelection="['': '']"/>
+			  from="${standardItemInstance?.constraints.type.inList}" value="${standardItemInstance?.type}" valueMessagePrefix="standardItem.type" />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'name', 'error')} required">
@@ -36,7 +36,7 @@
 		<g:message code="standardItem.aim.label" default="Aim" />
 
 	</label>
-	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance?.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim" noSelection="['': '']"/>
+	<g:select name="aim" class="form-control input-lg m-b-10"  from="${standardItemInstance?.constraints.aim.inList}" value="${standardItemInstance?.aim}" valueMessagePrefix="standardItem.aim"  />
 </div>
 
 
@@ -115,12 +115,12 @@
 		</label>
 		<g:textField class="form-control input-sm m-b-10"  name="sopCode" maxlength="100" value="${standardItemInstance?.sopCode}"/>
 	</div>
-	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'manhour', 'error')} required">
+	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'manhour', 'error')}  ">
 		<label for="manhour">
 			<g:message code="standardItem.manhour.label" default="Manhour" />
-			<span class="required-indicator">*</span>
+
 		</label>
-		<g:field name="manhour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.manhour}" required=""/>
+		<g:field name="manhour" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.manhour}" />
 	</div>
 
 	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'accessory', 'error')} ">

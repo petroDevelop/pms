@@ -12,7 +12,7 @@ class StandardItem {
     //运转项标准范围值
     String range
     //检查周期    检查周期      B （班次） 7天
-    String checkType
+    String checkType='班次'
      //间隔日期 (单位天)
     int checkDays
     //执行周期 【运行项时为缺省值0】   (单位小时) //保养周期

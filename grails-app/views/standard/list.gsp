@@ -49,6 +49,28 @@
 					}
 				}
 			}
+			function deleteAllItem(i){
+				var selects=$('#standardItemTable'+i).bootstrapTable('getSelections');
+				if(selects.length>0){
+					var ids=new Array();
+					for(var i=0;i<selects.length;i++){
+						ids.push(selects[i].id);
+					}
+					var obj=new Object();
+					obj.ids=ids.join(",");
+					if(confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}')) {
+						$.post("${request.contextPath}/standard/deleteAllItem", obj,
+								function (data, textStatus) {
+									if (data.result) {
+										$('#alertSucess').removeClass('hide');
+										$('#standardItemTable'+i).bootstrapTable('refresh',[]);
+									} else {
+										$('#alertFault').removeClass('hide');
+									}
+								}, "json");
+					}
+				}
+			}
 			function newOne(){
 				$('#standardItemDiv').hide();
 				$('#standardForm').form('clear');
@@ -338,6 +360,10 @@
 															<span class="glyphicon glyphicon-plus"></span>
 															<g:message code="default.new.label" args="[g.message(code: 'standardItem.label', default: 'StandardItem')]" />
 														</button>
+														<button class="btn btn-default margin" type="button"  onclick="deleteAllItem(${i})" >
+															<span class="glyphicon glyphicon-trash"></span>
+															<g:message code="default.button.delete.label" default="Delete" />
+														</button>
 													</div>
 												<table id="standardItemTable${i}" data-toggle="table"
 													    data-cache="false"     data-toolbar="#toolbar${i}"
@@ -346,6 +372,7 @@
 													   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
 													<thead>
 													<tr>
+														<th data-field="nofield" data-checkbox="true"></th>
 														<th data-field="id"  data-sortable="true" ></th>
 														<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
 

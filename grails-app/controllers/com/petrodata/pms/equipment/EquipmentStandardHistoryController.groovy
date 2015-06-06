@@ -29,12 +29,16 @@ class EquipmentStandardHistoryController {
         if(!params.order) params.order ='desc'
         def allCount=EquipmentStandardHistory.createCriteria().count{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                equipment{
+                    ilike('name',"%${params.search}%");
+                }
             }
         }
         def allList=EquipmentStandardHistory.createCriteria().list{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                equipment{
+                    ilike('name',"%${params.search}%");
+                }
             }
             order(params.sort,params.order)
             maxResults(params.max.toInteger())

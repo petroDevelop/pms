@@ -30,7 +30,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:field name="lastOverhaulTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.lastOverhaulTime}" required=""/>
+		<g:field name="lastOverhaulTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance?.lastOverhaulTime}" required=""/>
 
 	</div>
 </div>
@@ -41,7 +41,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:field name="maintenanceInitTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.maintenanceInitTime}" required=""/>
+		<g:field name="maintenanceInitTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance?.maintenanceInitTime}" required=""/>
 
 	</div>
 </div>
@@ -52,7 +52,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:field name="runningTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.runningTime}" required=""/>
+		<g:field name="runningTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance?.runningTime}" required=""/>
 
 	</div>
 </div>
@@ -63,7 +63,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:field name="totalTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance.totalTime}" required=""/>
+		<g:field name="totalTime" class="form-control input-sm m-b-10"  type="number" value="${equipmentRunningInfoInstance?.totalTime}" required=""/>
 
 	</div>
 </div>

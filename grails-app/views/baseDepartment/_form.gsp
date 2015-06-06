@@ -19,17 +19,22 @@
 		<g:message code="baseDepartment.parent.label" default="Parent" />
 		
 	</label>
-<g:if test="params.from=='underTeamList' }">
-	<%
-		def currentUser=com.petrodata.pms.core.BaseUser.findByUsername(sec.username());
-	    %>
-	<br/>${currentUser.baseDepartment?.name}
+	<g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
+<sec:ifAnyGranted roles="ROLE_PROJECT">
 	<input type="hidden" name="parent.id" value="${currentUser.baseDepartment?.id}"/>
-</g:if>
-<g:else>
-	<g:select id="parent" name="parent.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id"
+	<input type="text"  class="form-control input-sm m-b-10" name="parentShow" value="${currentUser.baseDepartment?.name}" readonly disabled/>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_MANAGER,ROLE_ADMIN">
+	<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.list()}"/>
+	<g:if test="${params.from=='teamList'}">
+		<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.findAllByType('项目部节点',['sort':'name','order':'asc'])}"/>
+	</g:if>
+	<g:if test="${params.from=='projectList'}">
+		<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.findAllByParentIsNullAndType('公司节点',['sort':'name','order':'asc'])}"/>
+	</g:if>
+	<g:select id="parent" name="parent.id" from="${list}" optionKey="id"
 			  value="${baseDepartmentInstance?.parent?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
-</g:else>
+</sec:ifAnyGranted>
 </div>
 
 
@@ -43,8 +48,8 @@
 		if(params.from=='projectList'){type='项目部节点'}
 		if(params.from=='teamList'||params.from=='underTeamList'){type='小队节点'}
 	    %>
-	<br/>
-	${type}<input type="hidden" name="type" value="${type}"/>
+	 <input type="hidden" name="type" value="${type}"/>
+	<input type="text"  class="form-control input-sm m-b-10" name="typeShow" value="${type}" readonly disabled/>
 	<!--
 	<g:select name="type" id="type" class="form-control input-lg m-b-10"
 			  from="${baseDepartmentInstance?.constraints.type.inList}"
