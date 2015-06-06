@@ -1,5 +1,5 @@
 <li><a href="${request.contextPath}/baseDepartment/underTeamList"><span class="glyphicon glyphicon-th"></span> 下属小队管理</a></li>
-<li><a href="${request.contextPath}/baseUser/projecList"><span class="glyphicon glyphicon-stats"></span> 下属人员管理</a></li>
+<li><a href="${request.contextPath}/baseUser/projectList"><span class="glyphicon glyphicon-stats"></span> 下属人员管理</a></li>
 <li><a href="${request.contextPath}/equipment/projectList"><span class="glyphicon glyphicon-list-alt"></span> 下属设备管理</a></li>
 
 <li class="parent ">
