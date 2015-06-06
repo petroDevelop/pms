@@ -40,7 +40,8 @@
 </div>
 
 
-<div id="运行标准">
+<div id="运行检查标准">
+
 	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'range', 'error')} ">
 		<label for="range">
 			<g:message code="standardItem.range.label" default="Range" />
@@ -48,16 +49,8 @@
 		</label>
 		<g:textField class="form-control input-sm m-b-10"  name="range" maxlength="100" value="${standardItemInstance?.range}"/>
 	</div>
-	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'excuteCycle', 'error')} required">
-		<label for="excuteCycle">
-			<g:message code="standardItem.excuteCycle.label" default="Excute Cycle" />
-			<span class="required-indicator">*</span>
-		</label>
-		<g:field name="excuteCycle" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.excuteCycle}" required=""/>
-	</div>
 
-</div>
-<div id="检查标准">
+
 	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'checkType', 'error')} ">
 		<label for="checkType">
 			<g:message code="standardItem.checkType.label" default="Check Type" />
@@ -92,6 +85,14 @@
 	</div>
 </div>
 <div id="保养标准">
+
+	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'excuteCycle', 'error')} required">
+		<label for="excuteCycle">
+			<g:message code="standardItem.excuteCycle.label" default="Excute Cycle" />
+			<span class="required-indicator">*</span>
+		</label>
+		<g:field name="excuteCycle" class="form-control input-sm m-b-10"  type="number" value="${standardItemInstance?.excuteCycle}" required=""/>
+	</div>
 	<div class="fieldcontain ${hasErrors(bean: standardItemInstance, field: 'warningHour', 'error')} required">
 		<label for="warningHour">
 			<g:message code="standardItem.warningHour.label" default="Warning Hour" />

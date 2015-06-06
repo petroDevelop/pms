@@ -161,4 +161,15 @@ class BaseUserController {
         }
         render((map as JSON).toString());
     }
+    //项目部角色 下属人员
+    def projectList={
+        params.max = Math.min(max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        //[baseUserInstanceList: BaseUser.list(params), baseUserInstanceTotal: BaseUser.count()]
+        return []
+    }
+    def projectListJson={
+
+    }
 }

@@ -1,6 +1,8 @@
 package com.petrodata.pms.job
 
+import com.petrodata.pms.order.JobItem
 
+//保养项及大修项的定时任务
 class RepairJob {
     static triggers = {
         //半小时执行
@@ -21,6 +23,25 @@ class RepairJob {
                            //细化保养项
                            //细化大修项
 
+
+        if(standardItem.type=='保养标准'){
+            /*
+            1. 计算运行时间
+               1.1 从上次本设备的保养时间，若无则从开工时间算起，至当前时间，算每天的班次的工单数（若有本班次工单（工单数>0）,增加本班次的小时数）
+               再减去维修时间，为本设备的运行时间
+            2. 运行时间 与 保养周期
+                    当运行时间大于等于保养周期时，取模，若值小于x小时，则生成保养工单。
+            * */
+
+            def last=JobItem.findByStandardItemAndEquipment(standardItem,equipment,['sort':'id','order':'desc']);
+            if(last){
+                if(((new Date().time-last.dateCreated.time)/(1000*60*60)).intValue()>=standardItem.excuteCycle){
+                    //new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                }
+            }else{
+
+            }
+        }
 
     }
 }

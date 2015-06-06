@@ -3,7 +3,7 @@ package com.petrodata.pms.order
 import com.petrodata.pms.team.Position
 import com.petrodata.pms.team.Rotation
 
-//工单
+//检查项及运行项的工单
 class JobOrder {
     //班次
     Rotation rotation

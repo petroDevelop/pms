@@ -1,4 +1,4 @@
-<%@ page import="com.petrodata.pms.core.BaseDepartment" %>
+<%@ page import="com.petrodata.pms.core.BaseUser; com.petrodata.pms.core.BaseDepartment" %>
 
 
  <input type="hidden" name="from" value="${params.from}"/>
@@ -19,7 +19,17 @@
 		<g:message code="baseDepartment.parent.label" default="Parent" />
 		
 	</label>
-	<g:select id="parent" name="parent.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" value="${baseDepartmentInstance?.parent?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
+<g:if test="params.from=='underTeamList' }">
+	<%
+		def currentUser=com.petrodata.pms.core.BaseUser.findByUsername(sec.username());
+	    %>
+	<br/>${currentUser.baseDepartment?.name}
+	<input type="hidden" name="parent.id" value="${currentUser.baseDepartment?.id}"/>
+</g:if>
+<g:else>
+	<g:select id="parent" name="parent.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id"
+			  value="${baseDepartmentInstance?.parent?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
+</g:else>
 </div>
 
 
@@ -28,14 +38,22 @@
 		<g:message code="baseDepartment.type.label" default="Type" />
 
 	</label>
-
+	<%
+	    String type='';
+		if(params.from=='projectList'){type='项目部节点'}
+		if(params.from=='teamList'||params.from=='underTeamList'){type='小队节点'}
+	    %>
+	<br/>
+	${type}<input type="hidden" name="type" value="${type}"/>
+	<!--
 	<g:select name="type" id="type" class="form-control input-lg m-b-10"
 			  from="${baseDepartmentInstance?.constraints.type.inList}"
 			  value="${baseDepartmentInstance?.type}"
 			  valueMessagePrefix="baseDepartment.type"  />
+	-->
 </div>
 
-
+<g:if test="${params.from=='teamList' || params.from=='underTeamList' }">
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'isWorking', 'error')} ">
 	<label for="isWorking">
@@ -52,7 +70,24 @@
 	</label>
 	<g:textField class="form-control input-sm m-b-10"  name="reason" maxlength="100" value="${baseDepartmentInstance?.reason}"/>
 </div>
+</g:if>
+<g:else>
+	<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'children', 'error')} ">
+		<label for="children">
+			<g:message code="baseDepartment.children.label" default="Children" />
 
+		</label>
+
+		<ul class="one-to-many">
+			<g:each in="${baseDepartmentInstance?.children?}" var="c">
+				<li><g:link controller="baseDepartment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
+			</g:each>
+
+		</ul>
+
+	</div>
+
+</g:else>
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'baseUsers', 'error')} ">
 	<label for="baseUsers">
@@ -69,19 +104,5 @@
 
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'children', 'error')} ">
-	<label for="children">
-		<g:message code="baseDepartment.children.label" default="Children" />
-
-	</label>
-
-	<ul class="one-to-many">
-		<g:each in="${baseDepartmentInstance?.children?}" var="c">
-			<li><g:link controller="baseDepartment" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-		</g:each>
-
-	</ul>
-
-</div>
 
 

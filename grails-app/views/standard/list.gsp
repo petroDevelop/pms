@@ -62,13 +62,13 @@
 				$('#standardForm').form('load',data[index]);
 				//show standard item table
 				$('#standardItemDiv').show();
-				<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+				<g:each in="${['运行检查标准','保养标准','大修标准']}" status="i" var="tabOne">
 				$('#standardItemTable${i}').bootstrapTable('refresh', {url: '${request.contextPath}/standard/itemjson/'+id+'?type=${tabOne}'});
 				</g:each>
 			}
 			function editItemOne(index,id){
 				$('#standardItemForm').form('clear');
-				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				var array=new Array('运行检查标准','保养标准','大修标准');
 				for(var i=0;i<array.length;i++){
 					$('#'+array[i]).hide();
 					var data=$('#standardItemTable'+i).bootstrapTable('getData');
@@ -152,7 +152,7 @@
 				$('#catagoryShow').modal('show');
 			}
 			function newStandItem(type){
-				var array=new Array('运行标准','检查标准','保养标准','大修标准');
+				var array=new Array('运行检查标准','保养标准','大修标准');
 				for(var i=0;i<array.length;i++){
 					$('#'+array[i]).hide();
 					if(type==array[i]){
@@ -325,13 +325,13 @@
 									<div class="panel-body tabs">
 										<input type="hidden" id="selectType"/>
 										<ul class="nav nav-tabs">
-											<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+											<g:each in="${['运行检查标准','保养标准','大修标准']}" status="i" var="tabOne">
 												<li <g:if test="${i==0}">class="active"</g:if>><a href="#tab${i}" data-toggle="tab">${tabOne}</a></li>
 											</g:each>
 										</ul>
 
 										<div class="tab-content">
-											<g:each in="${['运行标准','检查标准','保养标准','大修标准']}" status="i" var="tabOne">
+											<g:each in="${['运行检查标准','保养标准','大修标准']}" status="i" var="tabOne">
 												<div class="tab-pane fade <g:if test="${i==0}">in active</g:if>" id="tab${i}">
 													<div  id="toolbar${i}">
 														<button class="btn btn-default margin " onclick="newStandItem('${tabOne}')" type="button" >

@@ -214,6 +214,9 @@
          <sec:ifAnyGranted roles="ROLE_MANAGER">
              <g:render template="/layouts/menu/manager"/>
          </sec:ifAnyGranted>
+         <sec:ifAnyGranted roles="ROLE_PROJECT">
+             <g:render template="/layouts/menu/project"/>
+         </sec:ifAnyGranted>
          <sec:ifAnyGranted roles="ROLE_CAPTAIN">
              <g:render template="/layouts/menu/captain"/>
          </sec:ifAnyGranted>
