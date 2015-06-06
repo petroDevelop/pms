@@ -8,7 +8,7 @@ import grails.converters.JSON
 class BaseUserController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: ["DELETE","GET","POST"]]
-
+    def springSecurityService
     def index() {
         redirect(action: "list", params: params)
     }
@@ -49,21 +49,23 @@ class BaseUserController {
     }
 
     def save() {
+         println params
         def baseUserInstance = new BaseUser(params)
         if (!baseUserInstance.save(flush: true)) {
-            render(view: "create", model: [baseUserInstance: baseUserInstance])
+            render(view: "create", model: [baseUserInstance: baseUserInstance,from:params.from])
             return
         }
-
+         println 234
         flash.message = message(code: 'default.created.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])
-        redirect(action: "list", id: baseUserInstance.id)
+       println 1111
+        redirect(action: params.from?:"list", id: baseUserInstance.id)
     }
 
     def show(String id) {
         def baseUserInstance = BaseUser.get(id)
         if (!baseUserInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -74,7 +76,7 @@ class BaseUserController {
         def baseUserInstance = BaseUser.get(id)
         if (!baseUserInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -85,7 +87,7 @@ class BaseUserController {
         def baseUserInstance = BaseUser.get(id)
         if (!baseUserInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
@@ -94,7 +96,7 @@ class BaseUserController {
                     baseUserInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                             [message(code: 'baseUser.label', default: 'BaseUser')] as Object[],
                             "Another user has updated this BaseUser while you were editing")
-                render(view: "edit", model: [baseUserInstance: baseUserInstance])
+                render(view: "edit", model: [baseUserInstance: baseUserInstance,from:params.from])
                 return
             }
         }
@@ -102,26 +104,26 @@ class BaseUserController {
         baseUserInstance.properties = params
 
         if (!baseUserInstance.save(flush: true)) {
-            render(view: "edit", model: [baseUserInstance: baseUserInstance])
+            render(view: "edit", model: [baseUserInstance: baseUserInstance,from:params.from])
             return
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])
-        redirect(action: "list", id: baseUserInstance.id)
+        redirect(action: params.from?:"list", id: baseUserInstance.id)
     }
 
     def delete(String id) {
         def baseUserInstance = BaseUser.get(id)
         if (!baseUserInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
             return
         }
 
         try {
             baseUserInstance.delete(flush: true)
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
-            redirect(action: "list")
+            redirect(action: params.from?:"list")
         }
         catch (DataIntegrityViolationException e) {
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), id])
@@ -170,6 +172,33 @@ class BaseUserController {
         return []
     }
     def projectListJson(){
-
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def departments=BaseDepartment.findAllByParent(currentUser.baseDepartment);
+        if(!departments){departments=[]}
+        departments<<currentUser.baseDepartment;
+        def allCount=BaseUser.createCriteria().count{
+            if(params.search){
+                ilike('username',"%${params.search}%");
+            }
+            'in'('baseDepartment',departments)
+        }
+        def allList=BaseUser.createCriteria().list{
+            if(params.search){
+                ilike('username',"%${params.search}%");
+            }
+            'in'('baseDepartment',departments)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
     }
 }

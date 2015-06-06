@@ -12,7 +12,7 @@
 				return str;
 			}
 			function editFormatter(value, row) {
-				var str='<a href="${request.contextPath}/baseUser/edit/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+				var str='<a href="${request.contextPath}/baseUser/edit/'+row.id+'?from=projectList"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
 			function nameFormatter(value, row) {
@@ -62,7 +62,7 @@
 				});
 			}
 			function newWindow(){
-				document.location.href="${createLink(controller: 'baseUser',action:'create')}";
+				document.location.href="${createLink(controller: 'baseUser',action:'create')}?from=projectList";
 			}
 		</script>
 	</head>
@@ -103,13 +103,13 @@
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-				<li class="active" ><g:message code="baseUser.label" default="BaseUser" /></li>
+				<li class="active" >下属用户管理</li>
 			</ol>
 		</div><!--/.row-->
 
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header"><g:message code="baseUser.label" default="BaseUser" /></h1>
+				<h1 class="page-header">下属用户管理</h1>
 			</div>
 		</div><!--/.row-->
 		<div class="alert bg-success hide" id="alertSucess" role="alert">
@@ -130,13 +130,10 @@
 				<div class="panel panel-default">
 					<g:form method="post">
 						<div class="panel-heading">
-							<g:message code="default.list.label" args="[entityName]" />
-							<div style="float: right">
-								<button class="btn btn-default margin" data-toggle="modal"
-										data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
-									<span class="glyphicon glyphicon-new-window"></span>
-									<g:message code="default.import.label" args="[entityName]" />
-								</button>
+							下属用户列表
+						</div>
+						<div class="panel-body">
+							<div  id="toolbar">
 
 								<button class="btn btn-default margin " onclick="newWindow()" type="button" >
 									<span class="glyphicon glyphicon-plus"></span>
@@ -147,15 +144,8 @@
 									<span class="glyphicon glyphicon-trash"></span>
 									<g:message code="default.button.delete.label" default="Delete" />
 								</button>
-
 							</div>
-						</div>
-						<div class="panel-body">
-							<!--	sidePagination="client"
-							                    data-method="post"
-								                data-query-params="postQueryParams"
-							                   	data-height="400"  data-page-list="[5, 10, 20, 50, 100, 200]"-->
-							<table id="baseUserTable" data-toggle="table" data-url="${request.contextPath}/baseUser/json"
+							<table id="baseUserTable" data-toggle="table" data-toolbar="#toolbar"  data-url="${request.contextPath}/baseUser/projectListJson"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
 								   data-select-item-name="checkIds" data-sort-name="username" data-sort-order="desc">

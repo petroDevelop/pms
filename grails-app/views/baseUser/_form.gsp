@@ -1,8 +1,11 @@
-<%@ page import="com.petrodata.pms.core.BaseUser" %>
+<%@ page import="com.petrodata.pms.core.BaseDepartment; com.petrodata.pms.core.BaseUser" %>
 
 
 
-
+<input type="hidden" name="from" value="${params.from}"/>
+<g:if test="${!baseUserInstance}">
+	<g:set var="baseUserInstance" value="${new com.petrodata.pms.core.BaseUser()}"/>
+</g:if>
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'username', 'error')} required">
 	<label for="username">
 		<g:message code="baseUser.username.label" default="Username" />
@@ -16,7 +19,7 @@
 		<g:message code="baseUser.password.label" default="Password" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField class="form-control input-sm m-b-10"  name="password" required="" value="${baseUserInstance?.password}"/>
+	<g:textField class="form-control input-sm m-b-10"  name="password" required=""  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'email', 'error')} required">
@@ -48,7 +51,14 @@
 		<g:message code="baseUser.baseDepartment.label" default="Base Department" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
+	<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.list()}"/>
+	<sec:ifAnyGranted roles="ROLE_PROJECT">
+		<g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
+		<g:set var="list" value="${[currentUser.baseDepartment]+(com.petrodata.pms.core.BaseDepartment.findAllByParent(currentUser.baseDepartment)?:[])}"/>
+	</sec:ifAnyGranted>
+	<g:select id="baseDepartment" name="baseDepartment.id"
+			  from="${list}" optionKey="id" required=""
+			  value="${baseUserInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'position', 'error')} ">

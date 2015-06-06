@@ -63,10 +63,10 @@
             } else if (cp.inList) {
 				sb << '<g:select name="' << property.name << '"'
 				sb << ' class="form-control input-lg m-b-10" '
-				sb << ' from="${' << "${domainInstance}.constraints.${property.name}.inList" << '}"'
+				sb << ' from="${' << "${domainInstance}?.constraints?.${property.name}?.inList" << '}"'
 				if (isRequired()) sb << ' required=""'
 				sb << ' value="${' << "${domainInstance}?.${property.name}" << '}"'
-				sb << ' valueMessagePrefix="' << "${domainClass.propertyName}.${property.name}" << '"'
+				sb << ' valueMessagePrefix="' << "${domainClass.propertyName}?.${property.name}" << '"'
 				sb << renderNoSelection(property)
 				sb << '/>'
 			} else {
@@ -87,7 +87,7 @@
 				sb << ' name="' << property.name << '"'
 				if (cp.maxSize) sb << ' maxlength="' << cp.maxSize << '"'
 				if (!cp.editable) sb << ' readonly="readonly"'
-				if (cp.matches) sb << ' pattern="${' << "${domainInstance}.constraints.${property.name}.matches" << '}"'
+				if (cp.matches) sb << ' pattern="${' << "${domainInstance}?.constraints?.${property.name}?.matches" << '}"'
 				if (isRequired()) sb << ' required=""'
 				sb << ' value="${' << "${domainInstance}?.${property.name}" << '}"'
 				sb << '/>'
@@ -165,7 +165,7 @@
             if (property.type == Byte) {
                 return "<g:select name=\"${property.name}\" from=\"\${-128..127}\" class=\"range\" value=\"\${fieldValue(bean: ${domainInstance}, field: '${property.name}')}\" />"
             } else {
-                return "<g:field type=\"number\" name=\"${property.name}\" value=\"\${${domainInstance}.${property.name}}\" />"
+                return "<g:field type=\"number\" name=\"${property.name}\" value=\"\${${domainInstance}?.${property.name}}\" />"
             }
         } else {
 	        def sb = new StringBuilder()
@@ -179,10 +179,10 @@
 				sb << '/>'
             } else if (cp.inList) {
                 sb << '<g:select name="' << property.name << '"'
- 				sb << ' from="${' << "${domainInstance}.constraints.${property.name}.inList" << '}"'
+ 				sb << ' from="${' << "${domainInstance}?.constraints?.${property.name}?.inList" << '}"'
 				if (isRequired()) sb << ' required=""'
 				sb << ' value="${' << "fieldValue(bean: ${domainInstance}, field: '${property.name}')" << '}"'
-				sb << ' valueMessagePrefix="' << "${domainClass.propertyName}.${property.name}" << '"'
+				sb << ' valueMessagePrefix="' << "${domainClass.propertyName}?.${property.name}" << '"'
 				sb << renderNoSelection(property)
 				sb << '/>'
             } else {
