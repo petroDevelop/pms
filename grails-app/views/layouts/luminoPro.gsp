@@ -95,6 +95,12 @@
     .input-group-addon {
         color:white;
     }
+    select {
+        background-color:transparent;
+    }
+    select option{
+        background-color:transparent;
+    }
     </style>
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />

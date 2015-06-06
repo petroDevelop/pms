@@ -54,6 +54,9 @@ class BaseUserController {
             render(view: "create", model: [baseUserInstance: baseUserInstance,from:params.from])
             return
         }
+        if(params.roles){
+            BaseUserBaseRole.create(baseUserInstance,BaseRole.findByAuthority(params.roles),true);
+        }
         flash.message = message(code: 'default.created.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])
         redirect(action: params.from?:"list", id: baseUserInstance.id)
     }
@@ -104,7 +107,10 @@ class BaseUserController {
             render(view: "edit", model: [baseUserInstance: baseUserInstance,from:params.from])
             return
         }
-
+        if(params.roles){
+            BaseUserBaseRole.removeAll(baseUserInstance)
+            BaseUserBaseRole.create(baseUserInstance,BaseRole.findByAuthority(params.roles),true);
+        }
         flash.message = message(code: 'default.updated.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])
         redirect(action: params.from?:"list", id: baseUserInstance.id)
     }
@@ -197,5 +203,52 @@ class BaseUserController {
         map.total=allCount;
         map.rows=allList;
         render map as JSON;
+    }
+
+    //队长角色 下属人员
+    def teamList(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        //[baseUserInstanceList: BaseUser.list(params), baseUserInstanceTotal: BaseUser.count()]
+        return []
+    }
+    def teamListJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def allCount=BaseUser.createCriteria().count{
+            if(params.search){
+                ilike('username',"%${params.search}%");
+            }
+            eq('baseDepartment',currentUser.baseDepartment)
+        }
+        def allList=BaseUser.createCriteria().list{
+            if(params.search){
+                ilike('username',"%${params.search}%");
+            }
+            eq('baseDepartment',currentUser.baseDepartment)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
+    }
+
+    def myTeam(){
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def baseDeparment=currentUser.baseDepartment;
+        if(request.method.toString().toUpperCase()=='POST' && baseDeparment){
+            baseDeparment.isWorking=params.isWorking;
+            baseDeparment.reason=params.reason;
+            baseDeparment.save(flush: true);
+        }
+        return ['baseDepartment':baseDeparment]
     }
 }

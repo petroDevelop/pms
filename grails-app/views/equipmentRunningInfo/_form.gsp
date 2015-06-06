@@ -18,7 +18,7 @@
 		<g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Job Order Init Date" />
 		<span class="required-indicator">*</span>
 	</label>
-	<div class="col-sm-10">
+	<div class="col-sm-10" style="color: #003bb3">
 		<g:datePicker name="jobOrderInitDate" precision="day"  value="${equipmentRunningInfoInstance?.jobOrderInitDate}"  />
 
 	</div>

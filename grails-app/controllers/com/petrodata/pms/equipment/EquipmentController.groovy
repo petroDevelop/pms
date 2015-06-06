@@ -1,5 +1,6 @@
 package com.petrodata.pms.equipment
 
+import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseUser
 import org.springframework.dao.DataIntegrityViolationException
 import com.petrodata.poi.ExcelReadBuilder
@@ -173,5 +174,78 @@ class EquipmentController {
             map.message="file is empty!";
         }
         render "${(map as JSON).toString()}";
+    }
+
+    //项目部角色 下属设备
+    def projectList(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        return []
+    }
+    def projectListJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def departments=BaseDepartment.findAllByParent(currentUser.baseDepartment);
+        if(!departments){departments=[]}
+        //departments<<currentUser.baseDepartment;
+        def allCount=Equipment.createCriteria().count{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            'in'('baseDepartment',departments)
+        }
+        def allList=BaseUser.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            'in'('baseDepartment',departments)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
+    }
+
+    //队长角色 下属设备
+    def teamList(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        return []
+    }
+    def teamListJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def allCount=Equipment.createCriteria().count{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            eq('baseDepartment',currentUser.baseDepartment)
+        }
+        def allList=BaseUser.createCriteria().list{
+            if(params.search){
+                ilike('name',"%${params.search}%");
+            }
+            eq('baseDepartment',currentUser.baseDepartment)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def map=[:];
+        map.total=allCount;
+        map.rows=allList;
+        render map as JSON;
     }
 }
