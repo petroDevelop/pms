@@ -24,4 +24,7 @@ class JobOrder {
         jobDate(nullable: false)
         type(size: 0..50,nullable: true,inList: ['运行检查','保养','大修'])
     }
+    String toString(){
+        return "${jobDate.format('yyyy-MM-dd')} ${rotation.name} ${position.name} ${type}类工单"
+    }
 }

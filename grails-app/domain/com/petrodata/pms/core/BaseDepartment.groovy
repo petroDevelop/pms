@@ -17,6 +17,13 @@ class BaseDepartment {
     Date workTime
     //停工原因  只记录当前停工原因
     String reason
+    //地理位置
+    List location
+    //纬度
+    Double latitude
+    //经度
+    Double longtitude
+
     static belongsTo =[parent:BaseDepartment]
     static hasMany = [children:BaseDepartment,baseUsers: BaseUser]
     static constraints = {
@@ -25,6 +32,9 @@ class BaseDepartment {
         reason(size: 0..100,nullable: true,blank: true)
         type(size:0..50,nullable: true,inList: ['','公司节点','设备处节点','项目部节点','小队节点'])
         workTime(nullable: true)
+        location(nullable:true)
+        latitude(nullable:true)
+        longtitude(nullable:true)
     }
     String toString(){
         return name;
