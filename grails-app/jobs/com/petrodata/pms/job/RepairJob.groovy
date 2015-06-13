@@ -15,7 +15,7 @@ class RepairJob {
     def description = "Example job with Simple Trigger"
 
     def execute(){
-        //print "Job run!"
+        //保养工单需要先判断是否存在设备保养，再生产jobOrder和item
         //遍历所有小队（isRunning）
 
             //下属班次遍历
@@ -43,13 +43,13 @@ class RepairJob {
                 // 数工单数
                 def count=JobOrder.countByRotationAndPositionAndDateCreatedBetween(rotation,position,last.jobOrder.dateCreated,new Date());
                 if(count*24>=standardItem.excuteCycle){  //设备运行信息
-                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem,type:'保养').save(flush: true);
                 }
             }else{
                 //if(((new Date().time-team.workTime.time)/(1000*60*60)).intValue()>=standardItem.excuteCycle){}
                 def count=JobOrder.countByRotationAndPositionAndDateCreatedBetween(rotation,position,team.workTime,new Date());
                 if(count*24>=standardItem.excuteCycle){  //设备运行信息
-                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem,type:'保养').save(flush: true);
                 }
             }
         }

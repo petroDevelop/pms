@@ -44,7 +44,7 @@ class CheckJob {
             JobOrder.withTransaction {status ->
                 try{
                     PositionBaseUser.executeQuery("select pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[team]).each{position->
-                        def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime);
+                        def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
                         if(jobOrder.save(flush: true)){
                             def ecList=[];
                             position.eptCatas.each{ec->
