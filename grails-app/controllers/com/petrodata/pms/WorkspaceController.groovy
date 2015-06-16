@@ -10,6 +10,7 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class WorkspaceController {
     def springSecurityService
     def index() {}
+    def index1() {}
     def myTask(){
         def currentUser= BaseUser.get(springSecurityService.currentUser.id)
         def baseDepartment=currentUser.baseDepartment;
