@@ -10,8 +10,8 @@
     <script src="${request.contextPath}/js/Highcharts-4.1.6/js/modules/exporting.js"></script>
 
     <script src="${request.contextPath}/js/Highmaps-1.1.6/js/modules/map.js"></script>
-    <script src="http://code.highcharts.com/mapdata/custom/world-highres.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/proj4js/2.2.2/proj4.js"></script>
+    <script src="${request.contextPath}/js/Highmaps-1.1.6/mapData/world-highres.js"></script>
+    <script src="${request.contextPath}/js/Highmaps-1.1.6/relayJs/proj4.js"></script>
     <script type="text/javascript">
         $(function () {
 
