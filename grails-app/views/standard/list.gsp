@@ -41,6 +41,9 @@
 								function (data, textStatus) {
 									if (data.result) {
 										$('#alertSucess').removeClass('hide');
+										setTimeout(function(){
+											$('#alertSucess').addClass('hide');
+										}, 2000);
 										$('#standardTable').bootstrapTable('refresh',[]);
 									} else {
 										$('#alertFault').removeClass('hide');
@@ -63,6 +66,9 @@
 								function (data, textStatus) {
 									if (data.result) {
 										$('#alertSucess').removeClass('hide');
+										setTimeout(function(){
+											$('#alertSucess').addClass('hide');
+										}, 2000);
 										$('#standardItemTable'+i).bootstrapTable('refresh',[]);
 									} else {
 										$('#alertFault').removeClass('hide');
@@ -116,6 +122,9 @@
 						$('#myModal').modal('hide');
 						if (data.result){
 							$('#alertSucess').removeClass('hide');
+							setTimeout(function(){
+								$('#alertSucess').addClass('hide');
+							}, 2000);
 							$('#standardTable').bootstrapTable('refresh',[]);
 						}else{
 							$('#alertFault').removeClass('hide');

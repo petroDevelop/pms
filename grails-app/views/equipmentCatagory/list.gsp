@@ -36,6 +36,9 @@
 								function (data, textStatus) {
 									if (data.result) {
 										$('#alertSucess').removeClass('hide');
+										setTimeout(function(){
+											$('#alertSucess').addClass('hide');
+										}, 2000);
 										$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
 									} else {
 										$('#alertFault').removeClass('hide');
@@ -71,6 +74,9 @@
 						$('#importModal').modal('hide');
 						if (data.result){
 							$('#alertSucess').removeClass('hide');
+							setTimeout(function(){
+								$('#alertSucess').addClass('hide');
+							}, 2000);
 							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
 						}else{
 							$('#alertFault').removeClass('hide');
@@ -84,6 +90,9 @@
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
 						if (data.result){
 							$('#alertSucess').removeClass('hide');
+							setTimeout(function(){
+								$('#alertSucess').addClass('hide');
+							}, 2000);
 							$('#box-edit').closest('.box').toggleClass('active');
 							$('#box-list').closest('.box').addClass('active');
 							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);

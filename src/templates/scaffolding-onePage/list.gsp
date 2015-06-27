@@ -37,6 +37,9 @@
 								function (data, textStatus) {
 									if (data.result) {
 										\$('#alertSucess').removeClass('hide');
+										setTimeout(function(){
+											\$('#alertSucess').addClass('hide');
+										}, 2000);
 										\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);
 									} else {
 										\$('#alertFault').removeClass('hide');
@@ -67,6 +70,9 @@
 						\$('#myModal').modal('hide');
 						if (data.result){
 							\$('#alertSucess').removeClass('hide');
+							setTimeout(function(){
+								\$('#alertSucess').addClass('hide');
+							}, 2000);
 							\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);
 						}else{
 							\$('#alertFault').removeClass('hide');
@@ -80,6 +86,9 @@
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
 						if (data.result){
 						    \$('#alertSucess').removeClass('hide');
+							setTimeout(function(){
+								\$('#alertSucess').addClass('hide');
+							}, 2000);
 							\$('#box-edit').closest('.box').toggleClass('active');
 							\$('#box-list').closest('.box').addClass('active');
 							\$('#${domainClass.propertyName}Table').bootstrapTable('refresh',[]);

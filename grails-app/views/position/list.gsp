@@ -37,6 +37,9 @@
 							function (data, textStatus) {
 								if (data.result) {
 									$('#alertSucess').removeClass('hide');
+									setTimeout(function(){
+										$('#alertSucess').addClass('hide');
+									}, 2000);
 									$('#positionTable').bootstrapTable('refresh',[]);
 								} else {
 									$('#alertFault').removeClass('hide');
@@ -54,6 +57,9 @@
 					$('#myModal').modal('hide');
 					if (data.result){
 						$('#alertSucess').removeClass('hide');
+						setTimeout(function(){
+							$('#alertSucess').addClass('hide');
+						}, 2000);
 						$('#positionTable').bootstrapTable('refresh',[]);
 					}else{
 						$('#alertFault').removeClass('hide');
@@ -71,6 +77,9 @@
 						function (data, textStatus) {
 							if (data.result) {
 								$('#alertSucess').removeClass('hide');
+								setTimeout(function(){
+									$('#alertSucess').addClass('hide');
+								}, 2000);
 								$('#positionTable').bootstrapTable('refresh',[]);
 							} else {
 								$('#alertFault').removeClass('hide');

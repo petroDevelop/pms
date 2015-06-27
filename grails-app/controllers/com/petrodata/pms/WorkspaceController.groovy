@@ -23,7 +23,7 @@ class WorkspaceController {
                 String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(myRotations[0].timeZone));
                 Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
                 def jobOrders=JobOrder.findAllByPositionInListAndRotationInListAndJobDate(myPostions,myRotations,localTime);
-                return [jobOrders:jobOrders]
+                return [jobOrders:jobOrders.sort{it.id}]
             }else{
                 return [jobOrders:[]]
                 //render '尚未分配班次'

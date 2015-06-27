@@ -37,6 +37,9 @@
 								function (data, textStatus) {
 									if (data.result) {
 										$('#alertSucess').removeClass('hide');
+										setTimeout(function(){
+											$('#alertSucess').addClass('hide');
+										}, 2000);
 										$('#positionBaseUserTable').bootstrapTable('refresh',[]);
 									} else {
 										$('#alertFault').removeClass('hide');
