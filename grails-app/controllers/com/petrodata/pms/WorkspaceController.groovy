@@ -2,10 +2,12 @@ package com.petrodata.pms
 
 import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseUser
+import com.petrodata.pms.order.JobItem
 import com.petrodata.pms.order.JobOrder
 import com.petrodata.pms.team.Position
 import com.petrodata.pms.team.PositionBaseUser
 import com.petrodata.pms.team.Rotation
+import grails.converters.JSON
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class WorkspaceController {
     def springSecurityService
@@ -34,7 +36,22 @@ class WorkspaceController {
             render '不是小队队员角色'
         }
     }
-    def detailTask(){
-
+    def getJobItemJson(){
+        def list=[];
+        def jobItems=JobItem.findAllByJobOrder(JobOrder.get(params.id),['sort':'id','order':'asc']);
+        jobItems.each{
+            def map=[:]
+            map.id=it?.id;
+            map.equipment=it?.equipment?.name;
+            map.standardItem=it?.standardItem?.name;
+            map.checker=it?.checker?.username;
+            map.checkDate=it?.checkDate?.format("yyyy-MM-dd");
+            map.status=it?.status;
+            map.isWrong=it?.isWrong;
+            map.checkResult=it?.checkResult;
+            map.remark=it?.remark;
+            list<<map;
+        }
+        render list as JSON;
     }
 }

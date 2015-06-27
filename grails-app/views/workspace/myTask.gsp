@@ -14,7 +14,9 @@
             }else{
                 return '正常';
             }
-
+        }
+        function changeItemTable(id){
+            $('#jobItemTable').bootstrapTable('refresh',{url:"${request.contextPath}/workspace/getJobItemJson/"+id});
         }
     </script>
 </head>
@@ -67,7 +69,7 @@
                         </div>
                         <div class="pull-right action-buttons">
 
-                            <a href="#" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil" ></span></a>
+                            <a href="#" onclick="changeItemTable(1)" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil" ></span></a>
 
                             <a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
                             <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
@@ -103,7 +105,7 @@
                 <div class="panel-body">
 
                     <table id="jobItemTable" data-toolbar="#toolbar" data-toggle="table"
-                            data-cache="false" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
+                            data-cache="false" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="false"
                            data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
                            data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
                         <thead>

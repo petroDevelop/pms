@@ -101,6 +101,9 @@
     select option{
         background-color:transparent;
     }
+    .dropdown-menu li label {
+        color: #0000cc;
+    }
     </style>
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />
