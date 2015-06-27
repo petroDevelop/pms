@@ -12,7 +12,11 @@ class EquipmentCatagoryController {
     def index() {
         redirect(action: "list", params: params)
     }
-
+    def getEquipmentCatalogTreeJson(){
+        def map=[:]
+        map.html=EquipmentCatagory.generatorTreeDiv();
+        render map as JSON;
+    }
     def list(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         //[equipmentCatagoryInstanceList: EquipmentCatagory.list(params), equipmentCatagoryInstanceTotal: EquipmentCatagory.count()]

@@ -9,8 +9,12 @@
             return str;
         }
         function isWrongFormatter(value, row,index) {
-            var str='<a href="javascript:void(0);" class="box-switcher" data-switch="box-edit" onclick="showOne('+index+','+row.id+')" >'+row.name+'</a>';
-            return str;
+            if(value){
+                return '不正常';
+            }else{
+                return '正常';
+            }
+
         }
     </script>
 </head>

@@ -89,6 +89,10 @@
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
 						if (data.result){
+							$.post("${request.contextPath}/equipmentCatagory/getEquipmentCatalogTreeJson", null,
+									function (data, textStatus) {
+										$('#ecTreeDiv').html(data.html);
+									}, "json");
 							$('#alertSucess').removeClass('hide');
 							setTimeout(function(){
 								$('#alertSucess').addClass('hide');
@@ -115,7 +119,7 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title">select EquipmentCatagory</h4>
 				</div>
-				<div class="modal-body" style="max-height: 500px;overflow: auto">
+				<div class="modal-body" id="ecTreeDiv" style="max-height: 500px;overflow: auto">
 					${EquipmentCatagory.generatorTreeDiv()}
 				</div>
 				<div class="modal-footer">
