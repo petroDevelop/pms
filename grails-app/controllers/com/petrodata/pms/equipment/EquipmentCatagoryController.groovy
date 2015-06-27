@@ -101,24 +101,35 @@ class EquipmentCatagoryController {
         */
     def update(Long id, Long version) {
         def map=[:];
-        def equipmentCatagoryInstance = EquipmentCatagory.get(id)
+        EquipmentCatagory equipmentCatagoryInstance = EquipmentCatagory.get(id)
         if (!equipmentCatagoryInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), id])
             map.result=false;
             map.message=flash.message;
             //redirect(action: "list")
-            //return
+            return map;
         }
-        if (version != null) {
-            if (equipmentCatagoryInstance.version > version) {
-                equipmentCatagoryInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
-                        [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')] as Object[],
-                        "Another user has updated this EquipmentCatagory while you were editing")
-                map.result=false;
-                map.message=equipmentCatagoryInstance.errors.allErrors.toString();
-                //render(view: "edit", model: [equipmentCatagoryInstance: equipmentCatagoryInstance])
-                //return
-            }
+//        if (version != null) {
+//            if (equipmentCatagoryInstance.version > version) {
+//                equipmentCatagoryInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
+//                        [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')] as Object[],
+//                        "Another user has updated this EquipmentCatagory while you were editing")
+//                map.result=false;
+//                map.message=equipmentCatagoryInstance.errors.allErrors.toString();
+//                //render(view: "edit", model: [equipmentCatagoryInstance: equipmentCatagoryInstance])
+//                return map;
+//            }
+//        }
+
+        if(equipmentCatagoryInstance.id == params["parent.id"].toString().toLong())
+        {
+            equipmentCatagoryInstance.errors.rejectValue("parent", "equipmentCatagory.parent.error.label",
+                    [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')] as Object[],
+                    "Property Parent was wrong")
+            map.result=false;
+//            map.message=equipmentCatagoryInstance.errors.allErrors.toing();
+            map.message=message(code:'equipmentCatagory.parent.error.label',args:[]);
+            return map;
         }
 
         equipmentCatagoryInstance.properties = params
@@ -127,7 +138,7 @@ class EquipmentCatagoryController {
             map.result=false;
             map.message=equipmentCatagoryInstance.errors.allErrors.toString();
             //render(view: "edit", model: [equipmentCatagoryInstance: equipmentCatagoryInstance])
-            //return
+            return map;
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory'), equipmentCatagoryInstance.id])

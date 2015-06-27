@@ -97,6 +97,7 @@
 							$('#box-list').closest('.box').addClass('active');
 							$('#equipmentCatagoryTable').bootstrapTable('refresh',[]);
 						}else{
+							$("#faultMessage").html(data.message);
 							$('#alertFault').removeClass('hide');
 						}
 					}
@@ -202,7 +203,9 @@
 
 			<div class="alert bg-danger hide" id="alertFault" role="alert">
 				<span class="glyphicon glyphicon-exclamation-sign"> </span>
+				<span id="faultMessage">
 					<g:message code="default.fault.label" default="Fault" />
+				</span>
 
 				<a href="#" class="pull-right" onclick="$('#alertFault').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
 			</div>
