@@ -6,7 +6,20 @@
     <title><g:message code="default.create.label" args="[entityName]" /></title>
     <script>
         function changeInfo(){
-
+            var obj = {};
+            obj.isWorking = $("#isWorking").val();
+            obj.reason = $("#reason").val();
+            $.post("${request.contextPath}/baseUser/changeMyTeamInfo", obj,
+                    function (data, textStatus) {
+                        if (data.result) {
+                            $('#alertSucess').removeClass('hide');
+                            setTimeout(function(){
+                                $('#alertSucess').addClass('hide');
+                            }, 2000);
+                        } else {
+                            $('#alertFault').removeClass('hide');
+                        }
+                    }, "json");
         }
     </script>
 </head>
@@ -18,6 +31,20 @@
     </ol>
 </div><!--/.row-->
 
+<div class="alert bg-success hide" id="alertSucess" role="alert">
+    <span class="glyphicon glyphicon-check"></span>
+    <g:message code="default.sucess.label" default="Sucess" />    <!--  data-dismiss="alert" -->
+    <a href="#" class="pull-right" onclick="$('#alertSucess').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
+</div>
+
+<div class="alert bg-danger hide" id="alertFault" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign"> </span>
+    <span id="faultMessage">
+        <g:message code="default.fault.label" default="Fault" />
+    </span>
+
+    <a href="#" class="pull-right" onclick="$('#alertFault').addClass('hide');"><span class="glyphicon glyphicon-remove"></span></a>
+</div>
 
 <div class="row">
     <div class="col-lg-12 form-group">

@@ -251,4 +251,19 @@ class BaseUserController {
         }
         return ['baseDepartment':baseDeparment]
     }
+
+    def changeMyTeamInfo()
+    {
+        def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def baseDeparment=currentUser.baseDepartment;
+        if(baseDeparment){
+            baseDeparment.isWorking=params.isWorking;
+            baseDeparment.reason=params.reason;
+            baseDeparment.save(flush: true);
+        }
+        def map=[:];
+        map.result = true;
+        map.message = "保存成功";
+        render map as JSON;
+    }
 }
