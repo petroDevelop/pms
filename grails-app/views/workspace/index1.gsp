@@ -8,8 +8,14 @@
     <script src="${request.contextPath}/js/Highcharts-4.1.6/js/highcharts-3d.js"></script>
     <script src="${request.contextPath}/js/Highcharts-4.1.6/js/highcharts-more.js"></script>
     <script src="${request.contextPath}/js/Highcharts-4.1.6/js/modules/exporting.js"></script>
+
+    <script src="${request.contextPath}/js/maps/highmaps.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/mapdata/countries/cn/custom/cn-all-sar-taiwan.js"></script>
     <script type="text/javascript">
         $(function () {
+
+
             var chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'container0',
@@ -202,6 +208,19 @@
 <div class="row">
     <div class="col-lg-12">
         <h1 class="page-header">首页</h1>
+    </div>
+</div><!--/.row-->
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Bar Chart</div>
+            <div class="panel-body">
+                <div class="canvas-wrapper">
+                    <div id="containerMap" ></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div><!--/.row-->
 <div class="row">
