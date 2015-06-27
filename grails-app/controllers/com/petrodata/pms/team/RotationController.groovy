@@ -1,10 +1,13 @@
 package com.petrodata.pms.team
 
 import com.petrodata.pms.core.BaseDepartment
+import com.petrodata.pms.core.BaseUser
 import grails.converters.JSON
 import org.springframework.dao.DataIntegrityViolationException
 
 class RotationController {
+
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: ["DELETE", "GET", "POST"]]
 
@@ -23,12 +26,19 @@ class RotationController {
         if(!params.offset) params.offset ='0'
         if(!params.sort) params.sort ='id'
         if(!params.order) params.order ='desc'
+        BaseUser loginUser = springSecurityService.getCurrentUser();
         def ecCount=Rotation.createCriteria().count{
+            baseDepartment{
+                eq("id",loginUser.baseDepartment.id)
+            }
             if(params.search){
                 ilike('name',"%${params.search}%")
             }
         }
         def ecList=Rotation.createCriteria().list{
+            baseDepartment{
+                eq("id",loginUser.baseDepartment.id)
+            }
             if(params.search){
                 ilike('name',"%${params.search}%")
             }
@@ -43,7 +53,11 @@ class RotationController {
     }
 
     def create() {
-        [rotationInstance: new Rotation(params)]
+        BaseUser loginUser = springSecurityService?.currentUser;
+        Rotation rotation = new Rotation(params);
+        rotation.creator = loginUser;
+        rotation.baseDepartment = loginUser?.baseDepartment;
+        [rotationInstance: rotation]
     }
 
     def save() {

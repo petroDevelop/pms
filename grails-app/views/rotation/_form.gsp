@@ -1,5 +1,9 @@
-<%@ page import="com.petrodata.pms.team.Rotation" %>
-
+<%@ page import="com.petrodata.pms.team.Rotation;com.petrodata.pms.core.BaseUser" %>
+<%
+	org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+	def loginUser = BaseUser.findByUsername(sec.username());
+	def userList=BaseUser.findAllByBaseDepartmentAndIdNotEqual(loginUser?.baseDepartment,loginUser.id);
+%>
 <div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'name', 'error')} required">
 	<label for="name">
 		<g:message code="rotation.name.label" default="Name" />
@@ -8,7 +12,7 @@
 	<g:textField class="form-control input-sm m-b-10"  name="name" maxlength="100" required="" value="${rotationInstance?.name}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'baseDepartment', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'baseDepartment', 'error')} required" hidden>
 	<label for="baseDepartment">
 		<g:message code="rotation.baseDepartment.label" default="Base Department" />
 		<span class="required-indicator">*</span>
@@ -20,7 +24,23 @@
 	<label for="baseUsers">
 		<g:message code="rotation.baseUsers.label" default="Base Users" />
 	</label>
-	<g:select name="baseUsers" from="${com.petrodata.pms.core.BaseUser.list()}" multiple="multiple" optionKey="id" size="5" value="${rotationInstance?.baseUsers*.id}" class="form-control input-lg m-b-10"/>
+
+	<ul>
+		<g:each in="${userList}" var="ec" status="i">
+			<li><input type="checkbox" name="baseUsers" id="baseUsers${i}"
+				<g:if test="${positionInstance?.baseUsers?.contains(ec)}">
+					checked="true"
+				</g:if>
+					   value="${ec?.id}" /><label for="baseUsers${i}">${ec?.username}</label></li>
+			<g:if test="${positionInstance?.baseUsers?.contains(ec)}">
+				<script>
+					(function() {
+						document.getElementById(baseUsers${i}").click();
+					});
+				</script>
+			</g:if>
+		</g:each>
+	</ul>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'beginTime', 'error')} required">
@@ -76,7 +96,7 @@
 	<g:checkBox name="chargeDailyCheck" value="${rotationInstance?.chargeDailyCheck}" />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'creator', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: rotationInstance, field: 'creator', 'error')} required" hidden>
 	<label for="creator">
 		<g:message code="rotation.creater.label" default="Creator" />
 		<span class="required-indicator">*</span>

@@ -46,21 +46,6 @@
 			}
 		}
 
-		function importExcel(){
-			$('#excelForm').form('submit', {
-				url:'${request.contextPath}/rotation/importExel',
-				success: function(data){
-					var data = eval('(' + data + ')'); // change the JSON string to javascript object
-					$('#myModal').modal('hide');
-					if (data.result){
-						$('#alertSucess').removeClass('hide');
-						$('#rotationTable').bootstrapTable('refresh',[]);
-					}else{
-						$('#alertFault').removeClass('hide');
-					}
-				}
-			});
-		}
 		function newWindow(){
 			document.location.href="${createLink(controller: 'rotation',action:'create')}";
 		}
@@ -86,10 +71,7 @@
 				</form>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-default margin" onclick="importExcel()" type="button">
-					<span class="glyphicon glyphicon-check"></span>
-					<g:message code="default.submit.label" default="Submit"/>
-				</button>
+
 				<button class="btn btn-default margin" data-dismiss="modal" type="button">
 					<span class="glyphicon glyphicon-circle-arrow-down"></span>
 					<g:message code="default.close.label" default="Close"/>
@@ -133,12 +115,6 @@
 					</div>
 					<div class="panel-body">
 						<div  id="toolbar">
-							<button class="btn btn-default margin" data-toggle="modal"
-									data-target="#myModal" type="button"> <!--$('#myModal').modal('show');-->
-								<span class="glyphicon glyphicon-new-window"></span>
-								<g:message code="default.import.label" args="[entityName]" />
-							</button>
-
 							<button class="btn btn-default margin " onclick="newWindow()" type="button" >
 								<span class="glyphicon glyphicon-plus"></span>
 								<g:message code="default.new.label" args="[entityName]" />
@@ -160,9 +136,6 @@
 								%{--<th data-field="id"  data-sortable="true" ></th>--}%
 								<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >
 									${message(code: 'rotation.name.label', default: 'Name')}
-								</th>
-								<th data-field="baseDepartment">
-									${message(code: 'rotation.baseDepartment.label', default: 'Base Department')}
 								</th>
 								<th data-field="beginTime"  data-sortable="true">${message(code: 'rotation.beginTime.label', default: 'Begin Time')}</th>
 								<th data-field="endTime"  data-sortable="true">${message(code: 'rotation.endTime.label', default: 'End Time')}</th>

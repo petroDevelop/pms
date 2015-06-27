@@ -16,12 +16,12 @@
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/rotation/teamList">
+            <a class="" href="${request.contextPath}/rotation/list">
                 <span class="glyphicon glyphicon-list-alt"></span> 班次管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/position/teamList">
+            <a class="" href="${request.contextPath}/positionBaseUser/list">
                 <span class="glyphicon glyphicon-pencil"></span> 岗位管理
             </a>
         </li>
