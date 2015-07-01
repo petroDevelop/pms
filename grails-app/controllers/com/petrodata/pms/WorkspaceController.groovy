@@ -54,4 +54,18 @@ class WorkspaceController {
         }
         render list as JSON;
     }
+    def processJobItemJson(){
+        def jobItem=JobItem.get(params.id);
+        def map=[:]
+        try{
+           if(jobItem.status=='已查'){
+               map.result=false;
+               map.message="该工单项已被处理";
+           }
+        }catch (e){
+            map.result=false;
+            map.message=false;
+        }
+        render map as JSON;
+    }
 }

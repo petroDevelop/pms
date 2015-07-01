@@ -12,7 +12,7 @@ import com.petrodata.pms.team.Rotation
 class CheckJob {
     static triggers = {
         //半小时执行
-        simple name: 'mySimpleTrigger', repeatCount:-1 ,startDelay: 3000, repeatInterval: 1800000l // execute job once in 30 minutes  30*60*1000l
+        simple name: 'mySimpleTrigger', repeatCount:0,startDelay: 0, repeatInterval: 3*60*1000 // execute job once in 30 minutes  30*60*1000l
         //cron name: 'myTrigger', cronExpression: "0 0 6 * * ?"
         //custom name:'customTrigger', triggerClass:MyTriggerClass, myParam:myValue, myAnotherParam:myAnotherValue
     }
@@ -20,11 +20,14 @@ class CheckJob {
     def description = "检查和运行工单的执行任务"
 
     def execute(){
+        log.error "execute once=${new Date().time}"
         //遍历所有小队（isRunning）
         BaseDepartment.findAllByIsWorkingAndType(true,'小队节点').eachWithIndex{team,i->
+            println "${team.name}"
             //下属班次遍历
             def equipmentCatagories=EquipmentCatagory.list();
             Rotation.findAllByBaseDepartment(team).each{rotation->
+                  println "${rotation.name}"
                   Date serverTime=new Date();
                   String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone));
                   Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
@@ -49,17 +52,20 @@ class CheckJob {
                             def ecList=[];
                             position.eptCatas.each{ec->
                                 def list=getSubChild(equipmentCatagories,ec,[]);
-                                ecList=ecList+list;
+                                ecList=(ecList+list).unique().collect {EquipmentCatagory.get(it)};
                             }
                             //获取小队所有设备
-                            def equipments=Equipment.findAllByBaseDepartmentAndEquipmentCatagoryInList(team,ecList.unique());
+                            def equipments=Equipment.findAllByBaseDepartmentAndEquipmentCatagoryInList(team,ecList);
                             equipments.each{equipment->
+                                println "细化运行项"
                                 //细化运行项
                                 equipment.standard.standardItems.each{standardItem->
+                                    println standardItem.name
 /*                                    if(standardItem.type=='运行标准'){
                                          new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
                                     }*/
                                     if(standardItem.type=='运行检查标准'){
+                                        println standardItem.type
                                         if(standardItem.checkType=='班次'&& rotation.chargeDailyCheck){
                                             new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
                                         }
@@ -86,11 +92,13 @@ class CheckJob {
 
                         }else{
                             //@todo 保持事务一致
+                            println jobOrder.errors.allErrors
                         }
                     }
 
                 }catch(e){
                     status.setRollbackOnly();
+                    e.printStackTrace()
                 }
             }
         }

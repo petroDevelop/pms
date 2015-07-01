@@ -5,7 +5,10 @@
     <meta name="layout" content="luminoPro">
     <script>
         function operatorFormatter(value, row,index) {
-            var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+            var str='';
+            if(row.status=='未查'){
+                str='<button class="btn btn-default margin"  onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;处理</button></a>';
+            }
             return str;
         }
         function isWrongFormatter(value, row,index) {
@@ -22,6 +25,7 @@
 </head>
 
 <body>
+
 
 <div class="row">
     <ol class="breadcrumb">
@@ -138,6 +142,38 @@
 </div><!--/.row-->
 
 
+<div class="modal fade panel" id="jboItemModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                &times;
+                </button>
+                <h4 class="modal-title" id="importModalLabel">
+                    处理工单项
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form  role="form" id="excelForm"  class="easyui-form"
+                       enctype="multipart/form-data" method="post" >
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default margin" onclick="processJobItem()" type="button">
+                    <span class="glyphicon glyphicon-check"></span>
+                    <g:message code="default.submit.label" default="Submit"/>
+                </button>
+
+                <button class="btn btn-default margin" data-dismiss="modal" type="button">
+                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                    <g:message code="default.close.label" default="Close"/>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 
 </body>
