@@ -10,7 +10,7 @@ class BaseUser { //implements org.activiti.engine.identity.User {
 	String email
 	String firstName
 	String lastName
-
+	String skin //
 
 	transient springSecurityService
 
@@ -39,6 +39,7 @@ class BaseUser { //implements org.activiti.engine.identity.User {
 		lastName blank: false
 		baseDepartment nullable: false;
 		position  nullable: true;
+		skin size: 0..50,nullable: true,blank:true
 	}
 
 	static mapping = {

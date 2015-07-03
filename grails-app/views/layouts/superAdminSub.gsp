@@ -1,5 +1,4 @@
 <%@ page import="org.springframework.web.servlet.support.RequestContextUtils" %>
-<%@ page import="com.bjrxht.cms.Catalog; com.bjrxht.cms.Site; com.basic.core.BaseUser" %>
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie9"><![endif]-->
 <head>

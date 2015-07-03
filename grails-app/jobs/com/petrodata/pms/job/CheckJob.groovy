@@ -12,15 +12,19 @@ import com.petrodata.pms.team.Rotation
 class CheckJob {
     static triggers = {
         //半小时执行
-        simple name: 'mySimpleTrigger', repeatCount:0,startDelay: 0, repeatInterval: 3*60*1000 // execute job once in 30 minutes  30*60*1000l
-        //cron name: 'myTrigger', cronExpression: "0 0 6 * * ?"
+        //simple name: 'mySimpleTrigger', repeatCount:-1l,startDelay: 30*1000l, repeatInterval: 30*60*1000l // execute job once in 30 minutes  30*60*1000l
+        cron name: '30MinuteTrigger', cronExpression: "0 * * * * ?" // "0 0/30 * * * ?"
         //custom name:'customTrigger', triggerClass:MyTriggerClass, myParam:myValue, myAnotherParam:myAnotherValue
     }
     def group = "OrderGroup"
     def description = "检查和运行工单的执行任务"
-
+    static int executeNumber;
+    static long executeTime=System.currentTimeMillis();
     def execute(){
-        log.error "execute once=${new Date().time}"
+        executeNumber++;
+        log.error "${executeNumber}=${System.currentTimeMillis()-executeTime}"
+        executeTime=System.currentTimeMillis();
+
         //遍历所有小队（isRunning）
         BaseDepartment.findAllByIsWorkingAndType(true,'小队节点').eachWithIndex{team,i->
             println "${team.name}"

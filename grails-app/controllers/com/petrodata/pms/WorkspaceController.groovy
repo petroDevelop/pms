@@ -68,4 +68,14 @@ class WorkspaceController {
         }
         render map as JSON;
     }
+    def changeSkin(){
+        if(params.skin){
+            def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+            currentUser.skin=params.skin;
+            currentUser.save(flush: true);
+        }
+        def map=[:]
+        map.result=true;
+        render map as JSON;
+    }
 }

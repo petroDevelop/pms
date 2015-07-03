@@ -1,6 +1,8 @@
+<%@ page import="com.petrodata.pms.core.BaseUser" %>
 <!DOCTYPE html>
 <html>
 <head>
+    <g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><g:layoutTitle/></title>
@@ -112,7 +114,7 @@
     <script src="${request.contextPath}/js/html5checkandradio/js/svgcheckbx.js"></script>
 </head>
 
-<body class="skin-1">
+<body class="${currentUser.skin?:'skin-1'}">
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -204,6 +206,7 @@
                     </ul>
                 </li>
                 <!-- end warning-->
+                <li class="dropdown"><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 登出</a></li>
             </ul>
         </div>
     </div><!-- /.container-fluid -->
@@ -289,6 +292,11 @@
         $('body').on('click', '.template-skins > a', function(e){
             e.preventDefault();
             var skin = $(this).attr('data-skin');
+            var object={};
+            object.skin=skin;
+            $.get("${request.contextPath}/workspace/changeSkin", object,
+                    function (data, textStatus) {
+                    }, "json");
             $('body').attr('class', function(i, v){
                 var classes = v.split(' ');
                 for(var i=0;i<classes.length;i++){
