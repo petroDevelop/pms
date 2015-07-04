@@ -110,6 +110,7 @@ class RotationController {
 
     def edit(Long id) {
         def rotationInstance = Rotation.get(id)
+        print(rotationInstance.baseUsers)
         if (!rotationInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'rotation.label', default: 'Rotation'), id])
             redirect(action: "list")

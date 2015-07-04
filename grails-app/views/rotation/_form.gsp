@@ -26,16 +26,16 @@
 	</label>
 
 	<ul>
-		<g:each in="${userList}" var="ec" status="i">
+		<g:each in="${userList}" var="userIt" status="i">
 			<li><input type="checkbox" name="baseUsers" id="baseUsers${i}"
-				<g:if test="${positionInstance?.baseUsers?.contains(ec)}">
+				<g:if test="${rotationInstance?.baseUsers?.contains(userIt)}">
 					checked="true"
 				</g:if>
-					   value="${ec?.id}" /><label for="baseUsers${i}">${ec?.username}</label></li>
-			<g:if test="${positionInstance?.baseUsers?.contains(ec)}">
+					   value="${userIt?.id}" /><label for="baseUsers${i}">${userIt?.username}</label></li>
+			<g:if test="${rotationInstance?.baseUsers?.contains(userIt)}">
 				<script>
 					(function() {
-						document.getElementById(baseUsers${i}").click();
+						setTimeout(document.getElementById("baseUsers${i}").click(),300);
 					});
 				</script>
 			</g:if>
