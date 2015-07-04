@@ -33,7 +33,7 @@ class Rotation {
         beginTime(size: 0..5)
         endTime(size: 0..5)
         checkTime(size: 0..5)
-        timeZone(size: 0..10)
+        timeZone(size: 0..200)
     }
 
     def beforeInsert() {
@@ -45,11 +45,12 @@ class Rotation {
     }
 
     static listTimeZone() {
-        def lt = []
+        return TimeZone.availableIDs.toList().sort{it};
+/*        def lt = []
         (-12..12).each {
             lt << "UTC" + (it >= 0 ? "+"+it : it)
         }
-        return lt
+        return lt*/
     }
 
     static listHours() {

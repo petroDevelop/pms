@@ -21,24 +21,24 @@ class CheckJob {
     static int executeNumber;
     static long executeTime=System.currentTimeMillis();
     def execute(){
-        executeNumber++;
-        log.error "${executeNumber}=${System.currentTimeMillis()-executeTime}"
-        executeTime=System.currentTimeMillis();
+        //executeNumber++;
+        //log.error "${executeNumber}=${System.currentTimeMillis()-executeTime}"
+        //executeTime=System.currentTimeMillis();
 
         //遍历所有小队（isRunning）
         BaseDepartment.findAllByIsWorkingAndType(true,'小队节点').eachWithIndex{team,i->
-            println "${team.name}"
             //下属班次遍历
             def equipmentCatagories=EquipmentCatagory.list();
             Rotation.findAllByBaseDepartment(team).each{rotation->
-                  println "${rotation.name}"
+                  //服务器当前时间
                   Date serverTime=new Date();
                   String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone));
                   Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
+                  println  serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotation.timeZone))
                   Date teamTime=Date.parse('yyyy-MM-dd HH:mm',serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotation.timeZone)));
                   Date rotationTime=Date.parse('yyyy-MM-dd HH:mm',"${rotationDay} ${rotation.checkTime}");
                 //当前时间（当地时差），与班次的工单生产时间匹配，若时差在半小时内并且工单表中无此工单
-                  if((teamTime.time-rotationTime.time).abs()<1800000l){ //1000*60*30
+                  if(Long.parseLong(teamTime.time-rotationTime.time+"").abs().longValue()<1800000l){ //1000*60*30
                       //@todo 同步此操作
                       generateJobOrder(rotation,localTime,equipmentCatagories,team);
                   }
@@ -46,6 +46,7 @@ class CheckJob {
         }
     }
     private synchronized static void generateJobOrder(Rotation rotation,Date localTime,List<EquipmentCatagory> equipmentCatagories,BaseDepartment team) {
+        println "in"
         if(JobOrder.countByRotationAndJobDate(rotation,localTime)==0){
             //   则为此班次生成工单（本小队所有岗位一份）
             JobOrder.withTransaction {status ->
@@ -56,22 +57,21 @@ class CheckJob {
                             def ecList=[];
                             position.eptCatas.each{ec->
                                 def list=getSubChild(equipmentCatagories,ec,[]);
-                                ecList=(ecList+list).unique().collect {EquipmentCatagory.get(it)};
+                                ecList=(ecList+list).unique();
                             }
+                            ecList=ecList.collect {EquipmentCatagory.get(it)};
                             //获取小队所有设备
-                            def equipments=Equipment.findAllByBaseDepartmentAndEquipmentCatagoryInList(team,ecList);
+                            def equipments=Equipment.findAllByInDepartmentAndEquipmentCatagoryInList(team,ecList);
                             equipments.each{equipment->
-                                println "细化运行项"
                                 //细化运行项
                                 equipment.standard.standardItems.each{standardItem->
-                                    println standardItem.name
-/*                                    if(standardItem.type=='运行标准'){
-                                         new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
-                                    }*/
                                     if(standardItem.type=='运行检查标准'){
+                                        println "***********************"
                                         println standardItem.type
                                         if(standardItem.checkType=='班次'&& rotation.chargeDailyCheck){
-                                            new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                            def jobItem=new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem);
+                                            jobItem.save(flush: true);
+                                            println jobItem.errors.allErrors
                                         }
                                         if(standardItem.checkType=='天数'&& standardItem.checkDays>0){
                                             if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){

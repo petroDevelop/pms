@@ -23,7 +23,7 @@ class WorkspaceController {
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MEMBER")){
             def myPostions=PositionBaseUser.findAllByBaseUser(currentUser)?.position;
             def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
-            def myRotations=rotations?.findAll{it.baseUsers?.contains{currentUser}} ;
+            def myRotations=rotations?.findAll{it.baseUsers?.contains(currentUser)} ;
             if(myRotations.size()>0){
                 Date serverTime=new Date();
                 String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(myRotations[0].timeZone));
@@ -56,7 +56,10 @@ class WorkspaceController {
             map.remark=it?.remark;
             list<<map;
         }
-        render list as JSON;
+        def map=[:]
+        map.total=list.size();
+        map.rows=list;
+        render map as JSON;
     }
     def processJobItemJson(){
         def jobItem=JobItem.get(params.id);

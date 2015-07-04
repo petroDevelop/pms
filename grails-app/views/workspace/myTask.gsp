@@ -49,47 +49,15 @@
                     <li class="todo-list-item">
                         <div class="checkbox">
                             <input type="checkbox" id="checkbox-${i}" />
-                            <label for="checkbox-${i}">${jobDate.format('yyyy-MM-dd')} ${rotation.name} ${position.name} ${type}类工单</label>
+                            <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                         </div>
                         <div class="pull-right action-buttons">
-                            <a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
+                            <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+                            <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                             <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                         </div>
                     </li>
                     </g:each>
-
-                    <li class="todo-list-item">
-                        <div class="checkbox">
-                            <input type="checkbox" id="checkbox-3" checked readonly disabled />
-                            <label for="checkbox-3">3333333</label>
-                        </div>
-
-                    </li>
-                    <li class="todo-list-item">
-                        <div class="checkbox">
-                            <input type="checkbox" id="checkbox-4" />
-                            <label for="checkbox-4">2015年6月13日 早班--电器岗位的工单</label>
-                        </div>
-                        <div class="pull-right action-buttons">
-
-                            <a href="#" onclick="changeItemTable(1)" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil" ></span></a>
-
-                            <a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-                            <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-                        </div>
-                    </li>
-                    <li class="todo-list-item">
-                        <div class="checkbox">
-                            <input type="checkbox" id="checkbox-5"  />
-                            <label for="checkbox-5">2015年6月13日 早班--井架岗位的工单</label>
-                        </div>
-                        <div class="pull-right action-buttons">
-                            <a href="#"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>
-                            <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-                        </div>
-                    </li>
                 </ul>
             </div>
             <div class="panel-footer">
