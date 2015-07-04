@@ -132,7 +132,7 @@ class WorkspaceController {
     }
 
     def mapDataJson(){
-
+        /*
         [
                 {
                     "abbrev":"AL",
@@ -170,6 +170,6 @@ class WorkspaceController {
                     "capital":"no where",
                     "z":100
                 }
-        ]
+        ]*/
     }
 }

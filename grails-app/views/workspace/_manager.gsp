@@ -9,7 +9,219 @@
 <script src="${request.contextPath}/js/Highmaps-1.1.6/relayJs/proj4.js"></script>
 <script type="text/javascript">
     $(function () {
+        /**
+         * Dark theme for Highcharts JS
+         * @author Torstein Honsi
+         */
 
+// Load the fonts
+        Highcharts.createElement('link', {
+            href: '//fonts.googleapis.com/css?family=Unica+One',
+            rel: 'stylesheet',
+            type: 'text/css'
+        }, null, document.getElementsByTagName('head')[0]);
+
+        Highcharts.theme = {
+            colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
+                "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
+            chart: {
+                backgroundColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                    stops: [
+                        [0, '#2a2a2b'],
+                        [1, '#3e3e40']
+                    ]
+                },
+                style: {
+                    fontFamily: "'Unica One', sans-serif"
+                },
+                plotBorderColor: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase',
+                    fontSize: '20px'
+                }
+            },
+            subtitle: {
+                style: {
+                    color: '#E0E0E3',
+                    textTransform: 'uppercase'
+                }
+            },
+            xAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+
+                    }
+                }
+            },
+            yAxis: {
+                gridLineColor: '#707073',
+                labels: {
+                    style: {
+                        color: '#E0E0E3'
+                    }
+                },
+                lineColor: '#707073',
+                minorGridLineColor: '#505053',
+                tickColor: '#707073',
+                tickWidth: 1,
+                title: {
+                    style: {
+                        color: '#A0A0A3'
+                    }
+                }
+            },
+            tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                style: {
+                    color: '#F0F0F0'
+                }
+            },
+            plotOptions: {
+                series: {
+                    dataLabels: {
+                        color: '#B0B0B3'
+                    },
+                    marker: {
+                        lineColor: '#333'
+                    }
+                },
+                boxplot: {
+                    fillColor: '#505053'
+                },
+                candlestick: {
+                    lineColor: 'white'
+                },
+                errorbar: {
+                    color: 'white'
+                }
+            },
+            legend: {
+                itemStyle: {
+                    color: '#E0E0E3'
+                },
+                itemHoverStyle: {
+                    color: '#FFF'
+                },
+                itemHiddenStyle: {
+                    color: '#606063'
+                }
+            },
+            credits: {
+                style: {
+                    color: '#666'
+                }
+            },
+            labels: {
+                style: {
+                    color: '#707073'
+                }
+            },
+
+            drilldown: {
+                activeAxisLabelStyle: {
+                    color: '#F0F0F3'
+                },
+                activeDataLabelStyle: {
+                    color: '#F0F0F3'
+                }
+            },
+
+            navigation: {
+                buttonOptions: {
+                    symbolStroke: '#DDDDDD',
+                    theme: {
+                        fill: '#505053'
+                    }
+                }
+            },
+
+            // scroll charts
+            rangeSelector: {
+                buttonTheme: {
+                    fill: '#505053',
+                    stroke: '#000000',
+                    style: {
+                        color: '#CCC'
+                    },
+                    states: {
+                        hover: {
+                            fill: '#707073',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        },
+                        select: {
+                            fill: '#000003',
+                            stroke: '#000000',
+                            style: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                },
+                inputBoxBorderColor: '#505053',
+                inputStyle: {
+                    backgroundColor: '#333',
+                    color: 'silver'
+                },
+                labelStyle: {
+                    color: 'silver'
+                }
+            },
+
+            navigator: {
+                handles: {
+                    backgroundColor: '#666',
+                    borderColor: '#AAA'
+                },
+                outlineColor: '#CCC',
+                maskFill: 'rgba(255,255,255,0.1)',
+                series: {
+                    color: '#7798BF',
+                    lineColor: '#A6C7ED'
+                },
+                xAxis: {
+                    gridLineColor: '#505053'
+                }
+            },
+
+            scrollbar: {
+                barBackgroundColor: '#808083',
+                barBorderColor: '#808083',
+                buttonArrowColor: '#CCC',
+                buttonBackgroundColor: '#606063',
+                buttonBorderColor: '#606063',
+                rifleColor: '#FFF',
+                trackBackgroundColor: '#404043',
+                trackBorderColor: '#404043'
+            },
+
+            // special colors for some of the
+            legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
+            background2: '#505053',
+            dataLabelsColor: '#B0B0B3',
+            textColor: '#C0C0C0',
+            contrastTextColor: '#F0F0F3',
+            maskColor: 'rgba(255,255,255,0.3)'
+        };
+
+// Apply the theme
+        Highcharts.setOptions(Highcharts.theme);
         // Prepare demo data
         var data = [
             {
@@ -901,20 +1113,36 @@
                 backgroundColor:'white'
             },
             title: {
-                text: 'Chart rotation demo'
+                text: '项目部分类统计'
                 ,style:{color:'white'}
-            },
-            subtitle: {
-                text: 'Test options by dragging the sliders below'
             },
             plotOptions: {
                 column: {
                     depth: 25
                 }
             },
+            xAxis:{
+                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas','Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+            },
             series: [{
+                name:'aaaa',
                 data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-            }]
+            },
+                {
+                    name:'vvv',
+                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                }
+                ,
+                {
+                    name:'bb',
+                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                }
+                ,
+                {
+                    name:'dd',
+                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+                }
+            ]
         });
 
         // Add mouse events for rotation
@@ -1013,61 +1241,51 @@
                 enabled:false
             },
             chart: {
-                polar: true,
-                backgroundColor: 'rgba(0,0,0,0)'
+                type: 'pie',
+                backgroundColor: 'rgba(0,0,0,0)',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                }
             },
             legend:{
                 backgroundColor:'white'
             },
             title: {
-                text: 'Highcharts Polar Chart'
+                text: 'Browser market shares at a specific website, 2014'
                 ,style:{color:'white'}
             },
-
-            pane: {
-                startAngle: 0,
-                endAngle: 360
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
             },
-
-            xAxis: {
-                tickInterval: 45,
-                min: 0,
-                max: 360,
-                labels: {
-                    formatter: function () {
-                        return this.value + '°';
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    depth: 35,
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
                     }
                 }
             },
-
-            yAxis: {
-                min: 0
-            },
-
-            plotOptions: {
-                series: {
-                    pointStart: 0,
-                    pointInterval: 45
-                },
-                column: {
-                    pointPadding: 0,
-                    groupPadding: 0
-                }
-            },
-
             series: [{
-                type: 'column',
-                name: 'Column',
-                data: [8, 7, 6, 5, 4, 3, 2, 1],
-                pointPlacement: 'between'
-            }, {
-                type: 'line',
-                name: 'Line',
-                data: [1, 2, 3, 4, 5, 6, 7, 8]
-            }, {
-                type: 'area',
-                name: 'Area',
-                data: [1, 8, 2, 7, 3, 6, 4, 5]
+                type: 'pie',
+                name: 'Browser share',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['Others',   0.7]
+                ]
             }]
         });
     });
@@ -1125,7 +1343,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Bar Chart</div>
+            <div class="panel-heading">分类统计</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="container0" ></div>
@@ -1138,7 +1356,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">Pie Chart</div>
+            <div class="panel-heading">工单比例</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="container1" ></div>
@@ -1148,7 +1366,7 @@
     </div>
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">Doughnut Chart</div>
+            <div class="panel-heading">设备比例</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="container2" ></div>
