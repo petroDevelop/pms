@@ -49,7 +49,7 @@ class WorkspaceController {
             map.equipment=it?.equipment?.name;
             map.standardItem=it?.standardItem?.name;
             map.checker=it?.checker?.username;
-            map.checkDate=it?.checkDate?.format("yyyy-MM-dd");
+            map.checkDate=it?.checkDate?.format('yyyy-MM-dd',TimeZone.getTimeZone(it?.jobOrder?.rotation?.timeZone));
             map.status=it?.status;
             map.isWrong=it?.isWrong;
             map.checkResult=it?.checkResult;
@@ -61,13 +61,35 @@ class WorkspaceController {
         map.rows=list;
         render map as JSON;
     }
-    def processJobItemJson(){
+    def jobItemProcess(){
         def jobItem=JobItem.get(params.id);
         def map=[:]
         try{
            if(jobItem.status=='已查'){
                map.result=false;
                map.message="该工单项已被处理";
+           }else{
+               JobItem.withTransaction {status->
+                   try{
+                       def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+                       jobItem.status='已查';
+                       jobItem.isWrong=params.isWrong;
+                       jobItem.checker=currentUser;
+                       jobItem.checkDate=new Date();
+                       jobItem.save(flush: true);
+                       def jobOrder=jobItem.jobOrder;
+                       map.parentId=jobOrder.id;
+                       map.allFinish=false;
+                       if(JobItem.countByJobOrderAndStatus(jobOrder,'未查')==0){
+                           jobOrder.isFinish=true;
+                           jobOrder.save(flush: true)
+                           map.allFinish=true;
+                       }
+                       map.result=true;
+                   }catch (e){
+                       status.setRollbackOnly()
+                   }
+               }
            }
         }catch (e){
             map.result=false;

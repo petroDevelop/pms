@@ -7,11 +7,35 @@
         function operatorFormatter(value, row,index) {
             var str='';
             if(row.status=='未查'){
-                str='<button class="btn btn-default margin"  onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;处理</button></a>';
+                str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
+                str+='&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger margin"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
             }
             return str;
         }
+        function oneProcess(status,index,id){
+            var obj=new Object();
+            obj.id=id;
+            obj.isWrong=status;
+            $.post("${request.contextPath}/workspace/jobItemProcess", obj,
+                    function (data, textStatus) {
+                        if (data.result){
+                            $('#alertSucess').removeClass('hide');
+                            setTimeout(function(){
+                                $('#alertSucess').addClass('hide');
+                            }, 2000);
+                            if(data.allFinish){
+                                document.location.href='myTask';
+                            }
+                            $('#jobItemTable').bootstrapTable('refresh',{url:"${request.contextPath}/workspace/getJobItemJson/"+data.parentId});
+                        }else{
+                            $('#alertFault').removeClass('hide');
+                        }
+                    }, "json");
+        }
         function isWrongFormatter(value, row,index) {
+            if(row.status=='未查'){
+                return '';
+            }
             if(value){
                 return '不正常';
             }else{
@@ -47,15 +71,24 @@
                 <ul class="todo-list">
                     <g:each in="${jobOrders}" var="jobOrder" status="i">
                     <li class="todo-list-item">
-                        <div class="checkbox">
-                            <input type="checkbox" id="checkbox-${i}" />
-                            <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
-                        </div>
-                        <div class="pull-right action-buttons">
-                            <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
-                            <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
-                            <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
-                        </div>
+                        <g:if test="${jobOrder.isFinish}">
+                            <div class="checkbox">
+                                <input type="checkbox" readonly disabled checked id="checkbox-${i}" />
+                                <label  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                            </div>
+                        </g:if>
+                        <g:else>
+                            <div class="checkbox">
+                                <input type="checkbox"  readonly disabled  id="checkbox-${i}" />
+                                <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                            </div>
+                            <div class="pull-right action-buttons">
+                                <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
+                                <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                            </div>
+                        </g:else>
+
                     </li>
                     </g:each>
                 </ul>
@@ -75,14 +108,20 @@
                      工单详情
                 </div>
                 <div class="panel-body">
+                    <div id="toolbar">
+                        <button class="btn btn-default margin" onclick="document.location.href='myTask';"  type="button">
+                            <span class="glyphicon glyphicon-new-window"></span>
+                            返回
+                        </button>
 
+                    </div>
                     <table id="jobItemTable" data-toolbar="#toolbar" data-toggle="table"
                             data-cache="false" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="false"
                            data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
                            data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
                         <thead>
                         <tr>
-                            <th data-field="nofield" data-checkbox="true"></th>
+                            <!--<th data-field="nofield" data-checkbox="true"></th>-->
                             <th data-field="equipment" data-sortable="true"  >设备</th>
 
                             <th data-field="standardItem" data-sortable="true" >检查标准</th>
@@ -93,9 +132,10 @@
                             <th data-field="checkDate" data-sortable="true" >检查日期</th>
 
                             <th data-field="status" data-sortable="true" >检查状态</th>
+                            <!--
                             <th data-field="checkResult" data-sortable="true" >检查描述</th>
                             <th data-field="remark" data-sortable="true" >备注</th>
-
+                             -->
                             <th data-field="name" data-formatter="operatorFormatter">操作</th>
 
 
