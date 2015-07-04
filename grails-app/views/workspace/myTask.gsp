@@ -7,8 +7,8 @@
         function operatorFormatter(value, row,index) {
             var str='';
             if(row.status=='未查'){
-                str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
-                str+='&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-danger margin"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
+                //str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
+                str='<button class="btn btn-danger margin"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
             }
             return str;
         }
@@ -42,8 +42,27 @@
                 return '正常';
             }
         }
+        var currentJobOrderId;
         function changeItemTable(id){
+            currentJobOrderId=id;
             $('#jobItemTable').bootstrapTable('refresh',{url:"${request.contextPath}/workspace/getJobItemJson/"+id});
+        }
+
+        function finishAllItem(){
+            var obj={};
+            obj.id=currentJobOrderId;
+            $.post("${request.contextPath}/workspace/finishAllItem", obj,
+                    function (data, textStatus) {
+                        if (data.result){
+                            $('#alertSucess').removeClass('hide');
+                            setTimeout(function(){
+                                $('#alertSucess').addClass('hide');
+                            }, 2000);
+                            document.location.href='myTask';
+                        }else{
+                            $('#alertFault').removeClass('hide');
+                        }
+                    }, "json");
         }
     </script>
 </head>
@@ -106,14 +125,17 @@
             <g:form method="post">
                 <div class="panel-heading">
                      工单详情
+                    <button class="btn btn-default margin" onclick="document.location.href='myTask';"  type="button">
+                        <span class="glyphicon glyphicon-new-window"></span>
+                        返回
+                    </button>
                 </div>
                 <div class="panel-body">
                     <div id="toolbar">
-                        <button class="btn btn-default margin" onclick="document.location.href='myTask';"  type="button">
-                            <span class="glyphicon glyphicon-new-window"></span>
-                            返回
+                        <button class="btn btn-default margin" onclick="finishAllItem()"  type="button">
+                            <span class="glyphicon glyphicon-check"></span>
+                            执行
                         </button>
-
                     </div>
                     <table id="jobItemTable" data-toolbar="#toolbar" data-toggle="table"
                             data-cache="false" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="false"
@@ -121,7 +143,7 @@
                            data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
                         <thead>
                         <tr>
-                            <!--<th data-field="nofield" data-checkbox="true"></th>-->
+                            <th data-field="nofield" data-checkbox="true"></th>
                             <th data-field="equipment" data-sortable="true"  >设备</th>
 
                             <th data-field="standardItem" data-sortable="true" >检查标准</th>

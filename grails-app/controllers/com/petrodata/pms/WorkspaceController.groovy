@@ -107,4 +107,27 @@ class WorkspaceController {
         map.result=true;
         render map as JSON;
     }
+    def finishAllItem(){
+        def map=[:]
+        map.result=false;
+        def jobOrder=JobOrder.get(params.id);
+        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+        JobOrder.withTransaction {status->
+           try{
+               JobItem.findAllByJobOrder(jobOrder).each{
+                   if(it.status=='未查'){
+                       it.status='已查';
+                       it.checker=currentUser;
+                       it.checkDate=new Date();
+                       it.save(flush: true);
+                   }
+               }
+               jobOrder.isFinish=true;
+               map.result=true;
+           }catch (e){
+               status.setRollbackOnly()
+           }
+        }
+        render map as JSON;
+    }
 }

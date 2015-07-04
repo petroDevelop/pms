@@ -1127,7 +1127,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading">Bar Chart</div>
+            <div class="panel-heading">小队分布图</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="containerMap" ></div>

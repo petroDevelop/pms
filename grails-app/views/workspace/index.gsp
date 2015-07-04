@@ -9,54 +9,19 @@
 
 <div class="row">
     <ol class="breadcrumb">
-        <li><a href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
 
     </ol>
 </div><!--/.row-->
 
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">首页</h1>
-    </div>
-</div><!--/.row-->
-<div class="row">
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">New Orders</div>
-            <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">Comments</div>
-            <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">New Users</div>
-            <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xs-6 col-md-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">Visitors</div>
-            <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!--/.row-->
+<sec:ifAnyGranted roles="ROLE_MANAGER">
+    <g:render template="manager"/>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_PROJECT">
+    <g:render template="project"/>
+</sec:ifAnyGranted>
+<sec:ifAnyGranted roles="ROLE_CAPTAIN">
+    <g:render template="captain"/>
+</sec:ifAnyGranted>
 
 
 </body>
