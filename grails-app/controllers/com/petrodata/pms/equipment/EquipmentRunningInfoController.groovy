@@ -29,12 +29,16 @@ class EquipmentRunningInfoController {
         if(!params.order) params.order ='desc'
         def allCount=EquipmentRunningInfo.createCriteria().count{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                equipment{
+                    ilike('name',"%${params.search}%");
+                }
             }
         }
         def allList=EquipmentRunningInfo.createCriteria().list{
             if(params.search){
-                ilike('name',"%${params.search}%");
+                equipment{
+                    ilike('name',"%${params.search}%");
+                }
             }
             order(params.sort,params.order)
             maxResults(params.max.toInteger())
@@ -59,7 +63,9 @@ class EquipmentRunningInfoController {
     }
     def save() {
         def map=[:]
-        def equipmentRunningInfoInstance = new EquipmentRunningInfo(params)
+        def equipmentRunningInfoInstance = new EquipmentRunningInfo()
+        equipmentRunningInfoInstance.jobOrderInitDate = Date.parse('yyyy-MM-dd',params.remove('jobOrderInitDate'));
+        equipmentRunningInfoInstance.properties=params;
         if (!equipmentRunningInfoInstance.save(flush: true)) {
             map.result=false;
             //@todo
@@ -89,6 +95,7 @@ class EquipmentRunningInfoController {
                 map.message=equipmentRunningInfoInstance.errors.allErrors.toString();
             }
         }
+        equipmentRunningInfoInstance.jobOrderInitDate = Date.parse('yyyy-MM-dd',params.remove('jobOrderInitDate'));
         equipmentRunningInfoInstance.properties = params
 
         if (!equipmentRunningInfoInstance.save(flush: true)) {

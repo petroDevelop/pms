@@ -387,12 +387,22 @@
 
 														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>
 
-														<th data-field="checkType"  data-sortable="true"   >${message(code: 'standardItem.checkType.label', default: 'Check Type')}</th>
+														<g:if test="${i==0}">
+															<th data-field="checkType"  data-sortable="true">${message(code: 'standardItem.checkType.label', default: 'Check Type')}</th>
 
-														<th data-field="checkDays"  data-sortable="true"   >${message(code: 'standardItem.checkDays.label', default: 'Check Days')}</th>
+															<th data-field="checkDays"  data-sortable="true">${message(code: 'standardItem.checkDays.label', default: 'Check Days')}</th>
 
+															<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
+														</g:if>
+														<g:elseif test="${i==1}">
+															<th data-field="excuteCycle"  data-sortable="true"   >${message(code: 'standardItem.excuteCycle.label', default: 'Excute Cycle')}</th>
 
-														<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
+															<th data-field="warningHour"  data-sortable="true"   >${message(code: 'standardItem.warningHour.label', default: 'Warning Hours')}</th>
+
+															<th data-field="sop"  data-sortable="true"   >${message(code: 'standardItem.sop.label', default: 'SOP')}</th>
+
+															<th data-field="sopCode"  data-sortable="true"   >${message(code: 'standardItem.sopCode.label', default: 'SOP Code')}</th>
+														</g:elseif>
 
 														<th data-field="id" data-formatter="editItemFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 													</tr>

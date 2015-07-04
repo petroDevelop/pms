@@ -58,6 +58,16 @@
 				$('#equipmentRunningInfoForm').form('clear');
 				var data=$('#equipmentRunningInfoTable').bootstrapTable('getData');
 				$('#equipmentRunningInfoForm').form('load',data[index]);
+				$('.form_date').datetimepicker({
+					language:  'zh-CN',
+					weekStart: 1,
+					todayBtn:  1,
+					autoclose: 1,
+					todayHighlight: 1,
+					startView: 2,
+					minView: 2,
+					forceParse: 0
+				});
 			}
 			function showOne(index,id){
 				editOne(index,id);
@@ -189,15 +199,11 @@
 								   data-url="${request.contextPath}/equipmentRunningInfo/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+								   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
-									<th data-field="id"  data-sortable="true" ></th>
-									
-
-									<th>
-									<th data-field="equipment"  >${message(code: 'equipmentRunningInfo.equipment.label', default: 'Equipment')}</th>
+									<th data-field="equipment.text"  >${message(code: 'equipmentRunningInfo.equipment.label', default: 'Equipment')}</th>
 								    </th>
 									
 									<th data-field="jobOrderInitDate"  data-sortable="true"   >${message(code: 'equipmentRunningInfo.jobOrderInitDate.label', default: 'Job Order Init Date')}</th>

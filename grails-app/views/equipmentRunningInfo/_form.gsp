@@ -1,6 +1,10 @@
-<%@ page import="com.petrodata.pms.equipment.EquipmentRunningInfo" %>
-
-
+<%@ page import="com.petrodata.pms.equipment.Equipment; com.petrodata.pms.equipment.EquipmentRunningInfo" %>
+<%@ page import="com.petrodata.pms.core.BaseUser"%>
+<%
+	org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+	def loginUser = BaseUser.findByUsername(sec.username());
+	def equipmentList=Equipment.findAllByInDepartment(loginUser?.baseDepartment);
+%>
 
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentRunningInfoInstance, field: 'equipment', 'error')} required">
 	<label class="col-sm-2  control-label" for="equipment">
@@ -8,7 +12,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:select id="equipment" name="equipment.id" from="${com.petrodata.pms.equipment.Equipment.list()}" optionKey="id" required="" value="${equipmentRunningInfoInstance?.equipment?.id}" class="form-control input-lg m-b-10"/>
+		<g:select id="equipment" name="equipment.id" from="${equipmentList}" optionKey="id" required="" value="${equipmentRunningInfoInstance?.equipment?.id}" class="form-control input-lg m-b-10"/>
 
 	</div>
 </div>
@@ -18,9 +22,12 @@
 		<g:message code="equipmentRunningInfo.jobOrderInitDate.label" default="Job Order Init Date" />
 		<span class="required-indicator">*</span>
 	</label>
-	<div class="col-sm-10" style="color: #003bb3">
-		<g:datePicker name="jobOrderInitDate" precision="day"  value="${equipmentRunningInfoInstance?.jobOrderInitDate}"  />
 
+	<div class="input-group date form_date col-md-5" id="jobOrderInitDateDIV" data-date="" data-date-format="yyyy-mm-dd" data-link-format="yyy-mm-dd"
+		 data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+		<input class="form-control" size="16" type="text" id="jobOrderInitDate" name="jobOrderInitDate" value="${equipmentRunningInfoInstance?.jobOrderInitDate?.format('yyyy-MM-dd')}" readonly>
+		<span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 	</div>
 </div>
 
@@ -68,3 +75,16 @@
 	</div>
 </div>
 
+<script>
+	$('.form_date').datetimepicker({
+		language:  'zh-CN',
+		weekStart: 1,
+		todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+	});
+
+</script>
