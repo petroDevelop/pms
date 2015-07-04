@@ -130,4 +130,46 @@ class WorkspaceController {
         }
         render map as JSON;
     }
+
+    def mapDataJson(){
+
+        [
+                {
+                    "abbrev":"AL",
+                    "parentState":"Alabama",
+                    "capital":"Montgomery",
+                    "lat":32.380120,
+                    "lon":-86.300629,
+                    "z":10
+                },
+                {
+                    "abbrev":"AK",
+                    "parentState":"Alaska",
+                    "capital":"Juneau",
+                    "lat":58.299740,
+                    "lon":-134.406794,
+                    "z":10
+                },
+                {
+                    "abbrev":"AZ",
+                    "parentState":"Arizona",
+                    "capital":"Phoenix",
+                    "lat":33.448260,
+                    "lon":-112.075774,
+                    "z":10
+                },
+                {
+                    "abbrev":"AR",
+                    "parentState":"Arkansas",
+                    "capital":"Little Rock",
+                    "lat":34.748655,
+                    "lon":-92.274494,
+                    "z":10
+                },
+                {
+                    "capital":"no where",
+                    "z":100
+                }
+        ]
+    }
 }

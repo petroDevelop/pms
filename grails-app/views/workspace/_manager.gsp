@@ -814,99 +814,69 @@
             }
         ];
 
-        // Initiate the chart
-        $('#containerMap').highcharts('Map', {
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                backgroundColor: 'rgba(0,0,0,0)'
-            },
-            title : {
-                text : '小队分布图'
-                ,style:{color:'white'}
-            },
-            mapNavigation: {
-                enabled: true,
-                buttonOptions: {
-                    verticalAlign: 'bottom'
-                }
-            },
-            legend:{
-                style:{color:'white'}
-            },
-            colorAxis: {
-                min: 0
-            },
 
-            series : [{
-                data : data,
-                mapData: Highcharts.maps['custom/world-highres'],
-                joinBy: 'hc-key',
-                name: 'Country',
-                states: {
-                    hover: {
-                        color: '#BADA55'
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.name}'
-                }
-            }, {
 
-                type: 'mapbubble',
-                dataLabels: {
-                    enabled: true,
-                    color:'white',
-                    format: '{point.capital}'
-                },
-                name: '<span style="color:white">Cities</span>',
-                color: 'red',
-                maxSize: '12%',
-                data: [
-                    {
-                        "abbrev":"AL",
-                        "parentState":"Alabama",
-                        "capital":"Montgomery",
-                        "lat":32.380120,
-                        "lon":-86.300629,
-                        "z":10
-                    },
-                    {
-                        "abbrev":"AK",
-                        "parentState":"Alaska",
-                        "capital":"Juneau",
-                        "lat":58.299740,
-                        "lon":-134.406794,
-                        "z":10
-                    },
-                    {
-                        "abbrev":"AZ",
-                        "parentState":"Arizona",
-                        "capital":"Phoenix",
-                        "lat":33.448260,
-                        "lon":-112.075774,
-                        "z":10
-                    },
-                    {
-                        "abbrev":"AR",
-                        "parentState":"Arkansas",
-                        "capital":"Little Rock",
-                        "lat":34.748655,
-                        "lon":-92.274494,
-                        "z":10
-                    },
-                    {
-                        "capital":"no where",
-                        "z":100
-                    }
-                ]
-            }]
-        });
+        $.post("${request.contextPath}/workspace/mapDataJson", null,
+                function (data, textStatus) {
+                    // Initiate the chart
+                    $('#containerMap').highcharts('Map', {
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            backgroundColor: 'rgba(0,0,0,0)'
+                        },
+                        title : {
+                            text : '小队分布图'
+                            ,style:{color:'white'}
+                        },
+                        mapNavigation: {
+                            enabled: true,
+                            buttonOptions: {
+                                verticalAlign: 'bottom'
+                            }
+                        },
+                        legend:{
+                            style:{color:'white'}
+                        },
+                        colorAxis: {
+                            min: 0
+                        },
+
+                        series : [{
+                            data : data,
+                            mapData: Highcharts.maps['custom/world-highres'],
+                            joinBy: 'hc-key',
+                            name: 'Country',
+                            states: {
+                                hover: {
+                                    color: '#BADA55'
+                                }
+                            },
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}'
+                            }
+                        }, {
+
+                            type: 'mapbubble',
+                            dataLabels: {
+                                enabled: true,
+                                color:'white',
+                                format: '{point.capital}'
+                            },
+                            name: '<span style="color:white">Team</span>',
+                            color: 'red',
+                            maxSize: '12%',
+                            data: data
+                        }]
+                    });
+                }, "json");
+
+
         var chart = new Highcharts.Chart({
             credits:{
                 enabled:false
