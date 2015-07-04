@@ -11,7 +11,11 @@ import grails.converters.JSON
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 class WorkspaceController {
     def springSecurityService
-    def index() {}
+    def index() {
+        if(SpringSecurityUtils.ifAnyGranted("ROLE_MEMBER")){
+            redirect(action:'myTask')
+        }
+    }
     def index1() {}
     def myTask(){
         def currentUser= BaseUser.get(springSecurityService.currentUser.id)

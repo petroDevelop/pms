@@ -125,7 +125,7 @@ class EquipmentCatagoryController {
 //            }
 //        }
 
-        if(equipmentCatagoryInstance.id == params["parent.id"].toString().toLong())
+        if(params["parent.id"] && equipmentCatagoryInstance.id == params["parent.id"].toString().toLong())
         {
             equipmentCatagoryInstance.errors.rejectValue("parent", "equipmentCatagory.parent.error.label",
                     [message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')] as Object[],

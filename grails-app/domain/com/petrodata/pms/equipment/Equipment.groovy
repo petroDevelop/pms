@@ -17,8 +17,6 @@ class Equipment {
     Standard standard
     //录入人
     BaseUser creater;
-    //设备所在小队 所在队伍（在调剂和调配中起作用）
-    BaseDepartment baseDepartment;
     //关联运行信息
     EquipmentRunningInfo equipmentRunningInfo
     //
@@ -28,7 +26,7 @@ class Equipment {
 
     //所属单位
     BaseDepartment belongDepartment
-    //所在单位
+    //所在单位 （在调剂和调配中起作用）
     BaseDepartment inDepartment
     //所在国家
     String country

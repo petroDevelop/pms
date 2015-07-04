@@ -58,63 +58,6 @@
     </div>
 </div><!--/.row-->
 
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">Bar Chart</div>
-            <div class="panel-body">
-                <div class="canvas-wrapper">
-                    <canvas class="main-chart" id="bar-chart" height="200" width="600"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!--/.row-->
 
-<div class="row">
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Pie Chart</div>
-            <div class="panel-body">
-                <div class="canvas-wrapper">
-                    <canvas class="chart" id="pie-chart" ></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">Doughnut Chart</div>
-            <div class="panel-body">
-                <div class="canvas-wrapper">
-                    <canvas class="chart" id="doughnut-chart" ></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-</div><!--/.row-->
-
-<script>
-    window.onload = function(){
-        var chart2 = document.getElementById("bar-chart").getContext("2d");
-        window.myBar = new Chart(chart2).Bar(barChartData, {
-            responsive : true,
-            scaleLineColor: "rgba(255,255,255,.2)",
-            scaleGridLineColor: "rgba(255,255,255,.05)",
-            scaleFontColor: "#ffffff"
-        });
-        var chart3 = document.getElementById("doughnut-chart").getContext("2d");
-        window.myDoughnut = new Chart(chart3).Doughnut(doughnutData, {
-            responsive : true,
-            segmentShowStroke : false
-        });
-        var chart4 = document.getElementById("pie-chart").getContext("2d");
-        window.myPie = new Chart(chart4).Pie(pieData, {
-            responsive : true,
-            segmentShowStroke : false
-        });
-
-    };
-</script>
 </body>
 </html>

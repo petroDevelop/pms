@@ -101,15 +101,6 @@
 		<g:textField class="form-control input-sm m-b-10"  name="factoryCode" maxlength="100" required="" value="${equipmentInstance?.factoryCode}"/>
 	</div>
 </div>
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'baseDepartment', 'error')} required">
-	<label class="col-sm-2  control-label"  for="baseDepartment">
-		<g:message code="equipment.baseDepartment.label" default="Base Department" />
-		<span class="required-indicator">*</span>
-	</label>
-	<div class="col-sm-10">
-		<g:select id="baseDepartment" name="baseDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${equipmentInstance?.baseDepartment?.id}" class="form-control input-lg m-b-10"/>
-	</div>
-</div>
 
 <div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'belongDepartment', 'error')} required">
 	<label class="col-sm-2  control-label"  for="belongDepartment">
@@ -118,6 +109,22 @@
 	</label>
 	<div class="col-sm-10">
 		<g:select id="belongDepartment" name="belongDepartment.id" from="${com.petrodata.pms.core.BaseDepartment.list()}" optionKey="id" required="" value="${equipmentInstance?.belongDepartment?.id}" class="form-control input-lg m-b-10"/>
+	</div>
+</div>
+
+<g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
+<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.findAllByType('小队节点',['sort':'name','order':'asc'])}"/>
+<sec:ifAnyGranted roles="ROLE_PROJECT">
+	<g:set var="list" value="${list.findAll{it.parent?.id==currentUser.baseDepartment?.id}}"/>
+</sec:ifAnyGranted>
+<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'inDepartment', 'error')} required">
+	<label class="col-sm-2  control-label"  for="inDepartment">
+		<g:message code="equipment.inDepartment.label" default="In Department" />
+		<span class="required-indicator">*</span>
+	</label>
+	<div class="col-sm-10">
+		<g:select id="inDepartment" name="inDepartment.id" from="${list}" optionKey="id" required=""
+				  value="${equipmentInstance?.inDepartment?.id}" class="form-control input-lg m-b-10"/>
 	</div>
 </div>
 
@@ -148,22 +155,6 @@
 	</label>
 	<div class="col-sm-10">
 		<g:select id="equipmentCatagory" name="equipmentCatagory.id" from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}" optionKey="id" required="" value="${equipmentInstance?.equipmentCatagory?.id}" class="form-control input-lg m-b-10"/>
-	</div>
-</div>
-
-<g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
-<g:set var="list" value="${com.petrodata.pms.core.BaseDepartment.findAllByType('小队节点',['sort':'name','order':'asc'])}"/>
-<sec:ifAnyGranted roles="ROLE_PROJECT">
-	<g:set var="list" value="${list.findAll{it.parent?.id==currentUser.baseDepartment?.id}}"/>
-</sec:ifAnyGranted>
-<div class="form-group fieldcontain ${hasErrors(bean: equipmentInstance, field: 'inDepartment', 'error')} required">
-	<label class="col-sm-2  control-label"  for="inDepartment">
-		<g:message code="equipment.inDepartment.label" default="In Department" />
-		<span class="required-indicator">*</span>
-	</label>
-	<div class="col-sm-10">
-		<g:select id="inDepartment" name="inDepartment.id" from="${list}" optionKey="id" required=""
-				  value="${equipmentInstance?.inDepartment?.id}" class="form-control input-lg m-b-10"/>
 	</div>
 </div>
 
