@@ -13,7 +13,7 @@ class CheckJob {
     static triggers = {
         //半小时执行
         //simple name: 'mySimpleTrigger', repeatCount:-1l,startDelay: 30*1000l, repeatInterval: 30*60*1000l // execute job once in 30 minutes  30*60*1000l
-        cron name: '30MinuteTrigger', cronExpression: "0 * * * * ?" // "0 0/30 * * * ?"
+        cron name: '30MinuteTrigger', cronExpression: "0 0/30 * * * ?" // "0 0/30 * * * ?"
         //custom name:'customTrigger', triggerClass:MyTriggerClass, myParam:myValue, myAnotherParam:myAnotherValue
     }
     def group = "OrderGroup"
@@ -34,7 +34,6 @@ class CheckJob {
                   Date serverTime=new Date();
                   String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone));
                   Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
-                  println  serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotation.timeZone))
                   Date teamTime=Date.parse('yyyy-MM-dd HH:mm',serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotation.timeZone)));
                   Date rotationTime=Date.parse('yyyy-MM-dd HH:mm',"${rotationDay} ${rotation.checkTime}");
                 //当前时间（当地时差），与班次的工单生产时间匹配，若时差在半小时内并且工单表中无此工单
@@ -46,7 +45,6 @@ class CheckJob {
         }
     }
     private synchronized static void generateJobOrder(Rotation rotation,Date localTime,List<EquipmentCatagory> equipmentCatagories,BaseDepartment team) {
-        println "in"
         if(JobOrder.countByRotationAndJobDate(rotation,localTime)==0){
             //   则为此班次生成工单（本小队所有岗位一份）
             JobOrder.withTransaction {status ->
@@ -66,12 +64,9 @@ class CheckJob {
                                 //细化运行项
                                 equipment.standard.standardItems.each{standardItem->
                                     if(standardItem.type=='运行检查标准'){
-                                        println "***********************"
-                                        println standardItem.type
                                         if(standardItem.checkType=='班次'&& rotation.chargeDailyCheck){
                                             def jobItem=new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem);
                                             jobItem.save(flush: true);
-                                            println jobItem.errors.allErrors
                                         }
                                         if(standardItem.checkType=='天数'&& standardItem.checkDays>0){
                                             if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){

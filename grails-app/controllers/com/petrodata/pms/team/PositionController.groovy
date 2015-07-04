@@ -59,13 +59,28 @@ class PositionController {
         def pos = Position.findByName(params.name)
         if (!pos) {
             def positionInstance = new Position(params)
+            def positionCatas=Position.list()?.collect{it.eptCatas}?.collect{it.id}?.collect {it[0]};
+            boolean hasContain=false;
+            long containEptcata=0;
+            params.eptCatas.collect{it.toLong()}.each{one->
+                if(positionCatas.contains(one)){
+                    containEptcata=one;
+                    hasContain=true;
+                }
+            }
+            if(hasContain){
+                flash.message="${EquipmentCatagory.get(containEptcata).name}已分配给其他岗位，请重新选择";
+                render(view: "create", model: [positionInstance: positionInstance])
+                return
+            }
+
             //positionInstance.name=params.name;
             if (!positionInstance.save(flush: true)) {
                 render(view: "create", model: [positionInstance: positionInstance])
                 return
             }
             if(params.eptCatas){
-                println params.eptCatas.class.name
+                //println params.eptCatas.class.name
             }
             flash.message = message(code: 'default.created.message', args: [message(code: 'position.label', default: 'Position'), positionInstance.id])
             redirect(action: "list", id: positionInstance.id)
@@ -114,8 +129,21 @@ class PositionController {
                 return
             }
         }
-
         positionInstance.properties = params
+        def positionCatas=Position.findAllByIdNotEqual(positionInstance.id)?.collect{it.eptCatas}?.collect{it.id}?.collect {it[0]};
+        boolean hasContain=false;
+        long containEptcata=0;
+        params.eptCatas.collect{it.toLong()}.each{one->
+            if(positionCatas.contains(one)){
+                containEptcata=one;
+                hasContain=true;
+            }
+        }
+        if(hasContain){
+            flash.message="${EquipmentCatagory.get(containEptcata).name}已分配给其他岗位，请重新选择";
+            render(view: "edit", model: [positionInstance: positionInstance])
+            return
+        }
 
         if (!positionInstance.save(flush: true)) {
             render(view: "edit", model: [positionInstance: positionInstance])

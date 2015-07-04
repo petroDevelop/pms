@@ -18,17 +18,23 @@
 	<g:each in="${com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc'])}" var="ec" status="i">
 		<li><input type="checkbox" name="eptCatas" id="eptCatas${i}"
 			   <g:if test="${positionInstance?.eptCatas?.contains(ec)}">
-				   checked="true"
+
 			   </g:if>
-			   value="${ec?.id}" /><label for="eptCatas${i}">${ec?.name}</label></li>
+			   value="${ec?.id}" /><label id="eptCatasLabel${i}" for="eptCatas${i}">${ec?.name}</label></li>
 		<g:if test="${positionInstance?.eptCatas?.contains(ec)}">
 		<script>
-			(function() {
-				document.getElementById("eptCatas${i}").click();
-			});
+				setTimeout(function(){
+					//alert(0);
+					//controlRadioboxFunction(document.getElementById("eptCatas${i}"),"checkmark");
+					document.getElementById("eptCatas${i}").click();
+					//$('#eptCatas${i}').click();
+					//alert(1);
+					;},500);
 		</script>
 		</g:if>
 	</g:each>
+		<input type="hidden" name="eptCatas" value="-1"/>
+		<input type="hidden" name="eptCatas" value="-2"/>
 	</ul>
 </div>
 
