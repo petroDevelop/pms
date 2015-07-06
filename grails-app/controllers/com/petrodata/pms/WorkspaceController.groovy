@@ -172,4 +172,57 @@ class WorkspaceController {
                 }
         ]*/
     }
+
+    def processJobItem(){
+        def jobItem=JobItem.get(params.id);
+        def map=[:]
+        try{
+            if(jobItem.status=='已查'){
+                map.result=false;
+                map.message="该工单项已被处理";
+            }else{
+                JobItem.withTransaction {status->
+                    try{
+                        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+                        jobItem.status='已查';
+                        jobItem.isWrong=true;
+                        jobItem.checkResult=params.checkResult;
+                        jobItem.checker=currentUser;
+                        jobItem.checkDate=new Date();
+                        jobItem.save(flush: true);
+                        def jobOrder=jobItem.jobOrder;
+                        map.parentId=jobOrder.id;
+                        map.allFinish=false;
+                        if(JobItem.countByJobOrderAndStatus(jobOrder,'未查')==0){
+                            jobOrder.isFinish=true;
+                            jobOrder.save(flush: true)
+                            map.allFinish=true;
+                        }
+                        map.result=true;
+                    }catch (e){
+                        status.setRollbackOnly()
+                    }
+                }
+            }
+        }catch (e){
+            map.result=false;
+            map.message=false;
+        }
+        render "${(map as JSON).toString()}"
+    }
+
+    def myTeamJob(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+    }
+    def myTeamJobJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+    }
 }

@@ -8,12 +8,15 @@
             var str='';
             if(row.status=='未查'){
                 //str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
-                str='<button class="btn btn-danger margin"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
+                str='<button class="btn btn-danger margin"  data-toggle="modal" data-target="#processModal"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
             }
             return str;
         }
+
         function oneProcess(status,index,id){
-            var obj=new Object();
+          $('#itemId').val(id);
+            $('#checkResult').val('');
+/*            var obj=new Object();
             obj.id=id;
             obj.isWrong=status;
             $.post("${request.contextPath}/workspace/jobItemProcess", obj,
@@ -30,7 +33,7 @@
                         }else{
                             $('#alertFault').removeClass('hide');
                         }
-                    }, "json");
+                    }, "json");*/
         }
         function isWrongFormatter(value, row,index) {
             if(row.status=='未查'){
@@ -64,6 +67,29 @@
                         }
                     }, "json");
         }
+
+        $(function(){
+            $('#processForm').form({
+                url:"processJobItem",
+                success: function(data){
+                    $('#processModal').modal('hide');
+                    var data = eval('(' + data + ')'); // change the JSON string to javascript object
+                    if (data.result){
+                        $('#alertSucess').removeClass('hide');
+                        setTimeout(function(){
+                            $('#alertSucess').addClass('hide');
+                        }, 2000);
+                        if(data.allFinish){
+                            document.location.href='myTask';
+                        }
+                        $('#jobItemTable').bootstrapTable('refresh',{url:"${request.contextPath}/workspace/getJobItemJson/"+data.parentId});
+                    }else{
+                        $("#faultMessage").html(data.message);
+                        $('#alertFault').removeClass('hide');
+                    }
+                }
+            });
+        });
     </script>
 </head>
 
@@ -134,7 +160,7 @@
                     <div id="toolbar">
                         <button class="btn btn-default margin" onclick="finishAllItem()"  type="button">
                             <span class="glyphicon glyphicon-check"></span>
-                            执行
+                            全部正常执行
                         </button>
                     </div>
                     <table id="jobItemTable" data-toolbar="#toolbar" data-toggle="table"
@@ -172,26 +198,34 @@
 </div><!--/.row-->
 
 
-<div class="modal fade panel" id="jboItemModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+
+
+<div class="modal fade panel" id="processModal" tabindex="-1" role="dialog" aria-labelledby="processModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" >
+            <form  role="form" id="processForm"  class="easyui-form"
+                   enctype="multipart/form-data" method="post" >
             <div class="modal-header">
                 <button type="button" class="close"
                         data-dismiss="modal" aria-hidden="true">
                 &times;
                 </button>
-                <h4 class="modal-title" id="importModalLabel">
-                    处理工单项
+                <h4 class="modal-title" id="processModalLabel">
+                    异常记录
                 </h4>
             </div>
             <div class="modal-body">
-                <form  role="form" id="excelForm"  class="easyui-form"
-                       enctype="multipart/form-data" method="post" >
 
-                </form>
+                    <input type="hidden" id="itemId" name="id"/>
+                   <table border="0">
+                       <tr><td>异常描述:</td><td><input type="text" id="checkResult" name="checkResult"  style="color:red" required="true"/></td></tr>
+                       <!--<tr><td>异常文件</td><td><input type="file" name="file"  class="form-control input-sm m-b-10"/></td></tr>-->
+                   </table>
+
+
             </div>
             <div class="modal-footer">
-                <button class="btn btn-default margin" onclick="processJobItem()" type="button">
+                <button class="btn btn-default margin"   type="submit">
                     <span class="glyphicon glyphicon-check"></span>
                     <g:message code="default.submit.label" default="Submit"/>
                 </button>
@@ -201,10 +235,9 @@
                     <g:message code="default.close.label" default="Close"/>
                 </button>
             </div>
+        </form>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
-
-
 </body>
 </html>
