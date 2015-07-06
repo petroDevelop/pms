@@ -124,7 +124,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span>生产设备</span>管理系统</a>
+            <a class="navbar-brand" href="#"><!--<span>生产设备</span>管理系统-->
+            <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/>
+            </a>
             <ul class="nav navbar-top-links navbar-right">
                 <!-- message -->
                 <li class="dropdown">
