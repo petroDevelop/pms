@@ -1,7 +1,9 @@
 package com.petrodata.pms
 
 import com.petrodata.pms.core.BaseDepartment
+import com.petrodata.pms.core.BaseRole
 import com.petrodata.pms.core.BaseUser
+import com.petrodata.pms.equipment.Equipment
 import com.petrodata.pms.order.JobItem
 import com.petrodata.pms.order.JobOrder
 import com.petrodata.pms.team.Position
@@ -9,6 +11,9 @@ import com.petrodata.pms.team.PositionBaseUser
 import com.petrodata.pms.team.Rotation
 import grails.converters.JSON
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
+import java.math.MathContext
+
 class WorkspaceController {
     def springSecurityService
     def index() {
@@ -131,6 +136,160 @@ class WorkspaceController {
         render map as JSON;
     }
 
+    def statusDataJson()
+    {
+        def map = [:];
+        BaseUser loginUser = springSecurityService.getCurrentUser();
+        Set<BaseRole> roles = loginUser.getAuthorities();
+
+        def teams;
+        def workTeamCount;
+
+        def equipments;
+        def techCount;
+
+        def checkJobs;
+        def checkJobFinishCount;
+
+        def maintainJobs;
+        def maintainJobFinishCount;
+
+        if(roles.any {it.name =="ROLE_MANAGER"})//设备处
+        {
+            teams = BaseDepartment.createCriteria().list {
+                eq("type","小队节点");
+            }
+
+            equipments = Equipment.list();
+
+            checkJobs = JobOrder.createCriteria().list {
+                eq('type',"运行检查")
+            }
+
+            maintainJobs = JobOrder.createCriteria().list {
+                eq('type',"保养")
+            }
+        }
+        else if(roles.any{it.name == "ROLE_PROJECT"})
+        {
+            teams = BaseDepartment.createCriteria().list{
+                eq("type","小队节点")
+                eq("parent",loginUser.baseDepartment)
+            }
+
+            equipments = Equipment.createCriteria().list{
+                createAlias("inDepartment.parent","indp")
+                eq("indp.id",loginUser.baseDepartment.id)
+            }
+
+            checkJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment.parent","rdp")
+                eq("rdp.id",loginUser.baseDepartment.id)
+                eq('type',"运行检查")
+            }
+
+            maintainJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment.parent","rdp")
+                eq("rdp.id",loginUser.baseDepartment.id)
+                eq('type',"保养")
+            }
+        }
+        else if(roles.any {it.name == "ROLE_CAPTAIN"})
+        {
+            equipments = Equipment.createCriteria().list{
+                eq("inDepartment",loginUser.baseDepartment)
+            }
+
+            checkJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment","rd")
+                eq("rd.id",loginUser.baseDepartment.id)
+                eq('type',"运行检查")
+            }
+
+            maintainJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment","rd")
+                eq("rd.id",loginUser.baseDepartment.id)
+                eq('type',"保养")
+            }
+        }
+        techCount = equipments.count {it.techState == "完好"};
+        map.equipmentPrecent = techCount>0?(techCount / equipments.size()*100).round(new MathContext(2)):0;
+
+        workTeamCount = teams.count {it.isWorking == true};
+        map.teamPrecent = workTeamCount>0?(workTeamCount / teams.size()*100).round(new MathContext(2)):0;
+
+        checkJobFinishCount = checkJobs.count {it.isFinish == true};
+        map.checkJobPrecent = checkJobFinishCount>0?(checkJobFinishCount / checkJobs.size()*100).round(new MathContext(2)):0;
+
+        maintainJobFinishCount = maintainJobs.count {it.isFinish == true};
+        map.maintainJobPrecent = maintainJobFinishCount>0?(maintainJobFinishCount / maintainJobs.size()*100).round(new MathContext(2)):0;
+
+        render map as JSON;
+    }
+
+    def chartDataJson()
+    {
+        def map = [:];
+        BaseUser loginUser = springSecurityService.getCurrentUser();
+        def projectDepartments = BaseDepartment.findAllByType("项目部节点");
+        def categories = [];
+        def series = [];
+        def workTeamSeries = [:];
+        workTeamSeries.name = "小队开工率";
+        workTeamSeries.data = [];
+        def equipmentHealthSeries = [:];
+        equipmentHealthSeries.name = "设备健康率";
+        equipmentHealthSeries.data = [];
+        def checkJobSeries = [:];
+        checkJobSeries.name = "检查工单执行率";
+        checkJobSeries.data = [];
+        def maintainJobSeries = [:];
+        maintainJobSeries.name = "保养工单执行率";
+        maintainJobSeries.data = [];
+        projectDepartments.each {teamDepartment->
+            categories.add(teamDepartment.name)
+            def teams = BaseDepartment.createCriteria().list{
+                eq("type","小队节点")
+                eq("parent",teamDepartment)
+            }
+
+            def equipments = Equipment.createCriteria().list{
+                createAlias("inDepartment.parent","indp")
+                eq("indp.id",teamDepartment.id)
+            }
+
+            def checkJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment.parent","rdp")
+                eq("rdp.id",teamDepartment.id)
+                eq('type',"运行检查")
+            }
+
+            def maintainJobs = JobOrder.createCriteria().list {
+                createAlias("rotation.baseDepartment.parent","rdp")
+                eq("rdp.id",it.id)
+                eq('type',"保养")
+            }
+            def techCount = equipments.count {it.techState == "完好"};
+            equipmentHealthSeries.data.add(techCount>0?(techCount / equipments.size()).round(new MathContext(3)):0);
+
+            def workTeamCount = teams.count {it.isWorking == true};
+            workTeamSeries.data.add(workTeamCount>0?(workTeamCount / teams.size()).round(new MathContext(3)):0);
+
+            def checkJobFinishCount = checkJobs.count {it.isFinish == true};
+            checkJobSeries.data.add(checkJobFinishCount>0?(checkJobFinishCount / checkJobs.size()).round(new MathContext(3)):0);
+
+            def maintainJobFinishCount = maintainJobs.count {it.isFinish == true};
+            maintainJobSeries.data.add(maintainJobFinishCount>0?(maintainJobFinishCount / maintainJobs.size()).round(new MathContext(3)):0);
+        };
+        map.categories = categories;
+        series.add(workTeamSeries);
+        series.add(checkJobSeries);
+        series.add(maintainJobSeries);
+        series.add(equipmentHealthSeries);
+        map.series = series;
+
+        render map as JSON;
+    }
     def mapDataJson(){
         /*
         [
@@ -171,58 +330,5 @@ class WorkspaceController {
                     "z":100
                 }
         ]*/
-    }
-
-    def processJobItem(){
-        def jobItem=JobItem.get(params.id);
-        def map=[:]
-        try{
-            if(jobItem.status=='已查'){
-                map.result=false;
-                map.message="该工单项已被处理";
-            }else{
-                JobItem.withTransaction {status->
-                    try{
-                        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
-                        jobItem.status='已查';
-                        jobItem.isWrong=true;
-                        jobItem.checkResult=params.checkResult;
-                        jobItem.checker=currentUser;
-                        jobItem.checkDate=new Date();
-                        jobItem.save(flush: true);
-                        def jobOrder=jobItem.jobOrder;
-                        map.parentId=jobOrder.id;
-                        map.allFinish=false;
-                        if(JobItem.countByJobOrderAndStatus(jobOrder,'未查')==0){
-                            jobOrder.isFinish=true;
-                            jobOrder.save(flush: true)
-                            map.allFinish=true;
-                        }
-                        map.result=true;
-                    }catch (e){
-                        status.setRollbackOnly()
-                    }
-                }
-            }
-        }catch (e){
-            map.result=false;
-            map.message=false;
-        }
-        render "${(map as JSON).toString()}"
-    }
-
-    def myTeamJob(){
-        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
-        params.limit=params.max;
-        if(!params.offset) params.offset ='0'
-        if(!params.sort) params.sort ='id'
-        if(!params.order) params.order ='desc'
-    }
-    def myTeamJobJson(){
-        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
-        params.limit=params.max;
-        if(!params.offset) params.offset ='0'
-        if(!params.sort) params.sort ='id'
-        if(!params.order) params.order ='desc'
     }
 }

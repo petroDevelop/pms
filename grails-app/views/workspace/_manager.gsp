@@ -13,6 +13,20 @@
          * Dark theme for Highcharts JS
          * @author Torstein Honsi
          */
+        $.post("${request.contextPath}/workspace/statusDataJson", null,
+                function (data, textStatus) {
+                    $('#easypiechart-blue').data('easyPieChart').update(data.teamPrecent);//小队开工率
+                    $('#easypiechart-blue').find(".percent").text(data.teamPrecent + "%");
+
+                    $('#easypiechart-orange').data('easyPieChart').update(data.checkJobPrecent);//检查工单执行率
+                    $('#easypiechart-orange').find(".percent").text(data.checkJobPrecent + "%");
+
+                    $('#easypiechart-teal').data('easyPieChart').update(data.teamPrecent);//保养工单执行率
+                    $('#easypiechart-teal').find(".percent").text(data.teamPrecent + "%");
+
+                    $('#easypiechart-red').data('easyPieChart').update(data.maintainJobPrecent);//设备健康率
+                    $('#easypiechart-red').find(".percent").text(data.maintainJobPrecent + "%");
+                }, "json");
 
 // Load the fonts
         Highcharts.createElement('link', {
@@ -1088,62 +1102,52 @@
                     });
                 }, "json");
 
+        /**
+         * 3D 柱状图
+         *
+         */
+        $.post("${request.contextPath}/workspace/chartDataJson", null,
+                function (data, textStatus) {
+                    var chart = new Highcharts.Chart({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            renderTo: 'container0',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            type: 'column',
+                            margin: 75,
+                            options3d: {
+                                enabled: true,
+                                alpha: 15,
+                                beta: 15,
+                                depth: 50,
+                                viewDistance: 25
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: '项目部分类统计'
+                            ,style:{color:'white'}
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        xAxis:{
+                            categories: data.categories
+                        },
+                        series: data.series
+                    });
+                }, "json");
 
-        var chart = new Highcharts.Chart({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                renderTo: 'container0',
-                backgroundColor: 'rgba(0,0,0,0)',
-                type: 'column',
-                margin: 75,
-                options3d: {
-                    enabled: true,
-                    alpha: 15,
-                    beta: 15,
-                    depth: 50,
-                    viewDistance: 25
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: '项目部分类统计'
-                ,style:{color:'white'}
-            },
-            plotOptions: {
-                column: {
-                    depth: 25
-                }
-            },
-            xAxis:{
-                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas','Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-            },
-            series: [{
-                name:'aaaa',
-                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-            },
-                {
-                    name:'vvv',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-                ,
-                {
-                    name:'bb',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-                ,
-                {
-                    name:'dd',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-            ]
-        });
+
 
         // Add mouse events for rotation
         $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
@@ -1307,7 +1311,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">小队开工率</div>
             <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-blue" data-percent="92" ><span class="percent">92%</span>
+                <div class="easypiechart" id="easypiechart-blue" ><span class="percent"></span>
                 </div>
             </div>
         </div>
@@ -1316,7 +1320,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">检查工单执行率</div>
             <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-orange" data-percent="65" ><span class="percent">65%</span>
+                <div class="easypiechart" id="easypiechart-orange" ><span class="percent"></span>
                 </div>
             </div>
         </div>
@@ -1325,7 +1329,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">保养工单执行率</div>
             <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-teal" data-percent="56" ><span class="percent">56%</span>
+                <div class="easypiechart" id="easypiechart-teal" ><span class="percent"></span>
                 </div>
             </div>
         </div>
@@ -1334,7 +1338,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">设备健康率</div>
             <div class="panel-body easypiechart-panel">
-                <div class="easypiechart" id="easypiechart-red" data-percent="27" ><span class="percent">27%</span>
+                <div class="easypiechart" id="easypiechart-red" ><span class="percent"></span>
                 </div>
             </div>
         </div>
