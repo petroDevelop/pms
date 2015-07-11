@@ -66,7 +66,7 @@ class WorkspaceController {
         map.rows=list;
         render map as JSON;
     }
-    def jobItemProcess(){
+/*    def jobItemProcess(){
         def jobItem=JobItem.get(params.id);
         def map=[:]
         try{
@@ -101,6 +101,43 @@ class WorkspaceController {
             map.message=false;
         }
         render map as JSON;
+    }*/
+    def processJobItem(){
+        def jobItem=JobItem.get(params.id);
+        def map=[:]
+        try{
+            if(jobItem.status=='已查'){
+                map.result=false;
+                map.message="该工单项已被处理";
+            }else{
+                JobItem.withTransaction {status->
+                    try{
+                        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+                        jobItem.status='已查';
+                        jobItem.isWrong=params.isWrong;
+                        jobItem.checker=currentUser;
+                        jobItem.checkDate=new Date();
+                        jobItem.checkResult=params.checkResult;
+                        //@todo 处理附件
+                        jobItem.save(flush: true);
+                        def jobOrder=jobItem.jobOrder;
+                        map.parentId=jobOrder.id;
+                        map.allFinish=false;
+                        if(JobItem.countByJobOrderAndStatus(jobOrder,'未查')==0){
+                            jobOrder.isFinish=true;
+                            jobOrder.save(flush: true)
+                            map.allFinish=true;
+                        }
+                        map.result=true;
+                    }catch (e){
+                        status.setRollbackOnly()
+                    }
+                }
+            }
+        }catch (e){
+            map.result=false;
+            map.message=false;
+        }
     }
     def changeSkin(){
         if(params.skin){
@@ -473,5 +510,51 @@ class WorkspaceController {
         map.jobOrder=jlist;
         map.equipment=elist;
         render map as JSON;
+    }
+
+    def teamJobJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def map=[:]
+        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+        def baseDepartment=currentUser.baseDepartment;
+        def count=JobOrder.createCriteria().count {
+           createAlias("rotation","rt")
+           createAlias("rt.baseDepartment","rb")
+           eq("rb.id",baseDepartment.id)
+        }
+        def list=JobOrder.createCriteria().list{
+            createAlias("rotation","rt")
+            createAlias("rt.baseDepartment","rb")
+            eq("rb.id",baseDepartment.id)
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def slist=[];
+        list.each{
+           def one=[:]
+           one.id=it.id
+           one.jobDate=it.jobDate.format("yyyy-MM-dd HH:mm",TimeZone.getTimeZone(it.rotation.timeZone))
+           one.rotation=it.rotation.name
+            one.position=it.position.name
+            one.type=it.type
+            one.isFinish="未完成"
+            if(it.isFinish){
+                one.isFinish="完成"
+            }
+           slist<<one;
+        }
+        map.total=count;
+        map.rows=slist;
+        render map as JSON;
+    }
+
+    def catchOneJobOrderDetail(){
+       def jobOrder=JobOrder.get(params.id);
+       return [items:JobItem.findAllByJobOrder(jobOrder,['sort':'id','order':'asc'])]
     }
 }

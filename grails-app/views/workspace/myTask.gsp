@@ -119,13 +119,13 @@
                         <g:if test="${jobOrder.isFinish}">
                             <div class="checkbox">
                                 <input type="checkbox" readonly disabled checked id="checkbox-${i}" />
-                                <label  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                                <label  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd HH:mm')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                             </div>
                         </g:if>
                         <g:else>
                             <div class="checkbox">
                                 <input type="checkbox"  readonly disabled  id="checkbox-${i}" />
-                                <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                                <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd HH:mm')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                             </div>
                             <div class="pull-right action-buttons">
                                 <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>

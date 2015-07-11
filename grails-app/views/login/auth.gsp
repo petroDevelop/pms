@@ -39,7 +39,10 @@
 <div class="row box tile animated active" >
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">Log in</div>
+            <div class="panel-heading">
+                系统登录
+                <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/>
+            </div>
             <div class="panel-body">
                 <!-- Login -->
                 <form role="form" id="box-login" action='${postUrl}' method='POST'  name="loginForm" autocomplete='off'>
@@ -50,15 +53,16 @@
                         <div class="form-group">
                             <input type="password" class="form-control"   name="j_password" placeholder="Password">
                         </div>
+
                         <div class="checkbox">
                             <label>
-                                <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                               <!-- <input name="remember" type="checkbox" value="Remember Me">Remember Me  -->
                             </label>
                         </div>
-                        <input type="submit" value="submit" class="btn btn-primary" />
+                        <input type="submit" value="登录" class="btn btn-primary" />
                         <small>
-                            <a class="box-switcher" data-switch="box-register" href="">Don't have an Account?</a> or
-                            <a class="box-switcher" data-switch="box-reset" href="">Forgot Password?</a>
+                            <a class="box-switcher" data-switch="box-register" href="">注册</a> or
+                            <a class="box-switcher" data-switch="box-reset" href="">忘记密码?</a>
                         </small>
                     </fieldset>
                 </form>
@@ -71,20 +75,21 @@
 <div class="row box animated tile">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">Log in</div>
+            <div class="panel-heading">                系统登录
+                <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/></div>
             <div class="panel-body">
 
                 <!-- Register -->
                 <form class="" id="box-register">
-                    <h2 class="m-t-0 m-b-15">Register</h2>
+                    <h2 class="m-t-0 m-b-15">注册</h2>
                     <input type="text" class="form-control" placeholder="Full Name">
                     <input type="text" class="form-control" placeholder="Username">
                     <input type="email" class="form-control" placeholder="Email Address">
                     <input type="password" class="form-control" placeholder="Password">
                     <input type="password" class="form-control m-b-20" placeholder="Confirm Password">
 
-                    <input type="submit" value="Register" class="btn btn-primary" />
-                    <small><a class="box-switcher" data-switch="box-login" href="">Already have an Account?</a></small>
+                    <input type="submit" value="注册" class="btn btn-primary" />
+                    <small><a class="box-switcher" data-switch="box-login" href="">去登录</a></small>
                 </form>
 
 
@@ -96,15 +101,16 @@
 <div class="row box animated tile">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">Log in</div>
+            <div class="panel-heading">                系统登录
+                <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/></div>
             <div class="panel-body">
                 <!-- Forgot Password -->
                 <form id="box-reset">
-                    <h2 class="m-t-0 m-b-15">Reset Password</h2>
+                    <h2 class="m-t-0 m-b-15">重设密码</h2>
                     <p> eugiat commodo sed ac lacus.</p>
                     <input type="email" class="form-control m-b-20" placeholder="Email Address">
-                    <input type="submit" value="Reset Password" class="btn btn-primary" />
-                    <small><a class="box-switcher" data-switch="box-login" href="">Already have an Account?</a></small>
+                    <input type="submit" value="重设密码" class="btn btn-primary" />
+                    <small><a class="box-switcher" data-switch="box-login" href="">去登录</a></small>
                 </form>
             </div>
         </div>

@@ -1195,118 +1195,96 @@
 
 
 
+        $.post("${request.contextPath}/workspace/barChartJson", null,
+                function (data, textStatus) {
+                    $('#container1').highcharts({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            type: 'pie',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: ''
+                            ,style:{color:'white'}
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y:.1f}</b>(<b>{point.percentage:.1f}</b>%)'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name}'
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: '工单数量',
+                            data: data.jobOrder
+                        }]
+                    });
 
-        $('#container1').highcharts({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                type: 'pie',
-                backgroundColor: 'rgba(0,0,0,0)',
-                options3d: {
-                    enabled: true,
-                    alpha: 45,
-                    beta: 0
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: 'Browser market shares at a specific website, 2014'
-                ,style:{color:'white'}
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    depth: 35,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Browser share',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
-            }]
-        });
-
-        $('#container2').highcharts({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                type: 'pie',
-                backgroundColor: 'rgba(0,0,0,0)',
-                options3d: {
-                    enabled: true,
-                    alpha: 45,
-                    beta: 0
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: 'Browser market shares at a specific website, 2014'
-                ,style:{color:'white'}
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    depth: 35,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Browser share',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
-            }]
-        });
+                    $('#container2').highcharts({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            type: 'pie',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: ''
+                            ,style:{color:'white'}
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y:.1f}</b>(<b>{point.percentage:.1f}</b>%)'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name}'
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: '设备数量',
+                            data: data.equipment
+                        }]
+                    });
+                }, "json");
     });
 </script>
 
