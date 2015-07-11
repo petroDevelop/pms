@@ -112,9 +112,9 @@
 		</div><!--/.row-->
 
 		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">下属设备</h1>
-			</div>
+		<div class="col-lg-12" style="height: 30px">
+
+		</div>
 		</div><!--/.row-->
 		<div class="alert bg-success hide" id="alertSucess" role="alert">
 			<span class="glyphicon glyphicon-check"></span>

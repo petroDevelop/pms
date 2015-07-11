@@ -104,8 +104,8 @@
 </div><!--/.row-->
 
 <div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">工单列表</h1>
+    <div class="col-lg-12" style="height: 30px">
+
     </div>
 </div><!--/.row-->
 <div class="row box animated tile active" id="box-list">

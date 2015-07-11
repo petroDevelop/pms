@@ -136,8 +136,9 @@ class WorkspaceController {
             }
         }catch (e){
             map.result=false;
-            map.message=false;
+            map.message=e.message;
         }
+        render "${map as JSON}"
     }
     def changeSkin(){
         if(params.skin){
