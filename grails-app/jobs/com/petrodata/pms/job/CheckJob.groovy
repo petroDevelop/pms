@@ -64,11 +64,12 @@ class CheckJob {
                                 //细化运行项
                                 equipment.standard.standardItems.each{standardItem->
                                     if(standardItem.type=='运行检查标准'){
-                                        if(standardItem.checkType=='班次'&& rotation.chargeDailyCheck){
+                                        if(standardItem.checkType=='班次'){
                                             def jobItem=new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem);
                                             jobItem.save(flush: true);
                                         }
-                                        if(standardItem.checkType=='天数'&& standardItem.checkDays>0){
+                                        if(standardItem.checkType=='天数'&& standardItem.checkDays>0 && rotation.chargeDailyCheck){
+                                            //@todo 需要判断初次运行时与初始化数据比对
                                             if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
                                                 if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,(new Date()-standardItem.checkDays))==0){
                                                     new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);

@@ -1054,7 +1054,7 @@
                             backgroundColor: 'rgba(0,0,0,0)'
                         },
                         title : {
-                            text : '小队分布图'
+                            text : ''
                             ,style:{color:'white'}
                         },
                         mapNavigation: {

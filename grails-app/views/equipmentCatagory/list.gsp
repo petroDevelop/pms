@@ -195,8 +195,8 @@
 			</div><!--/.row-->
 
 			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header"><g:message code="equipmentCatagory.label" default="EquipmentCatagory" /></h1>
+				<div class="col-lg-12" style="height: 20px">
+
 				</div>
 			</div><!--/.row-->
 			<div class="alert bg-success hide" id="alertSucess" role="alert">

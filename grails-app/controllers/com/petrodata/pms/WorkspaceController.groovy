@@ -190,7 +190,7 @@ class WorkspaceController {
                 eq("parent",loginUser.baseDepartment)
             }
             if(SpringSecurityUtils.ifAnyGranted('ROLE_CAPTAIN')){
-
+                eq("id",loginUser.baseDepartment.id)
             }
         }
 
@@ -432,8 +432,8 @@ class WorkspaceController {
         teams.findAll{it.isWorking}.each{
             def one=[:]
             one.capital=it.name;
-            one.lat=it.latitude?:30;
-            one.lon=it.longtitude?:30;
+            one.lat=it.latitude?:60;
+            one.lon=it.longtitude?:100;
             one.z=10;
             well<<one;
         }

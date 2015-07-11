@@ -40,7 +40,7 @@
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
-                系统登录
+
                 <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/>
             </div>
             <div class="panel-body">
@@ -61,8 +61,10 @@
                         </div>
                         <input type="submit" value="登录" class="btn btn-primary" />
                         <small>
+                            <!--
                             <a class="box-switcher" data-switch="box-register" href="">注册</a> or
                             <a class="box-switcher" data-switch="box-reset" href="">忘记密码?</a>
+                            -->
                         </small>
                     </fieldset>
                 </form>
@@ -75,7 +77,7 @@
 <div class="row box animated tile">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">                系统登录
+            <div class="panel-heading">
                 <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/></div>
             <div class="panel-body">
 
@@ -101,13 +103,13 @@
 <div class="row box animated tile">
     <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
         <div class="login-panel panel panel-default">
-            <div class="panel-heading">                系统登录
+            <div class="panel-heading">
                 <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/></div>
             <div class="panel-body">
                 <!-- Forgot Password -->
                 <form id="box-reset">
                     <h2 class="m-t-0 m-b-15">重设密码</h2>
-                    <p> eugiat commodo sed ac lacus.</p>
+                    <p> .</p>
                     <input type="email" class="form-control m-b-20" placeholder="Email Address">
                     <input type="submit" value="重设密码" class="btn btn-primary" />
                     <small><a class="box-switcher" data-switch="box-login" href="">去登录</a></small>

@@ -1058,7 +1058,7 @@
                             backgroundColor: 'rgba(0,0,0,0)'
                         },
                         title : {
-                            text : '小队分布图'
+                            text : ''
                             ,style:{color:'white'}
                         },
                         mapNavigation: {
@@ -1079,6 +1079,9 @@
                             mapData: Highcharts.maps['custom/world-highres'],
                             joinBy: 'hc-key',
                             name: 'Country',
+                            tooltip: {
+                                pointFormat: '{point.name}'
+                            },
                             states: {
                                 hover: {
                                     color: '#BADA55'
@@ -1097,11 +1100,13 @@
                                 format: '{point.capital}'
                             },
                             name: '<span style="color:white">开工小队</span>',
+                            tooltip: {
+                                pointFormat: '{point.capital}'
+                            },
                             color: 'green',
                             maxSize: '12%',
                             data: data.well
                         }, {
-
                             type: 'mapbubble',
                             dataLabels: {
                                 enabled: true,
@@ -1109,6 +1114,9 @@
                                 format: '{point.capital}'
                             },
                             name: '<span style="color:white">停工小队</span>',
+                            tooltip: {
+                                pointFormat: '{point.capital}'
+                            },
                             color: 'red',
                             maxSize: '12%',
                             data: data.bad
