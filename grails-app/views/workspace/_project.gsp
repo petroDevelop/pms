@@ -9,10 +9,7 @@
 <script src="${request.contextPath}/js/Highmaps-1.1.6/relayJs/proj4.js"></script>
 <script type="text/javascript">
     $(function () {
-        /**
-         * Dark theme for Highcharts JS
-         * @author Torstein Honsi
-         */
+        //初始化百分比图
         $.post("${request.contextPath}/workspace/statusDataJson", null,
                 function (data, textStatus) {
                     $('#easypiechart-blue').data('easyPieChart').update(data.teamPrecent);//小队开工率
@@ -21,19 +18,19 @@
                     $('#easypiechart-orange').data('easyPieChart').update(data.checkJobPrecent);//检查工单执行率
                     $('#easypiechart-orange').find(".percent").text(data.checkJobPrecent + "%");
 
-                    $('#easypiechart-teal').data('easyPieChart').update(data.teamPrecent);//保养工单执行率
-                    $('#easypiechart-teal').find(".percent").text(data.teamPrecent + "%");
+                    $('#easypiechart-teal').data('easyPieChart').update(data.maintainJobPrecent);//保养工单执行率
+                    $('#easypiechart-teal').find(".percent").text(data.maintainJobPrecent + "%");
 
-                    $('#easypiechart-red').data('easyPieChart').update(data.maintainJobPrecent);//设备健康率
-                    $('#easypiechart-red').find(".percent").text(data.maintainJobPrecent + "%");
+                    $('#easypiechart-red').data('easyPieChart').update(data.equipmentPrecent);//设备健康率
+                    $('#easypiechart-red').find(".percent").text(data.equipmentPrecent + "%");
                 });
 
 // Load the fonts
-        Highcharts.createElement('link', {
+/*        Highcharts.createElement('link', {
             href: '//fonts.googleapis.com/css?family=Unica+One',
             rel: 'stylesheet',
             type: 'text/css'
-        }, null, document.getElementsByTagName('head')[0]);
+        }, null, document.getElementsByTagName('head')[0]);*/
 
         Highcharts.theme = {
             colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
@@ -237,7 +234,7 @@
 // Apply the theme
         Highcharts.setOptions(Highcharts.theme);
         // Prepare demo data
-        var data = [
+        var worldData = [
             {
                 "hc-key": "dz",
                 "value": 0
@@ -1044,6 +1041,7 @@
 
         $.post("${request.contextPath}/workspace/mapDataJson", null,
                 function (data, textStatus) {
+
                     // Initiate the chart
                     $('#containerMap').highcharts('Map', {
                         credits:{
@@ -1073,7 +1071,7 @@
                         },
 
                         series : [{
-                            data : data,
+                            data : data.world,
                             mapData: Highcharts.maps['custom/world-highres'],
                             joinBy: 'hc-key',
                             name: 'Country',
@@ -1094,214 +1092,189 @@
                                 color:'white',
                                 format: '{point.capital}'
                             },
-                            name: '<span style="color:white">Team</span>',
+                            name: '<span style="color:white">开工小队</span>',
+                            color: 'green',
+                            maxSize: '12%',
+                            data: data.well
+                        }, {
+
+                            type: 'mapbubble',
+                            dataLabels: {
+                                enabled: true,
+                                color:'white',
+                                format: '{point.capital}'
+                            },
+                            name: '<span style="color:white">停工小队</span>',
                             color: 'red',
                             maxSize: '12%',
-                            data: data
+                            data: data.bad
                         }]
                     });
                 }, "json");
 
+        $.post("${request.contextPath}/workspace/chartDataProjectJson", null,
+                function (data, textStatus) {
+                    var chart = new Highcharts.Chart({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            renderTo: 'container0',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            type: 'column',
+                            margin: 75,
+                            options3d: {
+                                enabled: true,
+                                alpha: 15,
+                                beta: 15,
+                                depth: 50,
+                                viewDistance: 25
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: '项目部分类统计'
+                            ,style:{color:'white'}
+                        },
+                        plotOptions: {
+                            column: {
+                                depth: 25
+                            }
+                        },
+                        xAxis:{
+                            categories: data.categories
+                        },
+                        series:data.series
+                    });
+                    // Add mouse events for rotation
+                    $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
+                        e = chart.pointer.normalize(e);
 
-        var chart = new Highcharts.Chart({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                renderTo: 'container0',
-                backgroundColor: 'rgba(0,0,0,0)',
-                type: 'column',
-                margin: 75,
-                options3d: {
-                    enabled: true,
-                    alpha: 15,
-                    beta: 15,
-                    depth: 50,
-                    viewDistance: 25
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: '项目部分类统计'
-                ,style:{color:'white'}
-            },
-            plotOptions: {
-                column: {
-                    depth: 25
-                }
-            },
-            xAxis:{
-                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas','Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
-            },
-            series: [{
-                name:'aaaa',
-                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-            },
-                {
-                    name:'vvv',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-                ,
-                {
-                    name:'bb',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-                ,
-                {
-                    name:'dd',
-                    data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-                }
-            ]
-        });
+                        var posX = e.pageX,
+                                posY = e.pageY,
+                                alpha = chart.options.chart.options3d.alpha,
+                                beta = chart.options.chart.options3d.beta,
+                                newAlpha,
+                                newBeta,
+                                sensitivity = 5; // lower is more sensitive
 
-        // Add mouse events for rotation
-        $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
-            e = chart.pointer.normalize(e);
+                        $(document).bind({
+                            'mousemove.hc touchdrag.hc': function (e) {
+                                // Run beta
+                                newBeta = beta + (posX - e.pageX) / sensitivity;
+                                newBeta = Math.min(100, Math.max(-100, newBeta));
+                                chart.options.chart.options3d.beta = newBeta;
 
-            var posX = e.pageX,
-                    posY = e.pageY,
-                    alpha = chart.options.chart.options3d.alpha,
-                    beta = chart.options.chart.options3d.beta,
-                    newAlpha,
-                    newBeta,
-                    sensitivity = 5; // lower is more sensitive
+                                // Run alpha
+                                newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                                newAlpha = Math.min(100, Math.max(-100, newAlpha));
+                                chart.options.chart.options3d.alpha = newAlpha;
 
-            $(document).bind({
-                'mousemove.hc touchdrag.hc': function (e) {
-                    // Run beta
-                    newBeta = beta + (posX - e.pageX) / sensitivity;
-                    newBeta = Math.min(100, Math.max(-100, newBeta));
-                    chart.options.chart.options3d.beta = newBeta;
+                                chart.redraw(false);
+                            },
+                            'mouseup touchend': function () {
+                                $(document).unbind('.hc');
+                            }
+                        });
+                    });
+                }, "json");
 
-                    // Run alpha
-                    newAlpha = alpha + (e.pageY - posY) / sensitivity;
-                    newAlpha = Math.min(100, Math.max(-100, newAlpha));
-                    chart.options.chart.options3d.alpha = newAlpha;
+        $.post("${request.contextPath}/workspace/barChartJson", null,
+                function (data, textStatus) {
+                    $('#container1').highcharts({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            type: 'pie',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: ''
+                            ,style:{color:'white'}
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y:.1f}</b>(<b>{point.percentage:.1f}</b>%)'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name}'
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: '工单数量',
+                            data: data.jobOrder
+                        }]
+                    });
 
-                    chart.redraw(false);
-                },
-                'mouseup touchend': function () {
-                    $(document).unbind('.hc');
-                }
-            });
-        });
+                    $('#container2').highcharts({
+                        credits:{
+                            enabled:false
+                        },
+                        exporting:{
+                            enabled:false
+                        },
+                        chart: {
+                            type: 'pie',
+                            backgroundColor: 'rgba(0,0,0,0)',
+                            options3d: {
+                                enabled: true,
+                                alpha: 45,
+                                beta: 0
+                            }
+                        },
+                        legend:{
+                            backgroundColor:'white'
+                        },
+                        title: {
+                            text: ''
+                            ,style:{color:'white'}
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.y:.1f}</b>(<b>{point.percentage:.1f}</b>%)'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                depth: 35,
+                                dataLabels: {
+                                    enabled: true,
+                                    format: '{point.name}'
+                                }
+                            }
+                        },
+                        series: [{
+                            type: 'pie',
+                            name: '设备数量',
+                            data: data.equipment
+                        }]
+                    });
+                }, "json");
 
-        $('#container1').highcharts({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                type: 'pie',
-                backgroundColor: 'rgba(0,0,0,0)',
-                options3d: {
-                    enabled: true,
-                    alpha: 45,
-                    beta: 0
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: 'Browser market shares at a specific website, 2014'
-                ,style:{color:'white'}
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    depth: 35,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Browser share',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
-            }]
-        });
-
-        $('#container2').highcharts({
-            credits:{
-                enabled:false
-            },
-            exporting:{
-                enabled:false
-            },
-            chart: {
-                type: 'pie',
-                backgroundColor: 'rgba(0,0,0,0)',
-                options3d: {
-                    enabled: true,
-                    alpha: 45,
-                    beta: 0
-                }
-            },
-            legend:{
-                backgroundColor:'white'
-            },
-            title: {
-                text: 'Browser market shares at a specific website, 2014'
-                ,style:{color:'white'}
-            },
-            tooltip: {
-                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    depth: 35,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }
-            },
-            series: [{
-                type: 'pie',
-                name: 'Browser share',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['Others',   0.7]
-                ]
-            }]
-        });
     });
 </script>
 

@@ -21,19 +21,21 @@
                     $('#easypiechart-orange').data('easyPieChart').update(data.checkJobPrecent);//检查工单执行率
                     $('#easypiechart-orange').find(".percent").text(data.checkJobPrecent + "%");
 
-                    $('#easypiechart-teal').data('easyPieChart').update(data.teamPrecent);//保养工单执行率
-                    $('#easypiechart-teal').find(".percent").text(data.teamPrecent + "%");
+                    $('#easypiechart-teal').data('easyPieChart').update(data.maintainJobPrecent);//保养工单执行率
+                    $('#easypiechart-teal').find(".percent").text(data.maintainJobPrecent + "%");
 
-                    $('#easypiechart-red').data('easyPieChart').update(data.maintainJobPrecent);//设备健康率
-                    $('#easypiechart-red').find(".percent").text(data.maintainJobPrecent + "%");
+                    $('#easypiechart-red').data('easyPieChart').update(data.equipmentPrecent);//设备健康率
+                    $('#easypiechart-red').find(".percent").text(data.equipmentPrecent + "%");
                 }, "json");
 
+/*
 // Load the fonts
         Highcharts.createElement('link', {
             href: '//fonts.googleapis.com/css?family=Unica+One',
             rel: 'stylesheet',
             type: 'text/css'
         }, null, document.getElementsByTagName('head')[0]);
+*/
 
         Highcharts.theme = {
             colors: ["#2b908f", "#90ee7e", "#f45b5b", "#7798BF", "#aaeeee", "#ff0066", "#eeaaee",
@@ -1073,7 +1075,7 @@
                         },
 
                         series : [{
-                            data : data,
+                            data : data.world,
                             mapData: Highcharts.maps['custom/world-highres'],
                             joinBy: 'hc-key',
                             name: 'Country',
@@ -1094,10 +1096,22 @@
                                 color:'white',
                                 format: '{point.capital}'
                             },
-                            name: '<span style="color:white">Team</span>',
+                            name: '<span style="color:white">开工小队</span>',
+                            color: 'green',
+                            maxSize: '12%',
+                            data: data.well
+                        }, {
+
+                            type: 'mapbubble',
+                            dataLabels: {
+                                enabled: true,
+                                color:'white',
+                                format: '{point.capital}'
+                            },
+                            name: '<span style="color:white">停工小队</span>',
                             color: 'red',
                             maxSize: '12%',
-                            data: data
+                            data: data.bad
                         }]
                     });
                 }, "json");
@@ -1145,41 +1159,42 @@
                         },
                         series: data.series
                     });
+
+                    // Add mouse events for rotation
+                    $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
+                        e = chart.pointer.normalize(e);
+
+                        var posX = e.pageX,
+                                posY = e.pageY,
+                                alpha = chart.options.chart.options3d.alpha,
+                                beta = chart.options.chart.options3d.beta,
+                                newAlpha,
+                                newBeta,
+                                sensitivity = 5; // lower is more sensitive
+
+                        $(document).bind({
+                            'mousemove.hc touchdrag.hc': function (e) {
+                                // Run beta
+                                newBeta = beta + (posX - e.pageX) / sensitivity;
+                                newBeta = Math.min(100, Math.max(-100, newBeta));
+                                chart.options.chart.options3d.beta = newBeta;
+
+                                // Run alpha
+                                newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                                newAlpha = Math.min(100, Math.max(-100, newAlpha));
+                                chart.options.chart.options3d.alpha = newAlpha;
+
+                                chart.redraw(false);
+                            },
+                            'mouseup touchend': function () {
+                                $(document).unbind('.hc');
+                            }
+                        });
+                    });
                 }, "json");
 
 
 
-        // Add mouse events for rotation
-        $(chart.container).bind('mousedown.hc touchstart.hc', function (e) {
-            e = chart.pointer.normalize(e);
-
-            var posX = e.pageX,
-                    posY = e.pageY,
-                    alpha = chart.options.chart.options3d.alpha,
-                    beta = chart.options.chart.options3d.beta,
-                    newAlpha,
-                    newBeta,
-                    sensitivity = 5; // lower is more sensitive
-
-            $(document).bind({
-                'mousemove.hc touchdrag.hc': function (e) {
-                    // Run beta
-                    newBeta = beta + (posX - e.pageX) / sensitivity;
-                    newBeta = Math.min(100, Math.max(-100, newBeta));
-                    chart.options.chart.options3d.beta = newBeta;
-
-                    // Run alpha
-                    newAlpha = alpha + (e.pageY - posY) / sensitivity;
-                    newAlpha = Math.min(100, Math.max(-100, newAlpha));
-                    chart.options.chart.options3d.alpha = newAlpha;
-
-                    chart.redraw(false);
-                },
-                'mouseup touchend': function () {
-                    $(document).unbind('.hc');
-                }
-            });
-        });
 
         $('#container1').highcharts({
             credits:{
