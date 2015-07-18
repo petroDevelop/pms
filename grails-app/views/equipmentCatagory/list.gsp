@@ -6,6 +6,13 @@
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
+			function booleanFormatter(value, row) {
+				var str='否';
+				if(value=='true'){
+					str='是';
+				}
+				return str;
+			}
 			function deleteFormatter(value, row) {
 				var str='<button class="btn btn-default margin" onclick="deleteOne('+row.id+')" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
 				return str;
@@ -256,7 +263,7 @@
 
 									<th data-field="parent.text" data-sortable="true" ><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 
-									<th data-field="isSpecial" data-sortable="true" >${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}</th>
+									<th data-field="isSpecial" data-sortable="true"  data-formatter="booleanFormatter">${message(code: 'equipmentCatagory.isSpecial.label', default: 'Is Special')}</th>
 
 									<th data-field="specification" data-sortable="true" >${message(code: 'equipmentCatagory.specification.label', default: 'Specification')}</th>
 

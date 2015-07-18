@@ -131,6 +131,7 @@
             <img src="${request.contextPath}/images/line.png"  style="height: 25px;border: 0px"/>
             </a>
             <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown"><a>欢迎 ：<sec:username/></a></li>
                 <!-- message -->
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">

@@ -11,8 +11,11 @@
 				var str='<a href="${request.contextPath}/baseUser/delete/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
 				return str;
 			}
+			function editOne(id){
+				window.location.href="${request.contextPath}/baseUser/edit/"+id;
+			}
 			function editFormatter(value, row) {
-				var str='<a href="${request.contextPath}/baseUser/edit/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+				var str='<button class="btn btn-default margin" onclick="editOne(\''+row.id+'\')" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button>';
 				return str;
 			}
 			function nameFormatter(value, row) {
