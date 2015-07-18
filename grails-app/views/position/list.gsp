@@ -187,7 +187,7 @@
 									${message(code: 'position.name.label', default: 'Name')}
 								</th>
 								<th data-field="eptCatas">
-									${message(code: 'position.eptCatas.label', default: 'Equipment Catagorys')}
+									${message(code: 'position.equipmentCatagory.label', default: 'Equipment Catagorys')}
 								</th>
 								<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 								<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->

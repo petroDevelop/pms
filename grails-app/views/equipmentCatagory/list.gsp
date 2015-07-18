@@ -277,7 +277,7 @@
 			<div class="row box animated tile"  id="box-edit">
 				<div class="col-lg-12 form-group">
 					<div class="panel panel-default">
-						<div class="panel-heading">Info</div>
+						<div class="panel-heading"><g:message code="default.info.label" args="[entityName]" /></div>
 						<div class="panel-body">
 					<form  role="form" id="equipmentCatagoryForm" action="${request.contextPath}/equipmentCatagory/serverSave"
 						   enctype="multipart/form-data" method="post" >

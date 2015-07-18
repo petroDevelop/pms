@@ -33,3 +33,11 @@
 
     </ul>
 </li>
+
+<script>
+    $(function(){
+        <g:if test="${['workspace'].contains(params.controller)}">
+        $("div [href='#sub-item-4']").click();
+        </g:if>
+    });
+</script>

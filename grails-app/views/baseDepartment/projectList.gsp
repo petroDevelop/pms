@@ -7,6 +7,13 @@
 		<g:set var="entityName" value="${message(code: 'baseDepartment.label', default: 'BaseDepartment')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
+			function booleanFormatter(value, row) {
+				var str='否';
+				if(value){
+					str='是';
+				}
+				return str;
+			}
 			function deleteFormatter(value, row) {
 				var str='<a href="${request.contextPath}/baseDepartment/delete/'+row.id+'"><button class="btn btn-default margin" type="button"><span class="glyphicon glyphicon-trash"></span> &nbsp;<g:message code="default.button.delete.label" default="Delete" /></button></a>';
 				return str;
@@ -165,12 +172,6 @@
 
 									<th data-field="type"  >${message(code: 'baseDepartment.type.label', default: 'Type')}</th>
 									<th data-field="parent.text"  >${message(code: 'baseDepartment.parent.label', default: 'Parent')}</th>
-
-
-									<th data-field="reason"  data-sortable="true"   >${message(code: 'baseDepartment.reason.label', default: 'Reason')}</th>
-
-
-									<th data-field="isWorking"  data-sortable="true"   >${message(code: 'baseDepartment.isWorking.label', default: 'Is Working')}</th>
 
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->

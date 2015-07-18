@@ -189,7 +189,7 @@
 								   data-url="${request.contextPath}/equipmentStandardHistory/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+								   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
@@ -225,7 +225,7 @@
 		<div class="row box animated tile"  id="box-edit">
 			<div class="col-lg-12 form-group">
 						<div class="panel panel-default">
-							<div class="panel-heading">Info</div>
+							<div class="panel-heading"><g:message code="default.info.label" args="[entityName]" /></div>
 							<div class="panel-body">
 				<form  role="form"  action='${request.contextPath}/equipmentStandardHistory/serverSave'  class="form-horizontal" id="equipmentStandardHistoryForm" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="${equipmentStandardHistoryInstance?.version}" />

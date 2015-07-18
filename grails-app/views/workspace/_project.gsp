@@ -1064,6 +1064,7 @@
                             }
                         },
                         legend:{
+                            enabled: false,
                             style:{color:'white'}
                         },
                         colorAxis: {
@@ -1081,7 +1082,7 @@
                                 }
                             },
                             dataLabels: {
-                                enabled: true,
+                                enabled: false,
                                 format: '{point.name}'
                             }
                         }, {
@@ -1343,7 +1344,7 @@
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">工单比例</div>
+            <div class="panel-heading">工单分类</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="container1" ></div>
@@ -1353,7 +1354,7 @@
     </div>
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading">设备比例</div>
+            <div class="panel-heading">设备状况</div>
             <div class="panel-body">
                 <div class="canvas-wrapper">
                     <div id="container2" ></div>

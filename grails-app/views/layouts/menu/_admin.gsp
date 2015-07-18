@@ -19,7 +19,7 @@
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseUserBaseRole/list">
+            <a class="" href="${request.contextPath}/requestmap/list">
                 <span class="glyphicon glyphicon-share-alt"></span> 权限管理
             </a>
         </li>
@@ -33,3 +33,12 @@
 <li><a href="forms.html"><span class="glyphicon glyphicon-pencil"></span> Forms</a></li>
 <li><a href="buttons.html"><span class="glyphicon glyphicon-hand-up"></span> Buttons</a></li>
 <li><a href="panels.html"><span class="glyphicon glyphicon-info-sign"></span> Alerts &amp; Panels</a></li>
+
+<script>
+    $(function(){
+        <g:if test="${['baseUser','baseRole','requestmap'].contains(params.controller)}">
+            $("div [href='#sub-item-1']").click();
+        </g:if>
+
+    });
+</script>

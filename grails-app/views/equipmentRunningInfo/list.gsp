@@ -232,7 +232,7 @@
 		<div class="row box animated tile"  id="box-edit">
 			<div class="col-lg-12 form-group">
 						<div class="panel panel-default">
-							<div class="panel-heading">Info</div>
+							<div class="panel-heading"><g:message code="default.info.label" args="[entityName]" /></div>
 							<div class="panel-body">
 				<form  role="form"  action='${request.contextPath}/equipmentRunningInfo/serverSave'  class="form-horizontal" id="equipmentRunningInfoForm" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="${equipmentRunningInfoInstance?.version}" />

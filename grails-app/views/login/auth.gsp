@@ -41,7 +41,7 @@
         <div class="login-panel panel panel-default">
             <div class="panel-heading">
 
-                <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/>
+                <img src="${request.contextPath}/images/line.png"  style="width:300px;height: 25px;border: 0px"/>
             </div>
             <div class="panel-body">
                 <!-- Login -->

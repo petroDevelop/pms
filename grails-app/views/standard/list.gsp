@@ -340,7 +340,7 @@
 		<div class="row box animated tile"  id="box-edit">
 			<div class="col-lg-12 form-group">
 						<div class="panel panel-default">
-							<div class="panel-heading">Info</div>
+							<div class="panel-heading"><g:message code="default.info.label" args="[entityName]" /></div>
 							<div class="panel-body">
 				<form  role="form"  action='${request.contextPath}/standard/serverSave'  class="form-horizontal" id="standardForm" enctype="multipart/form-data" method="post" >
 					<g:hiddenField name="version" value="${standardInstance?.version}" />
@@ -431,7 +431,8 @@
 		<div class="row box animated tile"  id="box-itemedit">
 			<div class="col-lg-12 form-group">
 				<div class="panel panel-default">
-					<div class="panel-heading">Item Info</div>
+					<g:set var="itemName" value="${message(code: 'standardItem.label', default: 'StandardItem')}" />
+					<div class="panel-heading"><g:message code="default.info.label" args="[itemName]" /></div>
 					<div class="panel-body">
 						<form  role="form"  action='${request.contextPath}/standardItem/serverSave'  class="form-horizontal ac-custom ac-radio ac-circle" id="standardItemForm" enctype="multipart/form-data" method="post" >
 							<g:hiddenField name="version" value="" />

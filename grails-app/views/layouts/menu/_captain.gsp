@@ -70,3 +70,19 @@
 
     </ul>
 </li>
+
+<script>
+    $(function(){
+        $('.parent').removeClass('active');
+        <g:if test="${['equipment','baseUser','rotation','positionBaseUser','baseUser'].contains(params.controller)}">
+        var obj=$("div [href='#sub-item-2']");
+        obj.parent().parent().addClass('active');
+        obj.click();
+        </g:if>
+        <g:if test="${['workspace'].contains(params.controller)}">
+        var obj=$("div [href='#sub-item-4']");
+        obj.parent().parent().addClass('active');
+        obj.click();
+        </g:if>
+    });
+</script>

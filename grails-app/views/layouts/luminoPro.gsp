@@ -106,6 +106,9 @@
     .dropdown-menu li label {
         color: #0000cc;
     }
+    .sidebar ul.nav {
+        font-size: 14px;
+    }
     </style>
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />
@@ -125,7 +128,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#"><!--<span>生产设备</span>管理系统-->
-            <img src="${request.contextPath}/images/line.png"  style="height: 30px;border: 0px"/>
+            <img src="${request.contextPath}/images/line.png"  style="height: 25px;border: 0px"/>
             </a>
             <ul class="nav navbar-top-links navbar-right">
                 <!-- message -->
@@ -165,7 +168,7 @@
                     </ul>
                 </li>
                 <!-- end warning-->
-                <li class="dropdown"><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 登出</a></li>
+                <li class="dropdown"><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 退出</a></li>
             </ul>
         </div>
     </div><!-- /.container-fluid -->
@@ -195,7 +198,7 @@
              <g:render template="/layouts/menu/member"/>
          </sec:ifAnyGranted>
         <li role="presentation" class="divider"></li>
-        <li><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 登出</a></li>
+        <li><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 退出</a></li>
     </ul>
 </div><!--/.sidebar-->
 

@@ -69,7 +69,7 @@ class CheckJob {
                                             jobItem.save(flush: true);
                                         }
                                         if(standardItem.checkType=='天数'&& standardItem.checkDays>0 && rotation.chargeDailyCheck){
-                                            //@todo 需要判断初次运行时与初始化数据比对
+                                            //@todo 需要判断初次运行时与初始化数据比对 equipmentRunningInfo
                                             if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
                                                 if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,(new Date()-standardItem.checkDays))==0){
                                                     new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);

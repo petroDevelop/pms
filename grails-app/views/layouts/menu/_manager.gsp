@@ -77,3 +77,23 @@
 
     </ul>
 </li>
+<script>
+    $(function(){
+        $('.parent').removeClass('active');
+        <g:if test="${['equipmentCatagory','standard','equipment','position'].contains(params.controller)}">
+            var obj=$("div [href='#sub-item-2']");
+            obj.parent().parent().addClass('active');
+            obj.click();
+        </g:if>
+        <g:if test="${['baseDepartment','baseUser'].contains(params.controller)}">
+            var obj=$("div [href='#sub-item-3']");
+            obj.parent().parent().addClass('active');
+            obj.click();
+        </g:if>
+        <g:if test="${['workspace'].contains(params.controller)}">
+            var obj=$("div [href='#sub-item-4']");
+            obj.parent().parent().addClass('active');
+            obj.click();
+        </g:if>
+    });
+</script>

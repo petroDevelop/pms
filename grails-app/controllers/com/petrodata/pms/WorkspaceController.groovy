@@ -430,23 +430,21 @@ class WorkspaceController {
         def map=[:]
         def well=[]
         def bad=[]
-        teams.findAll{it.isWorking}.each{
+        teams.each{team->
             def one=[:]
-            one.capital=it.name;
-            one.lat=it.latitude?:60;
-            one.lon=it.longtitude?:100;
+            one.capital=team.name;
+            one.lat=team.latitude?:60;
+            one.lon=team.longtitude?:100;
             one.z=10;
-            well<<one;
-        }
-        teams.findAll{!it.isWorking}.each{
-            def one=[:]
-            //one.abbrev='AL';
-            //one.parentState='Alabama';
-            one.capital=it.name;
-            one.lat=it.latitude?:1;
-            one.lon=it.longtitude?:1;
-            one.z=10;
-            bad<<one;
+            if(team.isWorking){
+                one.lat=team.latitude?:60;
+                one.lon=team.longtitude?:100;
+                well<<one;
+            }else{
+                one.lat=team.latitude?:10;
+                one.lon=team.longtitude?:20;
+                bad<<one;
+            }
         }
         def mapwhere=[:]
         mapwhere.captal="no where";
