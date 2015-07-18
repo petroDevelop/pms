@@ -15,7 +15,7 @@
 				window.location.href="${request.contextPath}/baseUser/edit/"+id+'?from=teamList';
 			}
 			function editFormatter(value, row) {
-				var str='<button class="btn btn-default margin" onclick="editOne('+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button>';
+				var str='<button class="btn btn-default margin" onclick="editOne(\''+row.id+'\')" type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button>';
 				return str;
 			}
 			function nameFormatter(value, row) {
