@@ -158,8 +158,7 @@
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
-									<th data-field="id"  data-sortable="true" ></th>
-									
+
 									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter"  >${message(code: 'equipment.name.label', default: 'Name')}</th>
 
 									<th data-field="standard.text"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
