@@ -106,7 +106,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'longtitude', 'error')} required">
 	<label for="longtitude">
-		<g:message code="baseDepartment.longtitude.label" default="Latitude" />
+		<g:message code="baseDepartment.longtitude.label" default="Longtitude" />
 	</label>
 	<g:textField class="form-control input-sm m-b-10" type="number" name="longtitude" maxlength="50" value="${baseDepartmentInstance?.longtitude}"/>
 </div>
