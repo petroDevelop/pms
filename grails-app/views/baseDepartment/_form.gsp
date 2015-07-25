@@ -94,6 +94,20 @@
 
 </g:else>
 
+<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'latitude', 'error')} required">
+	<label for="latitude">
+		<g:message code="baseDepartment.latitude.label" default="Latitude" />
+	</label>
+	<g:textField class="form-control input-sm m-b-10" type="number"  name="latitude" maxlength="50" value="${baseDepartmentInstance?.latitude}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'longtitude', 'error')} required">
+	<label for="longtitude">
+		<g:message code="baseDepartment.longtitude.label" default="Latitude" />
+	</label>
+	<g:textField class="form-control input-sm m-b-10" type="number" name="longtitude" maxlength="50" value="${baseDepartmentInstance?.longtitude}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: baseDepartmentInstance, field: 'baseUsers', 'error')} ">
 	<label for="baseUsers">
 		<g:message code="baseDepartment.baseUsers.label" default="Base Users" />
