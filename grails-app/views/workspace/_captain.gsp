@@ -42,7 +42,7 @@
 <script>
     $(function(){
         $().timelinr({
-            autoPlay: 'true',
+            autoPlay: 'false',
             autoPlayDirection: 'forward'
         })
     });
@@ -51,17 +51,19 @@
     def baseUser=com.petrodata.pms.core.BaseUser.findByUsername(sec.username());
     def rotations=com.petrodata.pms.team.Rotation.findAllByBaseDepartment(baseUser.baseDepartment).sort{Date.parse("HH:mm",it.beginTime)};
     def positions=com.petrodata.pms.team.PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[baseUser.baseDepartment])
-    int beginHour=0;
-    int endHour=23;
+    //int beginHour=0;
+    //int endHour=23;
     Date serverTime=new Date();
     int currentHour=serverTime.hours;
+    def showList=[];
     if(rotations && rotations.size()>0){
-        beginHour=Date.parse("HH:mm",rotations[0].beginTime).hours;
-        endHour=Date.parse("HH:mm",rotations[-1].endTime).hours;
+        //beginHour=Date.parse("HH:mm",rotations[0].beginTime).hours;
+        //endHour=Date.parse("HH:mm",rotations[-1].endTime).hours;
         String rotationDay=serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotations[0].timeZone));
         currentHour=Date.parse('yyyy-MM-dd HH:mm',rotationDay).hours;
+        showList=rotations.collect{Date.parse("HH:mm",it.beginTime).hours}
     }
-    def allHours=beginHour..endHour;
+    //def allHours=beginHour..endHour;
         /*
     def allHours=[];
     rotations.each{
@@ -69,8 +71,8 @@
         allHours<<Date.parse("HH:mm",it.endTime).hours;
     }
     */
-    def allInfo=[];
-    allHours.each{hour->
+    //def allInfo=[];
+/*    allHours.each{hour->
         def list=[];
         rotations.each{ro->
             if(Date.parse("HH:mm",rotations[0].beginTime).hours==hour){
@@ -81,8 +83,7 @@
             }
         }
         allInfo<<[hour:hour,info:list];
-    }
-
+    }*/
 %>
 <div class="row">
     <div class="col-lg-12">
@@ -92,20 +93,27 @@
                 <div class="canvas-wrapper">
                     <div id="timeline">
                         <ul id="dates">
-                            <g:each in="${allHours}" var="hour">
+                            <g:each in="${showList}" var="hour">
                                 <li><a href="#Hour${hour}">${hour}:00</a></li>
                             </g:each>
                         </ul>
                         <ul id="issues">
-                            <g:each in="${allInfo}" var="info" status="i">
-                            <li id="Hour${info.hour}">
+                            <g:each in="${rotations}" var="rotation" status="i">
+                            <li id="Hour${showList[i]}">
                                 <img src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/images/${i+1}.png" width="256" height="256" />
-                                <h1>${info.hour}:00</h1>
-                                <g:if test="${info.hour<=currentHour}">
-                                    <p >${info.info}.</p>
+                                <h1>${rotation.name}</h1>
+                                <g:set var="localTime" value="${Date.parse('yyyy-MM-dd',(new Date()).format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone)))}"/>
+                                <g:set var="overNum" value="${com.petrodata.pms.order.JobOrder.countByRotationAndJobDateAndIsFinish(rotation,localTime,true)}" />
+                                <g:if test="${showList[i]<=currentHour}">
+                                    <p style="color:goldenrod" >
+                                        已生成运行检查工单${positions.size()}份,完成${overNum}份,未完成${positions.size()-overNum}份.<br/>
+                                        涉及岗位:${positions.collect{it.name}.join(",")}
+                                    </p>
                                 </g:if>
                                 <g:else>
-                                    <p style="text-decoration:line-through;color:darkgray">${info.info}.</p>
+                                    <p style="text-decoration:line-through;color:darkgray">
+                                        将生成运行检查工单${positions.size()}份,完成${0}份,未完成${positions.size()}份.<br/>
+                                        涉及岗位:${positions.collect{it.name}.join(",")}</p>
                                 </g:else>
 
                             </li>
