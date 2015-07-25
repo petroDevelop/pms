@@ -1,3 +1,4 @@
+<%@ page import="com.petrodata.pms.team.PositionBaseUser; com.petrodata.pms.team.Rotation; com.petrodata.pms.core.BaseUser" %>
 
 <script type="text/javascript">
     function queryParams(params) {
@@ -36,8 +37,90 @@
 
     });
 </script>
+<link rel="stylesheet" href="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/css/style.css" media="screen" />
+<script src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/js/jquery.timelinr-0.9.54.js"></script>
+<script>
+    $(function(){
+        $().timelinr({
+            autoPlay: 'true',
+            autoPlayDirection: 'forward'
+        })
+    });
+</script>
+<%
+    def baseUser=com.petrodata.pms.core.BaseUser.findByUsername(sec.username());
+    def rotations=com.petrodata.pms.team.Rotation.findAllByBaseDepartment(baseUser.baseDepartment).sort{Date.parse("HH:mm",it.beginTime)};
+    def positions=com.petrodata.pms.team.PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[baseUser.baseDepartment])
+    int beginHour=0;
+    int endHour=23;
+    Date serverTime=new Date();
+    int currentHour=serverTime.hours;
+    if(rotations && rotations.size()>0){
+        beginHour=Date.parse("HH:mm",rotations[0].beginTime).hours;
+        endHour=Date.parse("HH:mm",rotations[-1].endTime).hours;
+        String rotationDay=serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotations[0].timeZone));
+        currentHour=Date.parse('yyyy-MM-dd HH:mm',rotationDay).hours;
+    }
+    def allHours=beginHour..endHour;
+        /*
+    def allHours=[];
+    rotations.each{
+        allHours<<Date.parse("HH:mm",it.beginTime).hours;
+        allHours<<Date.parse("HH:mm",it.endTime).hours;
+    }
+    */
+    def allInfo=[];
+    allHours.each{hour->
+        def list=[];
+        rotations.each{ro->
+            if(Date.parse("HH:mm",rotations[0].beginTime).hours==hour){
+                list<<[rotation:ro,type:'beginTime']
+            }
+            if(Date.parse("HH:mm",rotations[0].endTime).hours==hour){
+                list<<[rotation:ro,type:'endTime']
+            }
+        }
+        allInfo<<[hour:hour,info:list];
+    }
 
+%>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">今日工单汇总</div>
+            <div class="panel-body">
+                <div class="canvas-wrapper">
+                    <div id="timeline">
+                        <ul id="dates">
+                            <g:each in="${allHours}" var="hour">
+                                <li><a href="#Hour${hour}">${hour}:00</a></li>
+                            </g:each>
+                        </ul>
+                        <ul id="issues">
+                            <g:each in="${allInfo}" var="info" status="i">
+                            <li id="Hour${info.hour}">
+                                <img src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/images/${i+1}.png" width="256" height="256" />
+                                <h1>${info.hour}:00</h1>
+                                <g:if test="${info.hour<=currentHour}">
+                                    <p >${info.info}.</p>
+                                </g:if>
+                                <g:else>
+                                    <p style="text-decoration:line-through;color:darkgray">${info.info}.</p>
+                                </g:else>
 
+                            </li>
+                            </g:each>
+                        </ul>
+                        <div id="grad_left"></div>
+                        <div id="grad_right"></div>
+                        <a href="#" id="next">+</a>
+                        <a href="#" id="prev">-</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/.row-->
 <div class="row">
     <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
