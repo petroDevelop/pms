@@ -42,7 +42,8 @@
 <script>
     $(function(){
         $().timelinr({
-            autoPlay: 'false',
+            autoPlay: 'true',
+            autoPlayPause:6000,
             autoPlayDirection: 'forward'
         })
     });

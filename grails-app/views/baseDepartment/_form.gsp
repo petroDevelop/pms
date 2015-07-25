@@ -43,19 +43,22 @@
 		<g:message code="baseDepartment.type.label" default="Type" />
 
 	</label>
+ 	<sec:ifAnyGranted roles="ROLE_ADMIN">
+		<g:select name="type" id="type" class="form-control input-lg m-b-10"
+				  from="${baseDepartmentInstance?.constraints.type.inList}"
+				  value="${baseDepartmentInstance?.type}"
+				  valueMessagePrefix="baseDepartment.type"  />
+ 	</sec:ifAnyGranted>
+<sec:ifNotGranted roles="ROLE_ADMIN">
 	<%
-	    String type='';
+		String type='';
 		if(params.from=='projectList'){type='项目部节点'}
 		if(params.from=='teamList'||params.from=='underTeamList'){type='小队节点'}
-	    %>
-	 <input type="hidden" name="type" value="${type}"/>
+	%>
+	<input type="hidden" name="type" value="${type}"/>
 	<input type="text"  class="form-control input-sm m-b-10" name="typeShow" value="${type}" readonly disabled/>
-	<!--
-	<g:select name="type" id="type" class="form-control input-lg m-b-10"
-			  from="${baseDepartmentInstance?.constraints.type.inList}"
-			  value="${baseDepartmentInstance?.type}"
-			  valueMessagePrefix="baseDepartment.type"  />
-	-->
+</sec:ifNotGranted>
+
 </div>
 
 <g:if test="${params.from=='teamList' || params.from=='underTeamList' }">

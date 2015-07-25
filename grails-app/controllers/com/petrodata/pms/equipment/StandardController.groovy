@@ -182,7 +182,33 @@ class StandardController {
         if(file ||!file?.empty) {  //file.originalFilename
             try{
                 new ExcelReadBuilder(2003,file.bytes).eachLine([sheet:'sheet1',labels:true]) {
-                   println "${it.rowNum},${cell[0]},${cell[1]},${cell[2]},${cell[3]}......"
+                    if(it.rowNum>2){
+                        def ecs=cell(2)?.toString()?.trim();
+                        def ctype=cell(3)?.toString()?.trim();
+                        def title=cell(4)?.toString()?.trim();
+                        if(ecs&&ctype&&title){
+                            def ec=EquipmentCatagory.findByName(ecs);
+                            def st=Standard.findByName(ecs+"标准")
+                            if(ec){
+                                if(!st){
+                                    st=new Standard(name:ecs+"标准",equipmentCatagory:ec,reference:'无',attention:'无');
+                                    st.save(flush: true);
+                                }
+                                println st.id
+                                if(ctype=='B'||ctype=='b'){
+                                    def sti=new StandardItem(standard: st,type:'运行检查标准',aim: '时间',checkType:'班次',name:title);
+                                    sti.save(flush: true);
+                                    //println sti.errors.allErrors
+                                }
+                                if(ctype.contains('天')){
+                                    def sti=new StandardItem(standard: st,type:'运行检查标准',aim: '时间',checkType:'天数',name:title,checkDays:Integer.parseInt(ctype-'天'));
+                                    sti.save(flush: true);
+                                    //println sti.errors.allErrors
+                                }
+                            }
+
+                        }
+                     }
                 }
                 map.result=true;
             }catch(e){

@@ -19,7 +19,7 @@
 		<g:message code="baseUser.password.label" default="Password" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField class="form-control input-sm m-b-10"  name="password" required=""  />
+	<input class="form-control input-sm m-b-10" type="password"  name="password" required="" value="${baseUserInstance?.password}"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'email', 'error')} required">
@@ -105,21 +105,26 @@
 	<label for="userType">
 	 用户类别
 	</label>
-	<g:set var="list" value="${[['id':'ROLE_ADMIN','name':'管理员'],['id':'ROLE_MANAGER','name':'设备管理处人员'],['id':'ROLE_PROJECT','name':'项目部人员'],['id':'ROLE_CAPTAIN','name':'队长角色'],['id':'ROLE_MEMBER','name':'队员角色']]}"/>
+	<g:set var="list" value="${com.petrodata.pms.core.BaseRole.list().sort{it.description}}"/>
 	<sec:ifAnyGranted roles="ROLE_MANAGER">
-		<g:set var="list" value="${[['id':'ROLE_MANAGER','name':'设备管理处人员'],['id':'ROLE_PROJECT','name':'项目部人员'],['id':'ROLE_CAPTAIN','name':'队长角色'],['id':'ROLE_MEMBER','name':'队员角色']]}"/>
+		<g:set var="list" value="${com.petrodata.pms.core.BaseRole.findAllByNameInList(['ROLE_MANAGER','ROLE_PROJECT','ROLE_CAPTAIN','ROLE_MEMBER'])}"/>
 	</sec:ifAnyGranted>
 	<sec:ifAnyGranted roles="ROLE_PROJECT">
-		<g:set var="list" value="${[['id':'ROLE_PROJECT','name':'项目部人员'],['id':'ROLE_CAPTAIN','name':'队长角色'],['id':'ROLE_MEMBER','name':'队员角色']]}"/>
+		<g:set var="list" value="${com.petrodata.pms.core.BaseRole.findAllByNameInList(['ROLE_PROJECT','ROLE_CAPTAIN','ROLE_MEMBER'])}"/>
 	</sec:ifAnyGranted>
 	<sec:ifAnyGranted roles="ROLE_CAPTAIN">
-		<g:set var="list" value="${[['id':'ROLE_MEMBER','name':'队员角色']]}"/>
+		<g:set var="list" value="${com.petrodata.pms.core.BaseRole.findAllByName('ROLE_MEMBER')}"/>
 	</sec:ifAnyGranted>
 	<sec:ifAnyGranted roles="ROLE_MEMBER">
 		<g:set var="list" value="${[]}"/>
 	</sec:ifAnyGranted>
+	<g:set var="allRoles" value="${baseUserInstance.getAuthorities()}"/>
+	<g:if test="${allRoles?.size()>0}">
+		<g:set var="value" value="${allRoles.toList()[0]?.id}"/>
+	</g:if>
+
 	<g:select id="roles" name="roles"
-			  from="${list}" optionKey="id" optionValue="name"  required=""
-			  value="${value}" class="form-control input-lg m-b-10"/>
+			  from="${list}" optionKey="id" optionValue="name"  required=""  value="${value}"
+			   class="form-control input-lg m-b-10"/>
 </div>
 

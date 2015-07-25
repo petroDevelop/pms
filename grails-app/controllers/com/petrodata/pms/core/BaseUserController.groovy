@@ -55,6 +55,7 @@ class BaseUserController {
             return
         }
         if(params.roles){
+            BaseUserBaseRole.removeAll(baseUserInstance);
             BaseUserBaseRole.create(baseUserInstance,BaseRole.findByAuthority(params.roles),true);
         }
         flash.message = message(code: 'default.created.message', args: [message(code: 'baseUser.label', default: 'BaseUser'), baseUserInstance.id])

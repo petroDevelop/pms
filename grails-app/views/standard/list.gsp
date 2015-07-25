@@ -19,6 +19,11 @@
 				var str='<button class="btn btn-default margin box-switcher" data-switch="box-itemedit" onclick="editItemOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
 				return str;
 			}
+			function itemNameFormatter(value, row,index) {
+				var str='<a class="box-switcher" data-switch="box-itemedit" onclick="editItemOne('+index+','+row.id+')" >'+value+'</a></a>';
+				return str;
+			}
+
 			function nameFormatter(value, row,index) {
 				var str='<a href="javascript:void(0);" class="box-switcher" data-switch="box-edit" onclick="showOne('+index+','+row.id+')" >'+row.name+'</a>';
 				return str;
@@ -119,7 +124,7 @@
 					url:'${request.contextPath}/standard/importExel',
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
-						$('#myModal').modal('hide');
+						$('#importModal').modal('hide');
 						if (data.result){
 							$('#alertSucess').removeClass('hide');
 							setTimeout(function(){
@@ -382,7 +387,7 @@
 													<tr>
 														<th data-field="nofield" data-checkbox="true"></th>
 														<th data-field="id"  data-sortable="true" ></th>
-														<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
+														<th data-field="name"  data-sortable="true"  data-formatter="itemNameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
 
 														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>
 

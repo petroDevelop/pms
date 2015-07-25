@@ -33,7 +33,7 @@ class StandardItem {
         aim(size: 0..40,nullable: true,inList: ['时间','里程']);
         checkType(size: 0..40,nullable: true,inList: ['班次','天数']);
         checkDays();
-        name(size:0..50,nullable: false,blank: false);
+        name(size:0..2000,nullable: false,blank: false);
         range(size:0..100,nullable: true,blank: true);
         sop(size:0..100,nullable: true,blank: true);
         sopCode(size:0..100,nullable: true,blank: true);

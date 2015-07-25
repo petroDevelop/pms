@@ -9,7 +9,7 @@ class BaseRole { // implements org.activiti.engine.identity.Group {
 	String authority
 	//类型 （目前未使用，设为null）
 	String type
-
+	String description
 
 	static mapping = {
 		cache true
@@ -20,6 +20,7 @@ class BaseRole { // implements org.activiti.engine.identity.Group {
 		authority blank: false, unique: true
 		name blank: false
 		type nullable: true
+		description   nullable: true
 	}
 	String toString(){
 		return name;
