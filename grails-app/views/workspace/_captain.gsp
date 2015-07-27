@@ -104,10 +104,11 @@
                                 <img src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/images/${i+1}.png" width="256" height="256" />
                                 <h1>${rotation.name}</h1>
                                 <g:set var="localTime" value="${Date.parse('yyyy-MM-dd',(new Date()).format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone)))}"/>
+                                <g:set var="allNum" value="${com.petrodata.pms.order.JobOrder.countByRotationAndJobDate(rotation,localTime)}" />
                                 <g:set var="overNum" value="${com.petrodata.pms.order.JobOrder.countByRotationAndJobDateAndIsFinish(rotation,localTime,true)}" />
                                 <g:if test="${showList[i]<=currentHour}">
                                     <p style="color:goldenrod" >
-                                        已生成运行检查工单${positions.size()}份,完成${overNum}份,未完成${positions.size()-overNum}份.<br/>
+                                        已生成运行检查工单${allNum}份,完成${overNum}份,未完成${allNum-overNum}份.<br/>
                                         涉及岗位:${positions.collect{it.name}.join(",")}
                                     </p>
                                 </g:if>
