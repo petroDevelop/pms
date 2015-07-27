@@ -161,8 +161,25 @@ class EquipmentController {
         def file = request.getFile('file');
         if(file ||!file?.empty) {  //file.originalFilename
             try{
+                def dp=BaseDepartment.findByName('101');
                 new ExcelReadBuilder(2003,file.bytes).eachLine([sheet:'sheet1',labels:true]) {
-                   println "${it.rowNum},${cell[0]},${cell[1]},${cell[2]},${cell[3]}......"
+                    if(it.rowNum>0){
+                        def name=cell(1)?.toString()?.trim();
+                        if(name ){
+                            def ec=EquipmentCatagory.findByName(cell(2).toString().trim());
+                            def st=Standard.findByName(cell(2).toString().trim()+"标准");
+
+                            if(ec&&st){
+                                def eq=new Equipment(name:name,alias: name,code:cell(3).toString(),equipmentCatagory:ec,standard: st,creater:springSecurityService.currentUser,
+                                        belongDepartment: dp,inDepartment:dp,country: '中国',techState:'完好',serviceState:'在用',feature:'主体设备',operationDate:new Date()
+                                );
+                                eq.save(flush: true);
+                                println eq.errors.allErrors
+                            }
+
+                        }
+
+                    }
                 }
                 map.result=true;
             }catch(e){

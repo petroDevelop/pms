@@ -30,7 +30,7 @@
 
 	</label>
 	<div class="col-sm-10">
-		<g:select id="standard" name="standard.id" from="${com.petrodata.pms.equipment.Standard.list()}" optionKey="id" value="${equipmentInstance?.standard?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
+		<g:select id="standard" name="standard.id" from="${com.petrodata.pms.equipment.Standard.list().sort{it.name}}" optionKey="id" value="${equipmentInstance?.standard?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
 	</div>
 </div>
 
@@ -154,7 +154,7 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<div class="col-sm-10">
-		<g:select id="equipmentCatagory" name="equipmentCatagory.id" from="${com.petrodata.pms.equipment.EquipmentCatagory.list()}" optionKey="id" required="" value="${equipmentInstance?.equipmentCatagory?.id}" class="form-control input-lg m-b-10"/>
+		<g:select id="equipmentCatagory" name="equipmentCatagory.id" from="${com.petrodata.pms.equipment.EquipmentCatagory.list().sort{it.name}}" optionKey="id" required="" value="${equipmentInstance?.equipmentCatagory?.id}" class="form-control input-lg m-b-10"/>
 	</div>
 </div>
 

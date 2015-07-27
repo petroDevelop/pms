@@ -448,7 +448,7 @@ class WorkspaceController {
         }
         def mapwhere=[:]
         mapwhere.captal="no where";
-        mapwhere.z=30;
+        mapwhere.z=20;
         well<<mapwhere
         bad<<mapwhere
         map.well=well;

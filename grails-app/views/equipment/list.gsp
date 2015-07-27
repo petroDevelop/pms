@@ -66,6 +66,7 @@
 				$('#excelForm').form('submit', {
 					url:'${request.contextPath}/equipment/importExel',
 					success: function(data){
+						alert(data);
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
 						$('#myModal').modal('hide');
 						if (data.result){

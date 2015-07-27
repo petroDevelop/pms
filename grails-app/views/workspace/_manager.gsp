@@ -1098,7 +1098,7 @@
                             dataLabels: {
                                 enabled: true,
                                 color:'white',
-                                format: '{point.capital}'
+                                format: '<br/><p style="color: #ffcc00">{point.capital}</p>'
                             },
                             name: '<span style="color:white">开工小队</span>',
                             tooltip: {
@@ -1112,7 +1112,7 @@
                             dataLabels: {
                                 enabled: true,
                                 color:'white',
-                                format: '{point.capital}'
+                                format: '<br/><p style="color: #ffcc00">{point.capital}</p>'
                             },
                             name: '<span style="color:white">停工小队</span>',
                             tooltip: {
