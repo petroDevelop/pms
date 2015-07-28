@@ -151,10 +151,10 @@
 
 							</div>
 							<table id="equipmentTable" data-toggle="table"   data-toolbar="#toolbar"
-								   data-url="${request.contextPath}/equipment/json"   data-cache="false"
+								   data-url="${request.contextPath}/equipment/projectListJson"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>

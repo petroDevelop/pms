@@ -311,7 +311,7 @@
 								   data-url="${request.contextPath}/standard/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
@@ -382,11 +382,11 @@
 													    data-cache="false"     data-toolbar="#toolbar${i}"
 													   data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-search="false"
 													   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-													   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+													   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
 													<thead>
 													<tr>
 														<th data-field="nofield" data-checkbox="true"></th>
-														<th data-field="id"  data-sortable="true" ></th>
+
 														<th data-field="name"  data-sortable="true"  data-formatter="itemNameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
 
 														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>

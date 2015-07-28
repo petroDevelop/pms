@@ -21,8 +21,8 @@
         //初始化百分比图
         $.post("${request.contextPath}/workspace/statusDataJson", null,
                 function (data, textStatus) {
-                    $('#easypiechart-blue').data('easyPieChart').update(data.teamPrecent);//小队开工率
-                    $('#easypiechart-blue').find(".percent").text(data.teamPrecent + "%");
+                    //$('#easypiechart-blue').data('easyPieChart').update(data.teamPrecent);//小队开工率
+                    //$('#easypiechart-blue').find(".percent").text(data.teamPrecent + "%");
 
                     $('#easypiechart-orange').data('easyPieChart').update(data.checkJobPrecent);//检查工单执行率
                     $('#easypiechart-orange').find(".percent").text(data.checkJobPrecent + "%");
@@ -132,6 +132,7 @@
     </div>
 </div><!--/.row-->
 <div class="row">
+    <!--
     <div class="col-xs-6 col-md-3">
         <div class="panel panel-default">
             <div class="panel-heading">小队开工率</div>
@@ -141,7 +142,8 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-md-3">
+    -->
+    <div class="col-xs-8 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">检查工单执行率</div>
             <div class="panel-body easypiechart-panel">
@@ -150,7 +152,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-md-3">
+    <div class="col-xs-8 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">保养工单执行率</div>
             <div class="panel-body easypiechart-panel">
@@ -159,7 +161,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-6 col-md-3">
+    <div class="col-xs-8 col-md-4">
         <div class="panel panel-default">
             <div class="panel-heading">设备健康率</div>
             <div class="panel-body easypiechart-panel">

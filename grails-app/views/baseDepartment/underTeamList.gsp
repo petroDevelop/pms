@@ -169,8 +169,6 @@
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
-									<th data-field="id"  data-sortable="true" ></th>
-
 									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'baseDepartment.name.label', default: 'Name')}</th>
 
 									<th data-field="type"  >${message(code: 'baseDepartment.type.label', default: 'Type')}</th>

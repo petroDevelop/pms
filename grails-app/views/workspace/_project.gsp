@@ -1094,6 +1094,9 @@
                                 format: '<br/><p style="color: #ffcc00">{point.capital}</p>'
                             },
                             name: '<span style="color:white">开工小队</span>',
+                            tooltip: {
+                                pointFormat: '{point.capital}'
+                            },
                             color: 'green',
                             maxSize: '12%',
                             data: data.well
@@ -1106,6 +1109,9 @@
                                 format: '<br/><p style="color: #ffcc00">{point.capital}</p>'
                             },
                             name: '<span style="color:white">停工小队</span>',
+                            tooltip: {
+                                pointFormat: '{point.capital}'
+                            },
                             color: 'red',
                             maxSize: '12%',
                             data: data.bad
@@ -1139,7 +1145,7 @@
                             backgroundColor:'white'
                         },
                         title: {
-                            text: '项目部分类统计'
+                            text: '小队分类统计'
                             ,style:{color:'white'}
                         },
                         plotOptions: {

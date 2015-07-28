@@ -207,20 +207,20 @@ class EquipmentController {
         if(!params.sort) params.sort ='id'
         if(!params.order) params.order ='desc'
         def currentUser=BaseUser.get(springSecurityService.currentUser.id)
-        def departments=BaseDepartment.findAllByParent(currentUser.baseDepartment);
+        def departments=BaseDepartment.findAllByParentAndType(currentUser.baseDepartment,'小队节点');
         if(!departments){departments=[]}
         //departments<<currentUser.baseDepartment;
         def allCount=Equipment.createCriteria().count{
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
-            'in'('baseDepartment',departments)
+            'in'('belongDepartment',departments)
         }
-        def allList=BaseUser.createCriteria().list{
+        def allList=Equipment.createCriteria().list{
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
-            'in'('baseDepartment',departments)
+            'in'('belongDepartment',departments)
             order(params.sort,params.order)
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
@@ -249,13 +249,13 @@ class EquipmentController {
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
-            eq('baseDepartment',currentUser.baseDepartment)
+            eq('belongDepartment',currentUser.baseDepartment)
         }
-        def allList=BaseUser.createCriteria().list{
+        def allList=Equipment.createCriteria().list{
             if(params.search){
                 ilike('name',"%${params.search}%");
             }
-            eq('baseDepartment',currentUser.baseDepartment)
+            eq('belongDepartment',currentUser.baseDepartment)
             order(params.sort,params.order)
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
