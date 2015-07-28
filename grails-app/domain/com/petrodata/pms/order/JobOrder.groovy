@@ -10,7 +10,7 @@ class JobOrder {
     //岗位
     Position position
     //工单日期 (当地时区时间yyyy-MM-dd)
-    Date jobDate
+    Date jobDate     //只记录年月日，时分不记录
     //工单类型
     String type
     //是否完结

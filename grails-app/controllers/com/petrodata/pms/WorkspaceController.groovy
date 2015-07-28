@@ -537,7 +537,7 @@ class WorkspaceController {
         list.each{
            def one=[:]
            one.id=it.id
-           one.jobDate=it.jobDate.format("yyyy-MM-dd HH:mm",TimeZone.getTimeZone(it.rotation.timeZone))
+           one.jobDate=it.jobDate.format("yyyy-MM-dd",TimeZone.getTimeZone(it.rotation.timeZone))
            one.rotation=it.rotation.name
             one.position=it.position.name
             one.type=it.type

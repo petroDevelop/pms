@@ -182,7 +182,9 @@
         </div>
     </form>
     <ul class="nav menu">
+<sec:ifNotGranted roles="ROLE_MEMBER">
         <li ><a href="${request.contextPath}/"><span class="glyphicon glyphicon-dashboard"></span> 首页</a></li>
+ </sec:ifNotGranted>
          <sec:ifAnyGranted roles="ROLE_ADMIN">
              <g:render template="/layouts/menu/admin"/>
          </sec:ifAnyGranted>

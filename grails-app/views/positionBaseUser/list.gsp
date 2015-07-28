@@ -145,9 +145,6 @@
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
-									<th data-field="id"  data-sortable="true" ></th>
-									
-
 
 									<th data-field="baseUser.text"  >${message(code: 'positionBaseUser.baseUser.label', default: 'Base User')}</th>
 
