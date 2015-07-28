@@ -33,10 +33,18 @@ class WorkspaceController {
                 Date serverTime=new Date();
                 String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(myRotations[0].timeZone));
                 Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
-                def jobOrders=JobOrder.findAllByPositionInListAndRotationInListAndJobDate(myPostions,myRotations,localTime);
-                return [jobOrders:jobOrders.sort{it.id}]
+                def finishJobOrders = JobOrder.findAllByIsFinishAndPositionInListAndRotationInListAndJobDate(true,myPostions,myRotations,localTime);
+                def progressJobOrders = JobOrder.findAllByIsFinishAndPositionInListAndRotationInListAndJobDate(false,myPostions,myRotations,localTime);
+                def oldProgressJobOrders = JobOrder.findAllByIsFinishAndPositionInListAndPositionInListAndJobDateLessThan(false,myPostions,myRotations,localTime);
+
+                //def jobOrders=JobOrder.findAllByPositionInListAndRotationInListAndJobDate(myPostions,myRotations,localTime);
+                def map = [:];
+                map.finishJobOrders = finishJobOrders.sort {it.id};
+                map.progressJobOrders = progressJobOrders.sort{it.id};
+                map.oldProgressJobOrders = oldProgressJobOrders.sort {it.id};
+                return map;
             }else{
-                return [jobOrders:[]]
+                return [finishJobOrders:[],progressJobOrders:[],oldProgressJobOrders:[]]
                 //render '尚未分配班次'
             }
 
