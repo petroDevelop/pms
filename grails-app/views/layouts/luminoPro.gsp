@@ -109,6 +109,12 @@
     .sidebar ul.nav {
         font-size: 14px;
     }
+    .breadcrumb{
+        font-size: 14px;
+    }
+    .panel-heading{
+        font-size: 14px;
+    }
     </style>
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />

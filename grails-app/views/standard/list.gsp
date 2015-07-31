@@ -96,7 +96,7 @@
 				//show standard item table
 				$('#standardItemDiv').show();
 				<g:each in="${['运行检查标准','保养标准','大修标准']}" status="i" var="tabOne">
-				$('#standardItemTable${i}').bootstrapTable('refresh', {url: '${request.contextPath}/standard/itemjson/'+id+'?type=${tabOne}'});
+				$('#standardItemTable${i}').bootstrapTable('refresh', {url: '${request.contextPath}/standard/itemjson/'+id+'?type=${tabOne.encodeAsURL()}'});
 				</g:each>
 			}
 			function editItemOne(index,id){

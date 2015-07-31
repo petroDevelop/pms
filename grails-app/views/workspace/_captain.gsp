@@ -17,6 +17,16 @@
         var str='<button class="btn btn-default margin box-switcher" data-switch="box-detail" onclick="showOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;显示</button></a>';
         return str;
     }
+    function rowStyle(row, index) {
+        var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+        if (row.isFinish=='未完成') {
+            return {
+                classes: classes[4]
+            };
+        }
+        return {};
+    }
     $(function () {
         //初始化百分比图
         $.post("${request.contextPath}/workspace/statusDataJson", null,
@@ -191,7 +201,7 @@
                            data-cache="false" data-show-refresh="true"
                            data-show-toggle="true" data-show-columns="true"
                            data-search="false"   data-side-pagination="server"
-                           data-pagination="true" data-query-params="queryParams"
+                           data-pagination="true" data-query-params="queryParams"  data-row-style="rowStyle"
                            data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
                         <thead>
                         <tr>
