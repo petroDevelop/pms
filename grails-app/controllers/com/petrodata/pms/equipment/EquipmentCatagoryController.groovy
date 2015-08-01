@@ -27,7 +27,7 @@ class EquipmentCatagoryController {
         params.limit=params.max;
         if(!params.offset) params.offset ='0'
         if(!params.sort) params.sort ='id'
-        if(!params.order) params.order ='desc'
+        if(!params.order) params.order ='asc'
         def ecCount=EquipmentCatagory.createCriteria().count{
             if(params.search){
               ilike('name',"%${params.search}%");

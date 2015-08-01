@@ -114,7 +114,7 @@
 		</div><!--/.row-->
 
 		<div class="row">
-		<div class="col-lg-12" style="height: 30px">
+		<div class="col-lg-12" style="height: 10px">
 
 			</div>
 		</div><!--/.row-->

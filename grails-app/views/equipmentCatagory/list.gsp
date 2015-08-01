@@ -6,7 +6,6 @@
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
-			function booleanFormatter(value, row) {
 				var str='否';
 				if(value=='true'){
 					str='是';
@@ -202,7 +201,7 @@
 			</div><!--/.row-->
 
 			<div class="row">
-				<div class="col-lg-12" style="height: 20px">
+				<div class="col-lg-12" style="height: 10px">
 
 				</div>
 			</div><!--/.row-->
@@ -253,7 +252,7 @@
 								   data-url="${request.contextPath}/equipmentCatagory/json" data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
+								   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="asc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>

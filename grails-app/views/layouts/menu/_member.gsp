@@ -1,6 +1,6 @@
 <li>
     <a class="" href="${request.contextPath}/workspace/myTask">
-        <span class="glyphicon glyphicon-info-sign"></span> 代办事项
+        <span class="glyphicon glyphicon-info-sign"></span> 待办任务
     </a>
 </li>
 <li>

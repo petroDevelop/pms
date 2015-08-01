@@ -15,7 +15,7 @@
 	</label>
 
 	<ul>
-	<g:each in="${com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc'])}" var="ec" status="i">
+	<g:each in="${com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'id','order':'asc'])}" var="ec" status="i">
 		<li><input type="checkbox" name="eptCatas" id="eptCatas${i}"
 			   <g:if test="${positionInstance?.eptCatas?.contains(ec)}">
 

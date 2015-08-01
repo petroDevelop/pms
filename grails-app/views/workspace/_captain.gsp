@@ -17,16 +17,16 @@
         var str='<button class="btn btn-default margin box-switcher" data-switch="box-detail" onclick="showOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;显示</button></a>';
         return str;
     }
-    function rowStyle(row, index) {
-        var classes = ['active', 'success', 'info', 'warning', 'danger'];
-
-        if (row.isFinish=='未完成') {
-            return {
-                classes: classes[4]
-            };
-        }
-        return {};
-    }
+//    function rowStyle(row, index) {
+//        var classes = ['active', 'success', 'info', 'warning', 'danger'];
+//
+//        if (row.isFinish=='未完成') {
+//            return {
+//                classes: classes[4]
+//            };
+//        }
+//        return {};
+//    }
     $(function () {
         //初始化百分比图
         $.post("${request.contextPath}/workspace/statusDataJson", null,
@@ -46,6 +46,18 @@
 
 
     });
+    function finishFormatter(value, row) {
+        if(value == "未完成")
+        {
+            return "<p style='color: #ef4040;'>"+ value+"</p>";
+        }
+        else
+        {
+            return "<p style='color: #ffffff;'>"+ value+"</p>";
+        }
+
+    }
+
 </script>
 <link rel="stylesheet" href="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/css/style.css" media="screen" />
 <script src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/js/jquery.timelinr-0.9.54.js"></script>
@@ -201,7 +213,7 @@
                            data-cache="false" data-show-refresh="true"
                            data-show-toggle="true" data-show-columns="true"
                            data-search="false"   data-side-pagination="server"
-                           data-pagination="true" data-query-params="queryParams"  data-row-style="rowStyle"
+                           data-pagination="true" data-query-params="queryParams"
                            data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
                         <thead>
                         <tr>
@@ -212,7 +224,7 @@
 
                             <th data-field="type" data-sortable="true" >工单类型</th>
 
-                            <th data-field="isFinish" data-sortable="true" >是否完结</th>
+                            <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
 
                             <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
 

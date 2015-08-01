@@ -124,7 +124,7 @@
 		</div><!--/.row-->
 
 		<div class="row">
-			<div class="col-lg-12" style="height: 30px">
+			<div class="col-lg-12" style="height: 10px">
 
 			</div>
 		</div><!--/.row-->
@@ -165,7 +165,7 @@
 							<table id="baseDepartmentTable" data-toggle="table"  data-toolbar="#toolbar" data-url="${request.contextPath}/baseDepartment/projectJson"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+								   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="asc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
