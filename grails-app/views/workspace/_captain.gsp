@@ -61,16 +61,9 @@
 </script>
 <link rel="stylesheet" href="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/css/style.css" media="screen" />
 <script src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/js/jquery.timelinr-0.9.54.js"></script>
-<script>
-    $(function(){
-        $().timelinr({
-            autoPlay: 'false',
-            autoPlayPause:6000,
-            autoPlayDirection: 'forward'
-        })
-    });
-</script>
+
 <%
+    int startAt=1;
     def baseUser=com.petrodata.pms.core.BaseUser.findByUsername(sec.username());
     def rotations=com.petrodata.pms.team.Rotation.findAllByBaseDepartment(baseUser.baseDepartment).sort{Date.parse("HH:mm",it.beginTime)};
     def positions=com.petrodata.pms.team.PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[baseUser.baseDepartment])
@@ -85,6 +78,11 @@
         String rotationDay=serverTime.format('yyyy-MM-dd HH:mm',TimeZone.getTimeZone(rotations[0].timeZone));
         currentHour=Date.parse('yyyy-MM-dd HH:mm',rotationDay).hours;
         showList=rotations.collect{Date.parse("HH:mm",it.beginTime).hours}
+    }
+    rotations.eachWithIndex{ rotation,i ->
+        if(Date.parse("HH:mm",rotation.beginTime).hours<=currentHour && Date.parse("HH:mm",rotation.endTime).hours>=currentHour ){
+            startAt=i+1;
+        }
     }
     //def allHours=beginHour..endHour;
         /*
@@ -108,6 +106,16 @@
         allInfo<<[hour:hour,info:list];
     }*/
 %>
+<script>
+    $(function(){
+        $().timelinr({
+            autoPlay: 'false',
+            autoPlayPause:6000,
+            startAt: ${startAt},
+            autoPlayDirection: 'forward'
+        })
+    });
+</script>
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">

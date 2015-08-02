@@ -49,7 +49,7 @@ class CheckJob {
             //   则为此班次生成工单（本小队所有岗位一份）
             JobOrder.withTransaction {status ->
                 try{
-                    PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[team]).each{position->
+                    PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[team]).toList().unique().each{position->
                         def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
                         if(jobOrder.save(flush: true)){
                             def ecList=[];

@@ -6,6 +6,7 @@
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
+			function booleanFormatter(value, row) {
 				var str='否';
 				if(value=='true'){
 					str='是';
@@ -130,14 +131,18 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" onclick="changeSelect();"  class="btn btn-default margin" data-dismiss="modal">Change</button>
-					<button type="button"  class="btn btn-default margin"  data-dismiss="modal">Close</button>
+					<button type="button"  class="btn btn-default margin" onclick="coverTree();"  data-dismiss="modal">Close</button>
 				</div>
 			</div>
 
 		</div>
 	</div>
 	<script>
+		function coverTree(){
+			$("#ecTreeDiv").animate({scrollTop:0},10);
+		}
 		function changeSelect(){
+			coverTree();
 			var value=$('.easy-tree').find('li.li_selected').first().attr('value');
 			var text=$('.easy-tree').find('li.li_selected').first().children().first().text();
 			if(value && value!=null){
@@ -156,6 +161,18 @@
 				i18n:{}
 			});
 			$('#catagoryShow').modal('show');
+			$('.easy-tree').find('li').removeClass("li_selected");
+			//$("#ecTreeDiv").scrollTop();
+			var currentId=$('#parent').val();
+			if(currentId){
+				var obj=$('.easy-tree').find('li[value="'+currentId+'"]');
+				obj.addClass('li_selected');
+				setTimeout(function(){
+					$("#ecTreeDiv").animate({scrollTop:obj.offset().top-90},700);
+				},200);
+
+			}
+			//
 		}
 
 	</script>
