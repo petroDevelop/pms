@@ -265,7 +265,7 @@
 		</div><!--/.row-->
 
 		<div class="row">
-		<div class="col-lg-12" style="height: 30px">
+		<div class="col-lg-12" style="height: 10px">
 
 			</div>
 		</div><!--/.row-->
@@ -311,7 +311,7 @@
 								   data-url="${request.contextPath}/standard/json"   data-cache="false"
 								   data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true"
 								   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-								   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
+								   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="asc">
 								<thead>
 								<tr>
 									<th data-field="nofield" data-checkbox="true"></th>
@@ -387,14 +387,14 @@
 													<tr>
 														<th data-field="nofield" data-checkbox="true"></th>
 
-														<th data-field="name"  data-sortable="true"  data-formatter="itemNameFormatter" >${message(code: 'standardItem.name.label', default: 'Name')}</th>
+														<th data-field="name"  data-sortable="true"  data-formatter="itemNameFormatter" >${message(code: 'standardItem.name.label', default: 'Checking List')}</th>
 
-														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Aim')}</th>
+														<th data-field="aim"  data-sortable="true"   >${message(code: 'standardItem.aim.label', default: 'Unit')}</th>
 
 														<g:if test="${i==0}">
-															<th data-field="checkType"  data-sortable="true">${message(code: 'standardItem.checkType.label', default: 'Check Type')}</th>
+															<th data-field="checkType"  data-sortable="true">${message(code: 'standardItem.checkType.label', default: 'Checking Type')}</th>
 
-															<th data-field="checkDays"  data-sortable="true">${message(code: 'standardItem.checkDays.label', default: 'Check Days')}</th>
+															<th data-field="checkDays"  data-sortable="true">${message(code: 'standardItem.checkDays.label', default: 'Checking Days')}</th>
 
 															<th data-field="range"  data-sortable="true"   >${message(code: 'standardItem.range.label', default: 'Range')}</th>
 														</g:if>

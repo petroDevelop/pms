@@ -37,8 +37,10 @@
     <link rel="stylesheet" href="${request.contextPath}/js/EasyTree/css/easyTree.css">
     <script src="${request.contextPath}/js/EasyTree/src/easyTree.js"></script>
     <link href="${request.contextPath}/js/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="${request.contextPath}/js/bootstrap-table-master/dist/bootstrap-table.css" rel="stylesheet" media="screen">
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="${request.contextPath}/js/bootstrap-table-master/dist/bootstrap-table.js" charset="UTF-8"></script>
     <g:layoutHead/>
     <style>
     /*页内多个界面的切换样式*/

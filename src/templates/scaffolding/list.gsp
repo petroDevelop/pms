@@ -119,7 +119,7 @@
 				<h1 class="page-header"><g:message code="${domainClass.propertyName}.label" default="${className}" /></h1>
 			</div>
 			-->
-			<div class="col-lg-12" style="height: 30px">
+			<div class="col-lg-12" style="height: 10px">
 
 			</div>
 		</div><!--/.row-->

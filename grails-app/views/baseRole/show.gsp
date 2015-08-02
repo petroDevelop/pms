@@ -18,7 +18,7 @@
 	</div><!--/.row-->
 
 	<div class="row">
-		<div class="col-lg-12" style="height: 30px">
+		<div class="col-lg-12" style="height: 10px">
 			<g:if test="${flash.message}">
 				<div class="message" role="status">${flash.message}</div>
 			</g:if>

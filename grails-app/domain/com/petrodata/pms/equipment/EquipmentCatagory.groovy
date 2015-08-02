@@ -25,7 +25,7 @@ class EquipmentCatagory {
     }
     public static String generatorTreeDiv(){
         String divHtml="<div class=\"easy-tree\"><ul>";
-        EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']).each{ec->
+        EquipmentCatagory.findAllByParentIsNull(['sort':'id','order':'asc']).each{ec->
             divHtml=divHtml+"<li value='${ec.id}'>${ec.name}";
             divHtml=appendChild(ec,divHtml);
             divHtml=divHtml+"</li>";
@@ -34,7 +34,7 @@ class EquipmentCatagory {
         return divHtml;
     }
     private static String appendChild(EquipmentCatagory equipmentCatagory,String html){
-        def list=EquipmentCatagory.findAllByParent(equipmentCatagory,['sort':'name','order':'asc']);
+        def list=EquipmentCatagory.findAllByParent(equipmentCatagory,['sort':'id','order':'asc']);
         if(list?.size()>0){
             html=html+"<ul>";
             list?.each{ec->
