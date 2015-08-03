@@ -111,12 +111,13 @@
 <div class="row box animated tile active" id="box-list">
     <div class="col-lg-12">
         <div class="panel panel-default">
-            <div class="panel-heading"><span class="glyphicon glyphicon-check"></span>代办任务</div>
+            <div class="panel-heading"><span class="glyphicon glyphicon-check"></span>待办任务</div>
             <div class="panel-body tabs">
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#tab1">未完成工单</a></li>
-                    <li><a data-toggle="tab" href="#tab2">已完成工单</a></li>
-                    <li><a data-toggle="tab" href="#tab3">超期工单</a></li>
+                    <li><a data-toggle="tab" href="#tab2">超期工单</a></li>
+                    <li><a data-toggle="tab" href="#tab3">已完成工单</a></li>
+
                 </ul>
 
                 <div class="tab-content">
@@ -139,18 +140,6 @@
                     </div>
                     <div id="tab2" class="tab-pane fade">
                         <ul class="todo-list">
-                            <g:each in="${finishJobOrders}" var="jobOrder" status="i">
-                                <li class="todo-list-item">
-                                    <div class="checkbox">
-                                        <input type="checkbox" readonly disabled checked id="checkbox-${i}" />
-                                        <label  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
-                                    </div>
-                                </li>
-                            </g:each>
-                        </ul>
-                    </div>
-                    <div id="tab3" class="tab-pane fade">
-                        <ul class="todo-list">
                             <g:each in="${oldProgressJobOrders}" var="jobOrder" status="i">
                                 <li class="todo-list-item">
                                     <div class="checkbox">
@@ -161,6 +150,18 @@
                                         <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
                                         <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                                         <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </div>
+                                </li>
+                            </g:each>
+                        </ul>
+                    </div>
+                    <div id="tab3" class="tab-pane fade">
+                        <ul class="todo-list">
+                            <g:each in="${finishJobOrders}" var="jobOrder" status="i">
+                                <li class="todo-list-item">
+                                    <div class="checkbox">
+                                        <input type="checkbox" readonly disabled checked id="checkbox-${i}" />
+                                        <label  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                 </li>
                             </g:each>

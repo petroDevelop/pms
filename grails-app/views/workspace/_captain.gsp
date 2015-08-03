@@ -216,31 +216,90 @@
                 <div class="panel-heading">
                     队内工单监控
                 </div>
-                <div class="panel-body">
-                    <table id="jobItemTable"  data-toggle="table" data-url="${request.contextPath}/workspace/teamJobJson"
-                           data-cache="false" data-show-refresh="true"
-                           data-show-toggle="true" data-show-columns="true"
-                           data-search="false"   data-side-pagination="server"
-                           data-pagination="true" data-query-params="queryParams"
-                           data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
-                        <thead>
-                        <tr>
-                            <th data-field="jobDate" data-sortable="true"  >工单时间</th>
+                <div class="panel-body tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab1">未完成工单</a></li>
+                        <li><a data-toggle="tab" href="#tab2">超期工单</a></li>
+                        <li><a data-toggle="tab" href="#tab3">异常工单</a></li>
 
-                            <th data-field="rotation" data-sortable="true" >班次</th>
-                            <th data-field="position" data-sortable="true"  >岗位</th>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <table id="jobItemTable"  data-toggle="table" data-url="${request.contextPath}/workspace/teamJobJson"
+                                   data-cache="false" data-show-refresh="true"
+                                   data-show-toggle="true" data-show-columns="true"
+                                   data-search="false"   data-side-pagination="server"
+                                   data-pagination="true" data-query-params="queryParams"
+                                   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
+                                <thead>
+                                <tr>
+                                    <th data-field="jobDate" data-sortable="true"  >工单时间</th>
 
-                            <th data-field="type" data-sortable="true" >工单类型</th>
+                                    <th data-field="rotation" data-sortable="true" >班次</th>
+                                    <th data-field="position" data-sortable="true"  >岗位</th>
 
-                            <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
+                                    <th data-field="type" data-sortable="true" >工单类型</th>
 
-                            <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
+                                    <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
+
+                                    <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
 
 
-                        </tr>
-                        </thead>
-                    </table>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="tab2" class="tab-pane fade">
+                            <table id="jobOutDateItemTable"  data-toggle="table" data-url="${request.contextPath}/workspace/teamOutDateJobJson"
+                                   data-cache="false" data-show-refresh="true"
+                                   data-show-toggle="true" data-show-columns="true"
+                                   data-search="false"   data-side-pagination="server"
+                                   data-pagination="true" data-query-params="queryParams"
+                                   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
+                                <thead>
+                                <tr>
+                                    <th data-field="jobDate" data-sortable="true"  >工单时间</th>
 
+                                    <th data-field="rotation" data-sortable="true" >班次</th>
+                                    <th data-field="position" data-sortable="true"  >岗位</th>
+
+                                    <th data-field="type" data-sortable="true" >工单类型</th>
+
+                                    <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
+
+                                    <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
+
+
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="tab3" class="tab-pane fade">
+                            <table id="jobExceptionItemTable"  data-toggle="table" data-url="${request.contextPath}/workspace/teamExceptionJobJson"
+                                   data-cache="false" data-show-refresh="true"
+                                   data-show-toggle="true" data-show-columns="true"
+                                   data-search="false"   data-side-pagination="server"
+                                   data-pagination="true" data-query-params="queryParams"
+                                   data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
+                                <thead>
+                                <tr>
+                                    <th data-field="jobDate" data-sortable="true"  >工单时间</th>
+
+                                    <th data-field="rotation" data-sortable="true" >班次</th>
+                                    <th data-field="position" data-sortable="true"  >岗位</th>
+
+                                    <th data-field="type" data-sortable="true" >工单类型</th>
+
+                                    <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
+
+                                    <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
+
+
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
         </div>
