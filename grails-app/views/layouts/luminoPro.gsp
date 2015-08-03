@@ -28,9 +28,10 @@
     <script src="${request.contextPath}/js/template/LuminoPro/js/easypiechart-data.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-datepicker.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/custom.js"></script>
+    <!--
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap-table1.7.0/locale/bootstrap-table-zh-CN.js"></script>
-
+       -->
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
     <script src="${request.contextPath}/js/jquery-easyui-1.4.2/jquery.easyui.mobile.js"></script>
 
@@ -41,6 +42,7 @@
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-table-master/dist/bootstrap-table.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="${request.contextPath}/js/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js" charset="UTF-8"></script>
     <g:layoutHead/>
     <style>
     /*页内多个界面的切换样式*/

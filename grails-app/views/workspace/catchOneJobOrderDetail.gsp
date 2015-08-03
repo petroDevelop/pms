@@ -4,8 +4,8 @@
                 <input type="checkbox" readonly disabled
                        <g:if test="${item.status=='已查'}">checked</g:if> id="checkbox-${i}" />
                 <label  for="checkbox-${i}">
-                    设备:${item?.equipment?.name}|
-                    标准项:${item?.standardItem?.standard?.name}-${item?.standardItem?.type}|
+                    设备:${item?.equipment?.name}|${item?.standardItem?.type}
+                    标准项:${item?.standardItem?.name}|
                     状态:${item?.status}|
                     <g:if test="${item.status=='已查'}">
                         检查人:${item?.checker?.username}|
