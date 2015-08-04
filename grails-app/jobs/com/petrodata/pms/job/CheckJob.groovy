@@ -50,49 +50,50 @@ class CheckJob {
             JobOrder.withTransaction {status ->
                 try{
                     PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[team]).toList().unique().each{position->
-                        def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
-                        if(jobOrder.save(flush: true)){
-                            def ecList=[];
-                            position.eptCatas.each{ec->
-                                def list=getSubChild(equipmentCatagories,ec,[]);
-                                ecList=(ecList+list).unique();
-                            }
-                            ecList=ecList.collect {EquipmentCatagory.get(it)};
-                            //获取小队所有设备
-                            def equipments=Equipment.findAllByInDepartmentAndEquipmentCatagoryInList(team,ecList);
-                            equipments.each{equipment->
-                                //细化运行项
-                                equipment.standard.standardItems.each{standardItem->
-                                    if(standardItem.type=='运行检查标准'){
-                                        if(standardItem.checkType=='班次'){
-                                            def jobItem=new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem);
-                                            jobItem.save(flush: true);
-                                        }
-                                        if(standardItem.checkType=='天数'&& standardItem.checkDays>0 && rotation.chargeDailyCheck){
-                                            //@todo 需要判断初次运行时与初始化数据比对 equipmentRunningInfo
-                                            if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
-                                                if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,(new Date()-standardItem.checkDays))==0){
-                                                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
-                                                }
-                                            }else{
-                                                if(team.workTime){
-                                                    if((new Date())-standardItem.checkDays>team.workTime){
+                        def ecList=[];
+                        position.eptCatas.each{ec->
+                            def list=getSubChild(equipmentCatagories,ec,[]);
+                            ecList=(ecList+list).unique();
+                        }
+                        ecList=ecList.collect {EquipmentCatagory.get(it)};
+                        //获取小队所有设备
+                        def equipments=Equipment.findAllByInDepartmentAndEquipmentCatagoryInList(team,ecList);
+                        if(equipments.size()>0){
+                            def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
+                            if(jobOrder.save(flush: true)){
+                                equipments.each{equipment->
+                                    //细化运行项
+                                    equipment.standard.standardItems.each{standardItem->
+                                        if(standardItem.type=='运行检查标准'){
+                                            if(standardItem.checkType=='班次'){
+                                                def jobItem=new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem);
+                                                jobItem.save(flush: true);
+                                            }
+                                            if(standardItem.checkType=='天数'&& standardItem.checkDays>0 && rotation.chargeDailyCheck){
+                                                //@todo 需要判断初次运行时与初始化数据比对 equipmentRunningInfo
+                                                if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
+                                                    if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,(new Date()-standardItem.checkDays))==0){
                                                         new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
                                                     }
                                                 }else{
-                                                    new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                                    if(team.workTime){
+                                                        if((new Date())-standardItem.checkDays>team.workTime){
+                                                            new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                                        }
+                                                    }else{
+                                                        new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                                    }
                                                 }
                                             }
                                         }
+
                                     }
-
+                                    //细化检查项
                                 }
-                                //细化检查项
+                            }else{
+                                //@todo 保持事务一致
+                                //println jobOrder.errors.allErrors
                             }
-
-                        }else{
-                            //@todo 保持事务一致
-                            println jobOrder.errors.allErrors
                         }
                     }
 
