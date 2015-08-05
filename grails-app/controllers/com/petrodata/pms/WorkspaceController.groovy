@@ -531,7 +531,7 @@ class WorkspaceController {
         def baseDepartment=currentUser.baseDepartment;
         def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
         Date serverTime=new Date();
-        String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotations[0].timeZone));
+        String rotationDay=serverTime.format('yyyy-MM-dd');
         Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
         def count=JobOrder.createCriteria().count {
            createAlias("rotation","rt")
@@ -603,7 +603,7 @@ class WorkspaceController {
         list.each{
             def one=[:]
             one.id=it.id
-            one.jobDate=it.jobDate.format("yyyy-MM-dd",TimeZone.getTimeZone(it.rotation.timeZone))
+            one.jobDate=it.jobDate.format("yyyy-MM-dd")
             one.rotation=it.rotation.name
             one.position=it.position.name
             one.type=it.type
