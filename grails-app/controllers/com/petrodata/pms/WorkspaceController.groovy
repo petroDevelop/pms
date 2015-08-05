@@ -531,7 +531,7 @@ class WorkspaceController {
         def baseDepartment=currentUser.baseDepartment;
         def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
         Date serverTime=new Date();
-        String rotationDay=serverTime.format('yyyy-MM-dd');
+        String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotations[0].timeZone));
         Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
         def count=JobOrder.createCriteria().count {
            createAlias("rotation","rt")
