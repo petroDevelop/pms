@@ -25,7 +25,6 @@ environments {
             password = "pms123"
             dialect = "org.hibernate.dialect.Oracle10gDialect"
             */
-            logSql=true
         }
     }
     test {
