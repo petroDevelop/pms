@@ -18,6 +18,7 @@ class JobOrder {
 
     Date dateCreated
     Date lastUpdated
+    static hasMany = [jobItems:JobItem]
     static constraints = {
         rotation(nullable: false)
         position(nullable: false)
