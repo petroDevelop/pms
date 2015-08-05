@@ -531,7 +531,7 @@ class WorkspaceController {
         def baseDepartment=currentUser.baseDepartment;
         def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
         Date serverTime=new Date();
-        String rotationDay=serverTime.format('yyyy-MM-dd');
+        String rotationDay=serverTime.format('yyyy-MM-dd',TimeZone.getTimeZone(rotations[0].timeZone));
         Date  localTime=Date.parse('yyyy-MM-dd',rotationDay);
         def count=JobOrder.createCriteria().count {
            createAlias("rotation","rt")
@@ -552,7 +552,7 @@ class WorkspaceController {
         list.each{
            def one=[:]
            one.id=it.id
-           one.jobDate=it.jobDate.format("yyyy-MM-dd",TimeZone.getTimeZone(it.rotation.timeZone))
+           one.jobDate=it.jobDate.format("yyyy-MM-dd")
            one.rotation=it.rotation.name
             one.position=it.position.name
             one.type=it.type
@@ -620,7 +620,50 @@ class WorkspaceController {
     //异常工单
     def teamExceptionJobJson()
     {
-        def map = [:];
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='desc'
+        def map=[:]
+        def currentUser= BaseUser.get(springSecurityService.currentUser.id)
+        def baseDepartment=currentUser.baseDepartment;
+        def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
+        def count=JobOrder.createCriteria().count {
+            createAlias("rotation","rt")
+            createAlias("rt.baseDepartment","rb")
+            eq("rb.id",baseDepartment.id)
+            jobItems {
+                eq('isWrong',true)
+            }
+        }
+        def list=JobOrder.createCriteria().list{
+            createAlias("rotation","rt")
+            createAlias("rt.baseDepartment","rb")
+            eq("rb.id",baseDepartment.id)
+            jobItems {
+                eq('isWrong',true)
+            }
+            order(params.sort,params.order)
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
+        def slist=[];
+        list.each{
+            def one=[:]
+            one.id=it.id
+            one.jobDate=it.jobDate.format("yyyy-MM-dd")
+            one.rotation=it.rotation.name
+            one.position=it.position.name
+            one.type=it.type
+            one.isFinish="未完成"
+            if(it.isFinish){
+                one.isFinish="完成"
+            }
+            slist<<one;
+        }
+        map.total=count;
+        map.rows=slist;
         render map as JSON;
     }
     def catchOneJobOrderDetail(){
