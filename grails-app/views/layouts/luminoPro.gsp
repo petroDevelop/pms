@@ -119,6 +119,10 @@
     .panel-heading{
         font-size: 14px;
     }
+
+    .nav-tabs li a, .nav-tabs li a:hover, .nav-tabs li.active a, .nav-tabs li.active a:hover {
+        border: 1px solid rgba(255, 251, 224, 0.06);
+    }
     </style>
 
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/normalize.css" />
