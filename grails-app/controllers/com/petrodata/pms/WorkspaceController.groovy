@@ -55,8 +55,14 @@ class WorkspaceController {
         }
     }
     def getJobItemJson(){
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max;
+        if(!params.offset) params.offset ='0'
+        if(!params.sort) params.sort ='id'
+        if(!params.order) params.order ='asc'
         def list=[];
-        def jobItems=JobItem.findAllByJobOrder(JobOrder.get(params.id),['sort':'id','order':'asc']);
+        def joborder=JobOrder.get(params.id);
+        def jobItems=JobItem.findAllByJobOrder(joborder,params);
         jobItems.each{
             def map=[:]
             map.id=it?.id;
@@ -71,7 +77,7 @@ class WorkspaceController {
             list<<map;
         }
         def map=[:]
-        map.total=list.size();
+        map.total=JobItem.countByJobOrder(joborder);;
         map.rows=list;
         render map as JSON;
     }

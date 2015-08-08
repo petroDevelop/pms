@@ -4,15 +4,24 @@
     <title></title>
     <meta name="layout" content="luminoPro">
     <script>
+        function queryParams(params) {
+            //params.your_param1 = 1;
+            return params;
+        }
         function operatorFormatter(value, row,index) {
             var str='';
             if(row.status=='未查'){
                 //str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
                 str='<button class="btn btn-danger margin"  data-toggle="modal" data-target="#processModal"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
+            }else{
+                str='<button class="btn btn-info margin" onclick="openRemark('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;查看</button></a>';
             }
             return str;
         }
-
+        function openRemark(index,id){
+            var data=$('#jobItemTable').bootstrapTable('getData');
+            alert(data[index].checkResult);
+        }
         function oneProcess(status,index,id){
           $('#itemId').val(id);
             $('#checkResult').val('');
@@ -69,6 +78,30 @@
         }
 
         $(function(){
+            $('#jobItemTable').bootstrapTable({
+                onLoadSuccess:function(data){
+                    var data=$('#jobItemTable').bootstrapTable('getData');
+                    var index=0;
+                    var equipment='';
+                    var rowspan=1;
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].equipment==equipment){
+                            rowspan++;
+                        }else{
+                            if(i>0){
+                                $('#jobItemTable').bootstrapTable('mergeCells', {index: index, field: 'equipment', colspan: 1, rowspan: rowspan});
+                            }
+                            equipment=data[i].equipment;
+                            rowspan=1;
+                            index=i;
+                        }
+                        if(i==(data.length-1)){
+                            $('#jobItemTable').bootstrapTable('mergeCells', {index: index, field: 'equipment', colspan: 1, rowspan: rowspan});
+                        }
+                    }
+
+                }
+            });
             $('#processForm').form({
                 url:"processJobItem",
                 success: function(data){
@@ -221,16 +254,17 @@
                             全部正常执行
                         </button>
                     </div>
-                    <table id="jobItemTable" data-toolbar="#toolbar" data-toggle="table"
+                    <table id="jobItemTable" data-toolbar="#toolbar"
                             data-cache="false" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="false"
                            data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-                           data-select-item-name="checkIds" data-sort-name="name" data-sort-order="desc">
+                           data-select-item-name="checkIds" data-sort-name="id" data-sort-order="desc">
                         <thead>
                         <tr>
                             <th data-field="nofield" data-checkbox="true"></th>
                             <th data-field="equipment" data-sortable="true"  >设备</th>
 
                             <th data-field="standardItem" data-sortable="true" >检查标准</th>
+                            <!--
                             <th data-field="isWrong" data-sortable="true"  data-formatter="isWrongFormatter">设备状态</th>
 
                             <th data-field="checker" data-sortable="true" >检查人</th>
@@ -238,6 +272,7 @@
                             <th data-field="checkDate" data-sortable="true" >检查日期</th>
 
                             <th data-field="status" data-sortable="true" >检查状态</th>
+                            -->
                             <!--
                             <th data-field="checkResult" data-sortable="true" >检查描述</th>
                             <th data-field="remark" data-sortable="true" >备注</th>
