@@ -170,9 +170,10 @@
 									
 									<th data-field="lastName"  data-sortable="true"   >${message(code: 'baseUser.lastName.label', default: 'Last Name')}</th>
 
-									<th data-field="baseDepartment.text"  >${message(code: 'baseUser.baseDepartment.label', default: 'Base Department')}</th>
+									<th data-field="baseDepartment"  >${message(code: 'baseUser.baseDepartment.label', default: 'Base Department')}</th>
 
-									
+									<th data-field="rotation"  >${message(code: 'baseUser.rotations.label', default: 'Rotations')}</th>
+
 									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 

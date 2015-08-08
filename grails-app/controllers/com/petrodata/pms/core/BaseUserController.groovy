@@ -1,9 +1,9 @@
 package com.petrodata.pms.core
 
-import org.springframework.dao.DataIntegrityViolationException
+import com.petrodata.pms.team.Rotation
 import com.petrodata.poi.ExcelReadBuilder
 import grails.converters.JSON
-
+import org.springframework.dao.DataIntegrityViolationException
 
 class BaseUserController {
 
@@ -221,6 +221,7 @@ class BaseUserController {
         if(!params.sort) params.sort ='id'
         if(!params.order) params.order ='desc'
         def currentUser=BaseUser.get(springSecurityService.currentUser.id)
+        def rotaions=Rotation.list();
         def allCount=BaseUser.createCriteria().count{
             if(params.search){
                 ilike('username',"%${params.search}%");
@@ -237,8 +238,28 @@ class BaseUserController {
             firstResult(params.offset.toInteger())
         }
         def map=[:];
+        def slist=[];
+        allList.each{
+            def one=[:]
+            one.id=it.id
+            one.username=it.username
+            one.baseDepartment=it?.baseDepartment?.name
+            one.position=it?.position?.name
+            one.firstName=it.firstName
+            one.lastName=it.lastName
+            one.email=it.email
+            def userRotations=[];
+            rotaions.each {rot->
+                if(rot.baseUsers.contains(it))
+                {
+                    userRotations<<rot;
+                }
+            }
+            one.rotation=userRotations?.join(",");
+            slist<<one;
+        }
         map.total=allCount;
-        map.rows=allList;
+        map.rows=slist;
         render map as JSON;
     }
 

@@ -41,7 +41,7 @@ class Rotation {
     }
 
     String toString(){
-        return baseDepartment?.name+":"+name;
+        return name;
     }
 
     static listTimeZone() {
