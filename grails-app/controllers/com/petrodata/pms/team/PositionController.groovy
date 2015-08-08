@@ -193,7 +193,7 @@ class PositionController {
 
     def autoCteate(){
         def map=[:]
-        def list=EquipmentCatagory.findAllByParentIsNull(['sort':'name','order':'asc']);
+        def list=EquipmentCatagory.findAllByParentIsNull(['sort':'id','order':'asc']);
         list.each{
             if(!Position.findByName(it.name)){
                 def pos=new Position();

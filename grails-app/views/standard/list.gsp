@@ -382,7 +382,7 @@
 													    data-cache="false"     data-toolbar="#toolbar${i}"
 													   data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-search="false"
 													   data-side-pagination="server" data-pagination="true" data-query-params="queryParams"
-													   data-select-item-name="checkIds" data-sort-name="name" data-sort-order="asc">
+													   data-select-item-name="checkIds" data-sort-name="checkDays" data-sort-order="asc">
 													<thead>
 													<tr>
 														<th data-field="nofield" data-checkbox="true"></th>
