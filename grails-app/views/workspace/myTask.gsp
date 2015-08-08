@@ -276,8 +276,13 @@
 
                     <input type="hidden" id="itemId" name="id"/>
                     <input type="hidden" id="wrongId" name="isWrong" value="true"/>
-                   <table border="0">
-                       <tr><td>异常描述:</td><td><input type="text" id="checkResult" name="checkResult"  style="color:red" required="true"/></td></tr>
+                   <table border="0" style="width: 100%">
+                       <tr>
+                           <td><span style="color: white">异常描述:</span></td>
+                           <td>
+                           <textarea type="text" id="checkResult" name="checkResult" rows="5"  style="color:red;width: 100%" required="true"/></textarea>
+                           </td>
+                       </tr>
                        <!--<tr><td>异常文件</td><td><input type="file" name="file"  class="form-control input-sm m-b-10"/></td></tr>-->
                    </table>
 

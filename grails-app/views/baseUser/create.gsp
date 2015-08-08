@@ -36,7 +36,7 @@
 
 					<g:form url="[resource:baseUserInstance,controller:'baseUser',  action:'save']" >
 						<fieldset class="form">
-							<g:render template="form"/>
+							<g:render template="form" model="[baseUserInstance:baseUserInstance]"/>
 						</fieldset>
 						<fieldset class="buttons">
 							<button class="btn btn-default margin" name="create" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp;${message(code: 'default.button.create.label', default: 'Create')}</button>

@@ -1,11 +1,6 @@
 <%@ page import="com.petrodata.pms.core.BaseDepartment; com.petrodata.pms.core.BaseUser" %>
-
-
-
 <input type="hidden" name="from" value="${params.from}"/>
-<g:if test="${!baseUserInstance}">
-	<g:set var="baseUserInstance" value="${new com.petrodata.pms.core.BaseUser()}"/>
-</g:if>
+
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'username', 'error')} required">
 	<label for="username">
 		<g:message code="baseUser.username.label" default="Username" />
@@ -64,7 +59,7 @@
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'position', 'error')} ">
 	<label for="position">
 		<g:message code="baseUser.position.label" default="Position" />
-		
+
 	</label>
 	<g:select id="position" name="position.id" from="${com.petrodata.pms.team.Position.list()}" optionKey="id" value="${baseUserInstance?.position?.id}" class="form-control input-lg m-b-10" noSelection="['null': '']"/>
 </div>
@@ -72,7 +67,7 @@
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'accountExpired', 'error')} ">
 	<label for="accountExpired">
 		<g:message code="baseUser.accountExpired.label" default="Account Expired" />
-		
+
 	</label>
 	<g:checkBox name="accountExpired" value="${baseUserInstance?.accountExpired}" />
 </div>
@@ -80,7 +75,7 @@
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'accountLocked', 'error')} ">
 	<label for="accountLocked">
 		<g:message code="baseUser.accountLocked.label" default="Account Locked" />
-		
+
 	</label>
 	<g:checkBox name="accountLocked" value="${baseUserInstance?.accountLocked}" />
 </div>
@@ -88,7 +83,7 @@
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'enabled', 'error')} ">
 	<label for="enabled">
 		<g:message code="baseUser.enabled.label" default="Enabled" />
-		
+
 	</label>
 	<g:checkBox name="enabled" value="${baseUserInstance?.enabled}" />
 </div>
@@ -96,13 +91,13 @@
 <div class="fieldcontain ${hasErrors(bean: baseUserInstance, field: 'passwordExpired', 'error')} ">
 	<label for="passwordExpired">
 		<g:message code="baseUser.passwordExpired.label" default="Password Expired" />
-		
+
 	</label>
 	<g:checkBox name="passwordExpired" value="${baseUserInstance?.passwordExpired}" />
 </div>
 
 <div class="fieldcontain">
-	<label for="userType">
+	<label >
 	 用户类别
 	</label>
 	<g:set var="list" value="${com.petrodata.pms.core.BaseRole.list().sort{it.description}}"/>
@@ -118,13 +113,18 @@
 	<sec:ifAnyGranted roles="ROLE_MEMBER">
 		<g:set var="list" value="${[]}"/>
 	</sec:ifAnyGranted>
-	<g:set var="allRoles" value="${baseUserInstance.getAuthorities()}"/>
-	<g:if test="${allRoles?.size()>0}">
-		<g:set var="value" value="${allRoles.toList()[0]?.id}"/>
+	<g:set var="value" value="${''}"/>
+	<g:if test="${baseUserInstance?.id}">
+		<g:set var="allRoles" value="${baseUserInstance?.getAuthorities()?:[]}"/>
+		<g:if test="${allRoles?.size()>0}">
+			<g:set var="value" value="${allRoles.toList()[0]?.id}"/>
+		</g:if>
 	</g:if>
+
 
 	<g:select id="roles" name="roles"
 			  from="${list}" optionKey="id" optionValue="name"  required=""  value="${value}"
 			   class="form-control input-lg m-b-10"/>
 </div>
+
 
