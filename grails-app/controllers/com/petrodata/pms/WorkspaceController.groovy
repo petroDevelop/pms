@@ -629,21 +629,19 @@ class WorkspaceController {
         def currentUser= BaseUser.get(springSecurityService.currentUser.id)
         def baseDepartment=currentUser.baseDepartment;
         def rotations=Rotation.findAllByBaseDepartment(baseDepartment);
-        def count=JobOrder.createCriteria().count {
-            createAlias("rotation","rt")
+        def count=JobItem.createCriteria().count {
+            createAlias("jobOrder","jo")
+            createAlias("jo.rotation","rt")
             createAlias("rt.baseDepartment","rb")
             eq("rb.id",baseDepartment.id)
-            jobItems {
-                eq('isWrong',true)
-            }
+            eq('isWrong',true)
         }
-        def list=JobOrder.createCriteria().list{
-            createAlias("rotation","rt")
+        def list=JobItem.createCriteria().list{
+            createAlias("jobOrder","jo")
+            createAlias("jo.rotation","rt")
             createAlias("rt.baseDepartment","rb")
             eq("rb.id",baseDepartment.id)
-            jobItems {
-                eq('isWrong',true)
-            }
+            eq('isWrong',true)
             order(params.sort,params.order)
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
@@ -652,14 +650,14 @@ class WorkspaceController {
         list.each{
             def one=[:]
             one.id=it.id
-            one.jobDate=it.jobDate.format("yyyy-MM-dd")
-            one.rotation=it.rotation.name
-            one.position=it.position.name
-            one.type=it.type
-            one.isFinish="未完成"
-            if(it.isFinish){
-                one.isFinish="完成"
-            }
+            one.jobDate=it.jobOrder.jobDate.format("yyyy-MM-dd")
+            one.rotation=it.jobOrder.rotation.name
+            one.position=it.jobOrder.position.name
+            one.equipment = it.equipment.name
+            one.standardItem = it.standardItem.name;
+            one.type=it.jobOrder.type
+            one.isWrong = it.isWrong;
+            one.checkResult = it.checkResult;
             slist<<one;
         }
         map.total=count;

@@ -220,7 +220,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#tab1">未完成工单</a></li>
                         <li><a data-toggle="tab" href="#tab2">超期工单</a></li>
-                        <li><a data-toggle="tab" href="#tab3">异常工单</a></li>
+                        <li><a data-toggle="tab" href="#tab3">异常工单项</a></li>
 
                     </ul>
                     <div class="tab-content">
@@ -290,10 +290,11 @@
 
                                     <th data-field="type" data-sortable="true" >工单类型</th>
 
-                                    <th data-field="isFinish" data-sortable="true" data-formatter="finishFormatter">是否完结</th>
+                                    <th data-field="equipment" data-sortable="true" >设备名称</th>
 
-                                    <th data-field="id" data-formatter="operatorFormatter">查看详情</th>
+                                    <th data-field="standardItem" data-sortable="true" >设备标准</th>
 
+                                    <th data-field="checkResult" data-sortable="true" >描述</th>
 
                                 </tr>
                                 </thead>
