@@ -40,6 +40,11 @@
     </a>
 </li>
 <li>
+    <a class="" href="${request.contextPath}/equipment/statusManage">
+        <span class="glyphicon glyphicon-info-sign"></span> 设备状况维护
+    </a>
+</li>
+<li>
     <a class="" href="${request.contextPath}/equipmentStandardHistory/list">
         <span class="glyphicon glyphicon-info-sign"></span> 设备标准历史管理
     </a>

@@ -276,4 +276,26 @@ class EquipmentController {
         map.rows=allList;
         render map as JSON;
     }
+
+    def statusManage(){
+        params.max = Math.min(params.max ?: 10, 100)
+        params.max = Math.min(params.limit ? params.int('limit') : 10, 100);
+        params.limit=params.max
+        return []
+    }
+    def manageStatus(){
+        def equipment=Equipment.get(params.id);
+        println equipment.serviceState
+        if(equipment.serviceState=='在用'){
+            equipment.serviceState="停运";
+        }else{
+            if(equipment.serviceState=='停运'){
+                equipment.serviceState="在用";
+            }
+        }
+        equipment.save(flush: true);
+        def map=[:]
+        map.result=true;
+        render map as JSON;
+    }
 }
