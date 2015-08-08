@@ -663,7 +663,12 @@ class WorkspaceController {
             one.standardItem = it.standardItem.name;
             one.type=it.jobOrder.type
             one.isWrong = it.isWrong;
-            one.checkResult = it.checkResult;
+            def checkResultString = "<a herf='' title='";
+            checkResultString += it.checkResult;
+            checkResultString += "'>";
+            checkResultString += (it.checkResult.size() > 10)?it.checkResult[0..9] + "...":it.checkResult;
+            checkResultString += "</a>";
+            one.checkResult = checkResultString;
             slist<<one;
         }
         map.total=count;
