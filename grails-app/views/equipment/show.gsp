@@ -13,8 +13,7 @@
 	<div class="row">
 		<ol class="breadcrumb">
 			<li><a  href="${createLink(uri: '/')}"><span class="glyphicon glyphicon-home"></span></a></li>
-			<li class="active" ><g:link  action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			<li class="active" ><g:link  action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+			<li class="active" ><g:link  action="teamList"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 		</ol>
 	</div><!--/.row-->
 
@@ -25,9 +24,25 @@
 			</g:if>
 		</div>
 	</div><!--/.row-->
-
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<g:message code="default.show.label" args="[entityName]" />
+					<g:if test="${flash.message}">
+						<div class="message" role="status">${flash.message}</div>
+					</g:if>
+				</div>
+				<div class="panel-body">
 	<table class="table tile">
-		
+
+		<tr><th>	<span id="name-label" class="property-label"><g:message code="equipment.name.label" default="Name" /></span></th>
+			<td>
+				<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${equipmentInstance}" field="name"/></span>
+			</td>
+
+		</tr>
+
 
 		<tr><th>	<span id="alias-label" class="property-label"><g:message code="equipment.alias.label" default="Alias" /></span></th>
 			<td>
@@ -40,7 +55,7 @@
 
 		<tr><th>	<span id="standard-label" class="property-label"><g:message code="equipment.standard.label" default="Standard" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="standard-label"><g:link controller="standard" action="show" id="${equipmentInstance?.standard?.id}">${equipmentInstance?.standard?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="standard-label">${equipmentInstance?.standard?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -49,7 +64,7 @@
 
 		<tr><th>	<span id="equipmentRunningInfo-label" class="property-label"><g:message code="equipment.equipmentRunningInfo.label" default="Equipment Running Info" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="equipmentRunningInfo-label"><g:link controller="equipmentRunningInfo" action="show" id="${equipmentInstance?.equipmentRunningInfo?.id}">${equipmentInstance?.equipmentRunningInfo?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="equipmentRunningInfo-label">${equipmentInstance?.equipmentRunningInfo?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -144,20 +159,11 @@
 
 		</tr>
 
-		
 
-		<tr><th>	<span id="baseDepartment-label" class="property-label"><g:message code="equipment.baseDepartment.label" default="Base Department" /></span></th>
-			<td>
-				<span class="property-value" aria-labelledby="baseDepartment-label"><g:link controller="baseDepartment" action="show" id="${equipmentInstance?.baseDepartment?.id}">${equipmentInstance?.baseDepartment?.encodeAsHTML()}</g:link></span>
-				</td>
-
-		</tr>
-
-		
 
 		<tr><th>	<span id="belongDepartment-label" class="property-label"><g:message code="equipment.belongDepartment.label" default="Belong Department" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="belongDepartment-label"><g:link controller="baseDepartment" action="show" id="${equipmentInstance?.belongDepartment?.id}">${equipmentInstance?.belongDepartment?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="belongDepartment-label">${equipmentInstance?.belongDepartment?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -184,7 +190,7 @@
 
 		<tr><th>	<span id="creater-label" class="property-label"><g:message code="equipment.creater.label" default="Creater" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="creater-label"><g:link controller="baseUser" action="show" id="${equipmentInstance?.creater?.id}">${equipmentInstance?.creater?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="creater-label">${equipmentInstance?.creater?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -193,7 +199,7 @@
 
 		<tr><th>	<span id="equipmentCatagory-label" class="property-label"><g:message code="equipment.equipmentCatagory.label" default="Equipment Catagory" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="equipmentCatagory-label"><g:link controller="equipmentCatagory" action="show" id="${equipmentInstance?.equipmentCatagory?.id}">${equipmentInstance?.equipmentCatagory?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="equipmentCatagory-label">${equipmentInstance?.equipmentCatagory?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -202,7 +208,7 @@
 
 		<tr><th>	<span id="inDepartment-label" class="property-label"><g:message code="equipment.inDepartment.label" default="In Department" /></span></th>
 			<td>
-				<span class="property-value" aria-labelledby="inDepartment-label"><g:link controller="baseDepartment" action="show" id="${equipmentInstance?.inDepartment?.id}">${equipmentInstance?.inDepartment?.encodeAsHTML()}</g:link></span>
+				<span class="property-value" aria-labelledby="inDepartment-label">${equipmentInstance?.inDepartment?.encodeAsHTML()}</span>
 				</td>
 
 		</tr>
@@ -262,21 +268,7 @@
 		</tr>
 
 		   </table>
-
-
-	<g:form url="[resource:equipmentInstance, action:'delete']" method="DELETE">
-		<fieldset class="buttons">
-			<g:hiddenField name="id" value="${equipmentInstance?.id}" />
-			<g:link class="btn btn-default margin" action="edit"  id="${equipmentInstance?.id}" resource="${equipmentInstance}">
-				<span class="glyphicon glyphicon-edit"></span>
-				<g:message code="default.button.edit.label" default="Edit" /></g:link>
-			<button type="submit" name="_action_delete"
-					class="btn btn-default margin"
-					onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" >
-				<span class="glyphicon glyphicon-trash"></span>${message(code: 'default.button.delete.label', default: 'Delete')}</button>
-
-		</fieldset>
-	</g:form>
-
+			</div>
+		</div>
 	</body>
 </html>

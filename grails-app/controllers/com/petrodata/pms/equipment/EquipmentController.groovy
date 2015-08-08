@@ -2,6 +2,7 @@ package com.petrodata.pms.equipment
 
 import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseUser
+import com.petrodata.pms.team.PositionBaseUser
 import org.springframework.dao.DataIntegrityViolationException
 import com.petrodata.poi.ExcelReadBuilder
 import grails.converters.JSON
@@ -120,6 +121,16 @@ class EquipmentController {
         return map;
     }
 
+    def show(Long id) {
+        def equipmentInstance = Equipment.get(id)
+        if (!equipmentInstance) {
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'equipment.label', default: 'Equipment'), id])
+            redirect(action: "list")
+            return
+        }
+
+        [equipmentInstance: equipmentInstance]
+    }
     def delete(Long id) {
         def map=[:]
         def equipmentInstance = Equipment.get(id)

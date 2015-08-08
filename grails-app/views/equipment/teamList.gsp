@@ -12,7 +12,7 @@
 				return str;
 			}
 			function editFormatter(value, row,index) {
-				var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.edit.label" default="Edit" /></button></a>';
+				var str='<button class="btn btn-default margin box-switcher" data-switch="box-edit" onclick="editOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;<g:message code="default.button.show.label" default="Show" /></button></a>';
 				return str;
 			}
 			function nameFormatter(value, row,index) {
@@ -55,9 +55,7 @@
 
 			}
 			function editOne(index,id){
-				$('#equipmentForm').form('clear');
-				var data=$('#equipmentTable').bootstrapTable('getData');
-				$('#equipmentForm').form('load',data[index]);
+				window.location.href="${request.contextPath}/equipment/show/"+id;
 			}
 			function showOne(index,id){
 				editOne(index,id);
@@ -139,15 +137,6 @@
 						<div class="panel-body">
 							<div  id="toolbar">
 
-								<button class="btn btn-default margin box-switcher" onclick="newOne()" type="button" data-switch="box-edit">
-									<span class="glyphicon glyphicon-plus"></span>
-									<g:message code="default.new.label" args="[entityName]" />
-								</button>
-
-								<button class="btn btn-default margin" type="button"  onclick="deleteAll()" >
-									<span class="glyphicon glyphicon-trash"></span>
-									<g:message code="default.button.delete.label" default="Delete" />
-								</button>
 
 							</div>
 							<table id="equipmentTable" data-toggle="table"   data-toolbar="#toolbar"
@@ -171,7 +160,7 @@
 									
 									<th data-field="feature"  data-sortable="true"   >${message(code: 'equipment.feature.label', default: 'Feature')}</th>
 									
-									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.edit.label" default="Edit" /></th>
+									<th data-field="id" data-formatter="editFormatter"><g:message code="default.button.show.label" default="Show" /></th>
 									<!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
 
 								</tr>
