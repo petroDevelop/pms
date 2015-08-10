@@ -1,4 +1,4 @@
-package com.petrodata.pms.team
+package com.petrodata.pms
 
 import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseRole
