@@ -1,4 +1,4 @@
-package com.petrodata.pms
+package com.petrodata.pms.team
 
 import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseRole
@@ -663,12 +663,8 @@ class WorkspaceController {
             one.standardItem = it.standardItem.name;
             one.type=it.jobOrder.type
             one.isWrong = it.isWrong;
-            def checkResultString = "<a herf='' title='";
-            checkResultString += it.checkResult;
-            checkResultString += "'>";
-            checkResultString += (it.checkResult.size() > 10)?it.checkResult[0..9] + "...":it.checkResult;
-            checkResultString += "</a>";
-            one.checkResult = checkResultString;
+
+            one.checkResult = it.checkResult;
             slist<<one;
         }
         map.total=count;

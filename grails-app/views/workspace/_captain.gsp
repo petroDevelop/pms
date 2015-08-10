@@ -17,6 +17,26 @@
         var str='<button class="btn btn-default margin box-switcher" data-switch="box-detail" onclick="showOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;显示</button></a>';
         return str;
     }
+
+    function descFormatter(value,row,index)
+    {
+        var checkResultString = "<a data-toggle='modal' data-target='#processModal' herf='#' title='";
+        checkResultString += value;
+        //checkResultString += "'>";
+        checkResultString += "' onclick='showDescription("+ index + ")'>";
+        checkResultString += (value.length > 10)?value.substr(0,10) + "...":value;
+        checkResultString += "</a>";
+        return checkResultString;
+    }
+
+    function showDescription(index)
+    {
+        var data=$('#jobExceptionItemTable').bootstrapTable('getData');
+        console.log(data);
+        $("#processModal").show();
+        $('#checkResult').val(data[index].checkResult);
+
+    }
 //    function rowStyle(row, index) {
 //        var classes = ['active', 'success', 'info', 'warning', 'danger'];
 //
@@ -294,7 +314,7 @@
 
                                     <th data-field="standardItem" data-sortable="true" >设备标准</th>
 
-                                    <th data-field="checkResult" data-sortable="true" >描述</th>
+                                    <th data-field="checkResult" data-formatter="descFormatter">描述</th>
 
                                 </tr>
                                 </thead>
@@ -328,3 +348,44 @@
     </div>
 </div><!--/.row-->
 
+
+<div class="modal fade panel" id="processModal" tabindex="-1" role="dialog" aria-labelledby="processModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <form  role="form" id="processForm"  class="easyui-form"
+                   enctype="multipart/form-data" method="post" >
+                <div class="modal-header">
+                    <button type="button" class="close"
+                            data-dismiss="modal" aria-hidden="true">
+                    &times;
+                    </button>
+                    <h4 class="modal-title" id="processModalLabel">
+                        异常记录
+                    </h4>
+                </div>
+                <div class="modal-body">
+
+                    <input type="hidden" id="itemId" name="id"/>
+                    <input type="hidden" id="wrongId" name="isWrong" value="true"/>
+                    <table border="0" style="width: 100%">
+                        <tr>
+                            <td><span style="color: white">异常描述:</span></td>
+                            <td>
+                                <textArea type="text" id="checkResult" name="checkResult" rows="5"  style="color:red;width: 100%" readonly/></textarea>
+                            </td>
+                        </tr>
+                        <!--<tr><td>异常文件</td><td><input type="file" name="file"  class="form-control input-sm m-b-10"/></td></tr>-->
+                    </table>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default margin" data-dismiss="modal" type="button">
+                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                        <g:message code="default.close.label" default="Close"/>
+                    </button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
