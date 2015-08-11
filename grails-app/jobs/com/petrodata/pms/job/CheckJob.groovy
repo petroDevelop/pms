@@ -49,7 +49,9 @@ class CheckJob {
             //   则为此班次生成工单（本小队所有岗位一份）
             JobOrder.withTransaction {status ->
                 try{
-                    PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser.baseDepartment=?",[team]).toList().unique().each{position->
+                    //需要过滤是否在本班次人员的检查设备中
+                    def users=rotation.baseUsers;
+                    PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser in :users",[users:users]).toList().unique().each{position->
                         def ecList=[];
                         position.eptCatas.each{ec->
                             def list=getSubChild(equipmentCatagories,ec,[]);
@@ -57,7 +59,7 @@ class CheckJob {
                         }
                         ecList=ecList.collect {EquipmentCatagory.get(it)};
                         //获取小队所有设备
-                        def equipments=Equipment.findAllByInDepartmentAndEquipmentCatagoryInList(team,ecList);
+                        def equipments=Equipment.findAllByInDepartmentAndServiceStateAndEquipmentCatagoryInList(team,'在用',ecList);
                         if(equipments.size()>0){
                             def jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
                             if(jobOrder.save(flush: true)){

@@ -4,6 +4,7 @@ import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseRole
 import com.petrodata.pms.core.BaseUser
 import com.petrodata.pms.equipment.Equipment
+import com.petrodata.pms.equipment.EquipmentCatagory
 import com.petrodata.pms.order.JobItem
 import com.petrodata.pms.order.JobOrder
 import com.petrodata.pms.team.Position
@@ -62,7 +63,18 @@ class WorkspaceController {
         if(!params.order) params.order ='asc'
         def list=[];
         def joborder=JobOrder.get(params.id);
-        def jobItems=JobItem.findAllByJobOrder(joborder,params);
+        //def jobItems=JobItem.findAllByJobOrder(joborder,params);
+        def jobItems=JobItem.createCriteria().list{
+            createAlias("equipment","eq")
+            createAlias("eq.equipmentCatagory","eqc")
+            jobOrder{
+                eq('id',joborder.id)
+            }
+            order('id','desc')
+            order('eqc.id','asc')
+            maxResults(params.max.toInteger())
+            firstResult(params.offset.toInteger())
+        }
         jobItems.each{
             def map=[:]
             map.id=it?.id;
@@ -213,7 +225,7 @@ class WorkspaceController {
         def equipmentCounts = Equipment.createCriteria().list {
             projections {
                 count('id')
-                groupProperty("techState")
+                groupProperty("serviceState")
             }
             if(SpringSecurityUtils.ifAnyGranted('ROLE_MANAGER')){
 
@@ -250,7 +262,7 @@ class WorkspaceController {
                 eq("rb.id",loginUser.baseDepartment.id)
             }
         }
-        def techCount = equipmentCounts.findAll{it[1]=="完好"}?.sum{it[0]};
+        def techCount = equipmentCounts.findAll{it[1]=="在用"}?.sum{it[0]};
         map.equipmentPrecent=((techCount?:0)/(equipmentCounts.sum{it[0]}?:1)*100).round(new MathContext(2))?:0;
 
         def workTeamCount = teamCounts.findAll{it[1]==true}?.sum{it[0]};
@@ -297,7 +309,7 @@ class WorkspaceController {
             def equipments = Equipment.createCriteria().list{
                 projections {
                     count('id')
-                    groupProperty("techState")
+                    groupProperty("serviceState")
                 }
                 createAlias("inDepartment","inde")
                 createAlias("inde.parent","indp")
@@ -327,7 +339,7 @@ class WorkspaceController {
                 eq("rbp.id",teamDepartment.id)
                 eq('type',"保养")
             }
-            def techCount = equipments.findAll{it[1] == "完好"}?.sum{it[0]}?:0;
+            def techCount = equipments.findAll{it[1] == "在用"}?.sum{it[0]}?:0;
             equipmentHealthSeries.data.add((techCount / (equipments.sum{it[0]}?:1)).round(new MathContext(3))?:0);
 
             def workTeamCount = teams.findAll{it[1]==true}?.sum{it[0]}?:0;
@@ -380,7 +392,7 @@ class WorkspaceController {
             def equipments = Equipment.createCriteria().list{
                 projections {
                     count('id')
-                    groupProperty("techState")
+                    groupProperty("serviceState")
                 }
                 createAlias("inDepartment","inde")
                 eq("inde.id",teamDepartment.id)
@@ -407,7 +419,7 @@ class WorkspaceController {
                 eq("rb.id",teamDepartment.id)
                 eq('type',"保养")
             }
-            def techCount = equipments.findAll{it[1] == "完好"}?.sum{it[0]}?:0;
+            def techCount = equipments.findAll{it[1] == "在用"}?.sum{it[0]}?:0;
             equipmentHealthSeries.data.add((techCount / (equipments.sum{it[0]}?:1)).round(new MathContext(3))?:0);
 
             def workTeamCount = teams.findAll{it[1]==true}?.sum{it[0]}?:0;
@@ -509,7 +521,7 @@ class WorkspaceController {
         }
         def elist=Equipment.createCriteria().list{
             projections {
-                groupProperty("techState")
+                groupProperty("serviceState")
                 count('id')
             }
             if(SpringSecurityUtils.ifAnyGranted('ROLE_MANAGER')){
