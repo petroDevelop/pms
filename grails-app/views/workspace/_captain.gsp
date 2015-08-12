@@ -157,7 +157,7 @@
                                         oneHour=(oneHour-12).abs().intValue()
                                     }
                                     %>
-                                <img src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/images/${oneHour}.png" width="256" height="256" />
+                                <img src="${request.contextPath}/js/Simple-jQuery-Timeline-Plugin-Timelinr/images/${oneHour}.png" width="197" height="256" />
                                 <h1>${rotation.name}</h1>
                                 <g:set var="localTime" value="${Date.parse('yyyy-MM-dd',(new Date()).format('yyyy-MM-dd',TimeZone.getTimeZone(rotation.timeZone)))}"/>
                                 <g:set var="allNum" value="${com.petrodata.pms.order.JobOrder.countByRotationAndJobDate(rotation,localTime)}" />
