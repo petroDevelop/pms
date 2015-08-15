@@ -32,7 +32,6 @@
     function showDescription(index)
     {
         var data=$('#jobExceptionItemTable').bootstrapTable('getData');
-        console.log(data);
         $("#processModal").show();
         $('#checkResult').val(data[index].checkResult);
 
