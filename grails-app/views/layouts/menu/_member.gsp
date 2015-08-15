@@ -1,10 +1,10 @@
 <li>
-    <a class="" href="${request.contextPath}/workspace/myTask">
+    <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/workspace/myTask?layout=no',null)">
         <span class="glyphicon glyphicon-info-sign"></span> 待办任务
     </a>
 </li>
 <li>
-    <a class="" href="${request.contextPath}/baseUser/myInfo">
+    <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/baseUser/myInfo?layout=no',null)">
         <span class="glyphicon glyphicon-info-sign"></span> 我的信息
     </a>
 </li>
@@ -16,7 +16,7 @@
     </a>
     <ul class="children collapse" id="sub-item-5">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 配件管理
             </a>
         </li>
@@ -32,17 +32,17 @@
     </a>
     <ul class="children collapse" id="sub-item-4">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 工单执行情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-info-sign"></span> 维修情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-share-alt"></span> 大修情况
             </a>
         </li>
@@ -51,9 +51,11 @@
 </li>
 
 <script>
+    /*
     $(function(){
         <g:if test="${['workspace'].contains(params.controller)}">
         $("div [href='#sub-item-4']").click();
         </g:if>
     });
+    */
 </script>

@@ -6,22 +6,22 @@
     </a>
     <ul class="children collapse" id="sub-item-2">
         <li>
-            <a class="" href="${request.contextPath}/equipmentCatagory/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipmentCatagory/list?layout=no',null)">
                 <span class="glyphicon glyphicon-th"></span> 设备类别管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/standard/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/standard/list?layout=no',null)">
                 <span class="glyphicon glyphicon-stats"></span> 设备标准管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/equipment/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipment/list?layout=no',null)">
                 <span class="glyphicon glyphicon-list-alt"></span> 设备台帐管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/position/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/position/list?layout=no',null)">
                 <span class="glyphicon glyphicon-pencil"></span> 岗位管理
             </a>
         </li>
@@ -35,17 +35,17 @@
     </a>
     <ul class="children collapse" id="sub-item-3">
         <li>
-            <a class="" href="${request.contextPath}/baseDepartment/projectList">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/baseDepartment/projectList?layout=no',null)">
                 <span class="glyphicon glyphicon-hand-up"></span> 项目部管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseDepartment/teamList">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/baseDepartment/teamList?layout=no',null)">
                 <span class="glyphicon glyphicon-info-sign"></span> 小队管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseUser/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/baseUser/list?layout=no',null)">
                 <span class="glyphicon glyphicon-share-alt"></span> 人员管理
             </a>
         </li>
@@ -60,7 +60,7 @@
     </a>
     <ul class="children collapse" id="sub-item-5">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 配件管理
             </a>
         </li>
@@ -76,17 +76,17 @@
     </a>
     <ul class="children collapse" id="sub-item-4">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 工单执行情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-info-sign"></span> 维修情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-share-alt"></span> 大修情况
             </a>
         </li>
@@ -94,6 +94,7 @@
     </ul>
 </li>
 <script>
+    /*
     $(function(){
         $('.parent').removeClass('active');
         <g:if test="${['equipmentCatagory','standard','equipment','position'].contains(params.controller)}">
@@ -112,4 +113,5 @@
             obj.click();
         </g:if>
     });
+    */
 </script>

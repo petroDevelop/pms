@@ -57,7 +57,7 @@
     </a>
     <ul class="children collapse" id="sub-item-5">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 配件管理
             </a>
         </li>
