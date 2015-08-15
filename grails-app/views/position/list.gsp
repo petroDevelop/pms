@@ -93,7 +93,7 @@
 			}
 		}
 		$(function() {
-			$('#equipmentTable').bootstrapTable({});
+			$('#positionTable').bootstrapTable({});
 		});
 	</script>
 </head>
