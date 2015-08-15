@@ -17,7 +17,26 @@ import java.math.MathContext
 
 class WorkspaceController {
     def springSecurityService
+    /*
+    private String dealChildren(ec1,code1){
+        def list=EquipmentCatagory.findAllByParent(ec1,['sort':'id','order':'asc']);
+        if(list?.size()>0){
+            list.eachWithIndex{ec,i->
+                Integer code=100+i+1;
+                ec.code=code1+code;
+                ec.save(flush: true)
+                dealChildren(ec,code1+code);
+            }
+        }
+    }
+    */
     def index() {
+/*        com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'id','order':'asc']).eachWithIndex{ec,i->
+            Integer code=100+i+1;
+            ec.code=code.toString();
+            ec.save(flush: true);
+            dealChildren(ec,code.toString());
+        }*/
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MEMBER")){
             redirect(action:'myTask')
         }
