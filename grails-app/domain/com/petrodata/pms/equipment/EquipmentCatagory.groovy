@@ -21,6 +21,7 @@ class EquipmentCatagory {
     static hasMany = [children:EquipmentCatagory,equipments: Equipment]
     static constraints = {
         parent(nullable: true)
+        code(size: 0..200)
         specification(size:0..50,nullable: true);
     }
     public static String generatorTreeDiv(){
@@ -45,6 +46,18 @@ class EquipmentCatagory {
             html=html+"</ul>"
         }
         return html;
+    }
+
+    def beforeInsert() {
+        encodeCode()
+    }
+
+    def beforeUpdate() {
+        encodeCode()
+    }
+
+    def encodeCode() {
+        code = code.padRight(200," ")
     }
     String toString(){
         return name;

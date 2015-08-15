@@ -2,7 +2,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="luminoPro">
+		<g:if test="${!params.layout}">
+			<meta name="layout" content="luminoPro">
+		</g:if>
 		<g:set var="entityName" value="${message(code: 'equipmentCatagory.label', default: 'EquipmentCatagory')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
@@ -92,6 +94,7 @@
 				});
 			}
 			$(function(){
+				$('#equipmentCatagoryTable').bootstrapTable({});
 				$('#equipmentCatagoryForm').form({
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
@@ -175,6 +178,20 @@
 			//
 		}
 
+		function codeFormatter(value,row,index)
+		{
+			var code;
+			if(value.indexOf(" ") >= 0)
+			{
+				code = value.substring(0,value.indexOf(" "))
+			}
+			else{
+				code = value;
+			}
+			row['code'] = code;
+			console.log(code);
+			return code;
+		}
 	</script>
 	<div class="modal fade panel" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -275,7 +292,7 @@
 									<th data-field="nofield" data-checkbox="true"></th>
 									<th data-field="name" data-sortable="true"  data-formatter="nameFormatter" >${message(code: 'equipmentCatagory.name.label', default: 'Name')}</th>
 
-									<th data-field="code" data-sortable="true" >${message(code: 'equipmentCatagory.code.label', default: 'Code')}</th>
+									<th data-field="code" data-sortable="true" data-formatter="codeFormatter">${message(code: 'equipmentCatagory.code.label', default: 'Code')}</th>
 
 									<th data-field="parent.text" data-sortable="true" ><g:message code="equipmentCatagory.parent.label" default="Parent" /></th>
 

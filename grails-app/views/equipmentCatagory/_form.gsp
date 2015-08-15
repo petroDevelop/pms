@@ -12,7 +12,7 @@
 		<g:message code="equipmentCatagory.code.label" default="Code" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField class="form-control input-sm m-b-10"  name="code" required="" value="${equipmentCatagoryInstance?.code}"/>
+	<g:textField class="form-control input-sm m-b-10"  name="code" required="" value="${equipmentCatagoryInstance?.code?.trim()}"/>
 
 </div>
 <div class="fieldcontain ${hasErrors(bean: equipmentCatagoryInstance, field: 'parent', 'error')} ">

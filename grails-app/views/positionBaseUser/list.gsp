@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="luminoPro">
+		<g:if test="${!params.layout}">
+			<meta name="layout" content="luminoPro">
+		</g:if>
 		<g:set var="entityName" value="${message(code: 'positionBaseUser.label', default: 'PositionBaseUser')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
@@ -55,6 +57,9 @@
 			function newWindow(){
 				document.location.href="${createLink(controller: 'positionBaseUser',action:'create')}";
 			}
+			$(function() {
+				$('#positionBaseUserTable').bootstrapTable({});
+			});
 		</script>
 	</head>
 	<body>

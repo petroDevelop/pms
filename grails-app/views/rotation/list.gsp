@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="layout" content="luminoPro">
+	<g:if test="${!params.layout}">
+		<meta name="layout" content="luminoPro">
+	</g:if>
 	<g:set var="entityName" value="${message(code: 'rotation.label', default: 'Rotation')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
 	<script>
@@ -55,6 +57,9 @@
 		function newWindow(){
 			document.location.href="${createLink(controller: 'rotation',action:'create')}";
 		}
+		$(function() {
+			$('#rotationTable').bootstrapTable({});
+		});
 	</script>
 </head>
 <body>

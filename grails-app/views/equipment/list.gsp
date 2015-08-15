@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="luminoPro">
+		<g:if test="${!params.layout}">
+			<meta name="layout" content="luminoPro">
+		</g:if>
 		<g:set var="entityName" value="${message(code: 'equipment.label', default: 'Equipment')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
@@ -82,6 +84,7 @@
 				});
 			}
 			$(function(){
+				$('#equipmentTable').bootstrapTable({});
 				$('#equipmentForm').form({
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object
@@ -99,6 +102,21 @@
 					}
 				});
 			});
+
+			function codeFormatter(value,row,index)
+			{
+				var code;
+				if(value.indexOf(" ") >= 0)
+				{
+					code = value.substring(0,value.indexOf(" "))
+				}
+				else{
+					code = value;
+				}
+				row['code'] = code;
+				console.log(code);
+				return code;
+			}
 		</script>
 	</head>
 	<body>
@@ -197,8 +215,9 @@
 
 									<th data-field="name"  data-sortable="true"  data-formatter="nameFormatter"  >${message(code: 'equipment.name.label', default: 'Name')}</th>
 
-									<th data-field="standard.text"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
+									<th data-field="code" data-sortable="true" data-formatter="codeFormatter">${message(code: 'equipment.code.label', default: 'Code')}</th>
 
+									<th data-field="standard.text"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
 
 									
 									<th data-field="techState"  data-sortable="true"   >${message(code: 'equipment.techState.label', default: 'Tech State')}</th>

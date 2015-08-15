@@ -62,6 +62,7 @@ class Equipment {
      String purchaseContractNo
     static constraints = {
         alias(nullable: true);
+        code(size: 0..200);
         standard(nullable: true);
         equipmentRunningInfo(nullable: true);
         techState(size:0..20,nullable: true,inList: ['完好','修理','待报废','报废']);  //修理分为内修、外修、大修
@@ -76,7 +77,15 @@ class Equipment {
         purchaseContractNo(size:0..100,nullable: true);
     }
     def beforeInsert() {
-        //baseDepartment=creater?.baseDepartment;
+        encodeCode()
+    }
+
+    def beforeUpdate() {
+        encodeCode()
+    }
+
+    def encodeCode() {
+        code = code.padRight(200," ")
     }
     String toString(){
         return name;

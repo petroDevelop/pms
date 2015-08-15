@@ -2,7 +2,9 @@
 <html>
 <head>
     <title></title>
-    <meta name="layout" content="luminoPro">
+    <g:if test="${!params.layout}">
+        <meta name="layout" content="luminoPro">
+    </g:if>
     <script>
         function queryParams(params) {
             //params.your_param1 = 1;

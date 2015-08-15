@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="luminoPro">
+		<g:if test="${!params.layout}">
+			<meta name="layout" content="luminoPro">
+		</g:if>
 		<g:set var="entityName" value="${message(code: 'equipmentRunningInfo.label', default: 'EquipmentRunningInfo')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<script>
@@ -91,6 +93,7 @@
 				});
 			}
 			$(function(){
+				$('#equipmentRunningInfoTable').bootstrapTable({});
 				$('#equipmentRunningInfoForm').form({
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object

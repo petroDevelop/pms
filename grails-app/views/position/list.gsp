@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="layout" content="luminoPro">
+	<g:if test="${!params.layout}">
+		<meta name="layout" content="luminoPro">
+	</g:if>
 	<g:set var="entityName" value="${message(code: 'position.label', default: 'Position')}" />
 	<title><g:message code="default.list.label" args="[entityName]" /></title>
 	<script>
@@ -90,6 +92,9 @@
 						}, "json");
 			}
 		}
+		$(function() {
+			$('#equipmentTable').bootstrapTable({});
+		});
 	</script>
 </head>
 <body>
