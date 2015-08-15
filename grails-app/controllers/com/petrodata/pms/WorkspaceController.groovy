@@ -30,12 +30,82 @@ class WorkspaceController {
         }
     }
     */
+    private List getSubChild(List<EquipmentCatagory> equipmentCatagories,EquipmentCatagory equipmentCatagory,List list){
+        if(equipmentCatagories.count {it.parent?.id==equipmentCatagory.id}>0){
+            def child=equipmentCatagories.findAll{it.parent?.id==equipmentCatagory.id};
+            list=list+child.collect {it.id}
+            child.each{one->
+                list=getSubChild(equipmentCatagories,one,list);
+            }
+        }
+        return list;
+    }
     def index() {
 /*        com.petrodata.pms.equipment.EquipmentCatagory.findAllByParentIsNull(['sort':'id','order':'asc']).eachWithIndex{ec,i->
             Integer code=100+i+1;
             ec.code=code.toString();
             ec.save(flush: true);
             dealChildren(ec,code.toString());
+        }*/
+/*        def equipmentCatagories=EquipmentCatagory.list();
+        def team=BaseDepartment.get(5l);
+        Rotation.findAllByBaseDepartment(team).each{rotation->
+            def users=rotation.baseUsers;
+
+            PositionBaseUser.executeQuery("select distinct pb.position from PositionBaseUser pb where pb.baseUser in :users",[users:users]).toList().unique().each { position ->
+                if(position.name.contains('HSE')){
+                    println rotation.name+position.name
+                    def ecList = [];
+                    position.eptCatas.each { ec ->
+                        def list = getSubChild(equipmentCatagories, ec, []);
+                        ecList = (ecList + list).unique();
+                    }
+                    ecList = ecList.collect { EquipmentCatagory.get(it) };
+                    //获取小队所有设备
+                    def equipments = Equipment.findAllByInDepartmentAndServiceStateAndEquipmentCatagoryInList(team, '在用', ecList);
+                    if(equipments.size()>0){
+                        def jobOrder;//=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
+                        equipments.each{equipment->
+                            //细化运行项
+                            equipment.standard.standardItems.each { standardItem ->
+                                if (standardItem.type == '运行检查标准') {
+                                    if (standardItem.checkType == '班次') {
+                                        if (!jobOrder) {
+                                           println 'create'
+                                        }
+
+                                    }
+                                    if (standardItem.checkType == '天数' && standardItem.checkDays > 0 && rotation.chargeDailyCheck) {
+                                        if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
+                                            if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,(new Date()-standardItem.checkDays))==0){
+                                                if(!jobOrder){
+                                                   println 'create2'
+                                                }
+
+                                            }
+                                        }else{
+                                            if(team.workTime){
+                                                if((new Date())-standardItem.checkDays>team.workTime){
+                                                    if(!jobOrder){
+                                                        println 'create3'
+                                                    }
+
+                                                }
+                                            }else{
+                                                if(!jobOrder){
+                                                    println 'create4'
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
         }*/
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MEMBER")){
             redirect(action:'myTask')
