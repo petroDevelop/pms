@@ -67,12 +67,13 @@ class WorkspaceController {
         //def jobItems=JobItem.findAllByJobOrder(joborder,params);
         def jobItems=JobItem.createCriteria().list{
             createAlias("equipment","eq")
-            createAlias("eq.equipmentCatagory","eqc")
+            //createAlias("eq.equipmentCatagory","eqc")
             jobOrder{
                 eq('id',joborder.id)
             }
             //order('id','desc')
-            order('eqc.id','asc')
+            //order('eqc.id','asc')
+            order('eq.code','asc')
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
         }
@@ -692,8 +693,9 @@ class WorkspaceController {
             jobOrder{
                eq('id',jobOrder1.id)
             }
-            order('eqc.id','asc')
+            //order('eqc.id','asc')
             //order('id','asc')
+            order('eq.code','asc')
         }
        return [items:items]
     }

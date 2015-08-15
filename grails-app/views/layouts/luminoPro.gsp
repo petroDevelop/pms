@@ -21,6 +21,29 @@
 <![endif]-->
 
     <script src="${request.contextPath}/js/template/LuminoPro/js/jquery-1.11.1.min.js"></script>
+    <script src="${request.contextPath}/js/jqueryPlus.js"></script>
+    <script>
+        $(function(){
+            if(jQuery.browser.msie){
+                if(jQuery.browser.version<9){
+                    alert('抱歉,本系统的最佳浏览效果不支持IE9之前的浏览器版本');
+                }
+            }
+        });
+        function loadRemotePage(url,jsUrl){
+            $('#mainBodyDiv').html('<img src="${request.contextPath}/js/jquery-easyui-1.4.2/themes/bootstrap/images/loading.gif" />');
+            $.post(url, null,
+                    function (data, textStatus) {
+                        //$('#mainBodyDiv').html('');
+                        $('#mainBodyDiv').html(data);
+                        if(jsUrl){
+                            $.getScript(jsUrl, function(){
+                                //alert("Load was performed.");
+                            });
+                        }
+                    }, "html");
+        }
+    </script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap.min.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/chart.min.js"></script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/chart-data.js"></script>
@@ -129,6 +152,7 @@
     <link rel="stylesheet" type="text/css" href="${request.contextPath}/js/html5checkandradio/css/component.css" />
     <script src="${request.contextPath}/js/html5checkandradio/js/modernizr.custom.js"></script>
     <script src="${request.contextPath}/js/html5checkandradio/js/svgcheckbx.js"></script>
+
 </head>
 
 <body class="${currentUser.skin?:'skin-1'}">
@@ -219,7 +243,7 @@
     </ul>
 </div><!--/.sidebar-->
 
-<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main" id="mainBodyDiv">
     <g:layoutBody/>
 </div>
 <!--/.main-->

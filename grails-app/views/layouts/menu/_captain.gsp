@@ -6,7 +6,7 @@
     </a>
     <ul class="children collapse" id="sub-item-2">
         <li>
-            <a class="" href="${request.contextPath}/equipment/teamList">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipment/teamList?layout=no',null)">
                 <span class="glyphicon glyphicon-th"></span> 设备台帐管理
             </a>
         </li>
@@ -49,7 +49,22 @@
         <span class="glyphicon glyphicon-info-sign"></span> 设备标准历史管理
     </a>
 </li>
+<li class="parent ">
+    <a href="#">
+        <div  data-toggle="collapse" href="#sub-item-5"><span class="glyphicon glyphicon-list"></span> 配件管理
+            <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+        </div>
+    </a>
+    <ul class="children collapse" id="sub-item-5">
+        <li>
+            <a class="" href="${request.contextPath}/">
+                <span class="glyphicon glyphicon-hand-up"></span> 配件管理
+            </a>
+        </li>
 
+
+    </ul>
+</li>
 <li class="parent ">
     <a href="#">
         <div  data-toggle="collapse" href="#sub-item-4"><span class="glyphicon glyphicon-list"></span> 监控管理

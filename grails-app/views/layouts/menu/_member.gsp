@@ -10,6 +10,22 @@
 </li>
 <li class="parent ">
     <a href="#">
+        <div  data-toggle="collapse" href="#sub-item-5"><span class="glyphicon glyphicon-list"></span> 配件管理
+            <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+        </div>
+    </a>
+    <ul class="children collapse" id="sub-item-5">
+        <li>
+            <a class="" href="${request.contextPath}/">
+                <span class="glyphicon glyphicon-hand-up"></span> 配件管理
+            </a>
+        </li>
+
+
+    </ul>
+</li>
+<li class="parent ">
+    <a href="#">
         <div  data-toggle="collapse" href="#sub-item-4"><span class="glyphicon glyphicon-list"></span> 监控管理
             <span class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
         </div>
