@@ -24,6 +24,7 @@ class WorkspaceController {
     }
     def index1() {}
     def myTask(){
+
         def currentUser= BaseUser.get(springSecurityService.currentUser.id)
         def baseDepartment=currentUser.baseDepartment;
         if(SpringSecurityUtils.ifAnyGranted("ROLE_MEMBER")){
@@ -70,7 +71,7 @@ class WorkspaceController {
             jobOrder{
                 eq('id',joborder.id)
             }
-            order('id','desc')
+            //order('id','desc')
             order('eqc.id','asc')
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
@@ -684,7 +685,16 @@ class WorkspaceController {
         render map as JSON;
     }
     def catchOneJobOrderDetail(){
-       def jobOrder=JobOrder.get(params.id);
-       return [items:JobItem.findAllByJobOrder(jobOrder,['sort':'id','order':'asc'])]
+       def jobOrder1=JobOrder.get(params.id);
+        def items=JobItem.createCriteria().list{
+            createAlias("equipment",'eq')
+            createAlias("eq.equipmentCatagory","eqc")
+            jobOrder{
+               eq('id',jobOrder1.id)
+            }
+            order('eqc.id','asc')
+            //order('id','asc')
+        }
+       return [items:items]
     }
 }
