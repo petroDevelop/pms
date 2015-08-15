@@ -11,22 +11,22 @@
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseUser/teamList">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/baseUser/teamList?layout=no',null)">
                 <span class="glyphicon glyphicon-stats"></span> 下属人员管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/rotation/list">
+            <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/rotation/list?layout=no',null)">
                 <span class="glyphicon glyphicon-list-alt"></span> 班次管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/positionBaseUser/list">
+            <a class="" href="#"  onclick="loadRemotePage('${request.contextPath}/positionBaseUser/list?layout=no',null)">
                 <span class="glyphicon glyphicon-pencil"></span> 岗位管理
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/baseUser/myTeam">
+            <a class="" href="#"  onclick="loadRemotePage('${request.contextPath}/baseUser/myTeam?layout=no',null)">
                 <span class="glyphicon glyphicon-hand-up"></span> 小队状态管理
             </a>
         </li>
@@ -35,17 +35,17 @@
 
 
 <li>
-    <a class="" href="${request.contextPath}/equipmentRunningInfo/list">
+    <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipmentRunningInfo/list?layout=no',null)">
         <span class="glyphicon glyphicon-info-sign"></span> 设备运行情况管理
     </a>
 </li>
 <li>
-    <a class="" href="${request.contextPath}/equipment/statusManage">
+    <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipment/statusManage?layout=no',null)">
         <span class="glyphicon glyphicon-info-sign"></span> 设备状况维护
     </a>
 </li>
 <li>
-    <a class="" href="${request.contextPath}/equipmentStandardHistory/list">
+    <a class="" href="#" onclick="loadRemotePage('${request.contextPath}/equipmentStandardHistory/list?layout=no',null)">
         <span class="glyphicon glyphicon-info-sign"></span> 设备标准历史管理
     </a>
 </li>
@@ -73,17 +73,17 @@
     </a>
     <ul class="children collapse" id="sub-item-4">
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-hand-up"></span> 工单执行情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-info-sign"></span> 维修情况
             </a>
         </li>
         <li>
-            <a class="" href="${request.contextPath}/">
+            <a class="" href="#">
                 <span class="glyphicon glyphicon-share-alt"></span> 大修情况
             </a>
         </li>
@@ -92,6 +92,7 @@
 </li>
 
 <script>
+    /*
     $(function(){
         $('.parent').removeClass('active');
         <g:if test="${['equipment','baseUser','rotation','positionBaseUser','baseUser'].contains(params.controller)}">
@@ -105,4 +106,5 @@
         obj.click();
         </g:if>
     });
+    */
 </script>
