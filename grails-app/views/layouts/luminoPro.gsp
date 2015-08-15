@@ -32,16 +32,17 @@
         });
         function loadRemotePage(url,jsUrl){
             $('#mainBodyDiv').html('<img src="${request.contextPath}/images/loading.gif" />');
-            $.post(url, null,
-                    function (data, textStatus) {
-                        //$('#mainBodyDiv').html('');
-                        $('#mainBodyDiv').html(data);
-                        if(jsUrl){
-                            $.getScript(jsUrl, function(){
-                                //alert("Load was performed.");
-                            });
-                        }
-                    }, "html");
+            $.ajax({type: "GET", url: url, data: {}, dataType: "html", cache:false,
+                success: function(data){
+                    //$('#mainBodyDiv').html('');
+                    $('#mainBodyDiv').html(data);
+                    if(jsUrl){
+                        $.getScript(jsUrl, function(){
+                            //alert("Load was performed.");
+                        });
+                    }
+                }
+            });
         }
     </script>
     <script src="${request.contextPath}/js/template/LuminoPro/js/bootstrap.min.js"></script>
