@@ -189,7 +189,7 @@
 				code = value;
 			}
 			row['code'] = code;
-			console.log(code);
+			//console.log(code);
 			return code;
 		}
 	</script>
