@@ -31,7 +31,7 @@
             }
         });
         function loadRemotePage(url,jsUrl){
-            $('#mainBodyDiv').html('<img src="${request.contextPath}/js/jquery-easyui-1.4.2/themes/bootstrap/images/loading.gif" />');
+            $('#mainBodyDiv').html('<img src="${request.contextPath}/images/loading.gif" />');
             $.post(url, null,
                     function (data, textStatus) {
                         //$('#mainBodyDiv').html('');
