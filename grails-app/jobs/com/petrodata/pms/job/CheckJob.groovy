@@ -105,7 +105,20 @@ class CheckJob {
                                             }
                                         }
                                     }
-
+                                    //
+                                    if(standardItem.type=='保养标准'){
+                                          //@todo 1.取出上次保养工单item时间，
+                                          // @todo     2。 若无查看从小队的初始化工单时间到当前时间的小时数，再加上EquipmentRunningInfo表中的maintenanceInitTime保养初始化时间
+                                           //@todo  3与标准中的excuteCycle比较，若接近warningHour个小时，则修改设备的warningMaintenanceDate字段自动预警
+                                        //   @todo  4.若接近半个小时，则生成工单，同时修改设备的warningMaintenanceDate字段为null
+                                        //excuteCycle
+                                        //warningHour
+                                        if(!jobOrder){
+                                            jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'保养');
+                                            jobOrder.save(flush: true)
+                                        }
+                                        new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                    }
                                 }
                                 //细化检查项
                             }

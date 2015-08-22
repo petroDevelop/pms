@@ -60,6 +60,8 @@ class Equipment {
     String assetsType
    // 购置合同号：
      String purchaseContractNo
+    //为null时不预警，不为null时，设置下次生成工单的时间，方便用户查看时生成倒计时时间
+    Date warningMaintenanceDate
     static constraints = {
         alias(nullable: true);
         code(size: 0..200);
@@ -75,6 +77,7 @@ class Equipment {
         acceptDate(nullable: true);
         assetsType(size:0..20,nullable: true,inList: ['固定资产','递延资产']);
         purchaseContractNo(size:0..100,nullable: true);
+        warningMaintenanceDate(nullable: true)
     }
     def beforeInsert() {
         encodeCode()
