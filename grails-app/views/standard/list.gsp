@@ -141,6 +141,10 @@
 			}
 			$(function(){
 				$('#standardTable').bootstrapTable({});
+				$('#standardItemTable0').bootstrapTable({});
+				$('#standardItemTable1').bootstrapTable({});
+				$('#standardItemTable2').bootstrapTable({});
+				$('#standardItemTable3').bootstrapTable({});
 				$('#standardForm').form({
 					success: function(data){
 						var data = eval('(' + data + ')'); // change the JSON string to javascript object

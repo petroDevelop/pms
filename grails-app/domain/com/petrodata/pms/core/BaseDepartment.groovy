@@ -24,6 +24,9 @@ class BaseDepartment {
     //经度
     Double longtitude
 
+    //工单运行初始时间
+    Date jobOrderInitDate //checkInitDate
+
     static belongsTo =[parent:BaseDepartment]
     static hasMany = [children:BaseDepartment,baseUsers: BaseUser]
     static constraints = {
@@ -35,6 +38,7 @@ class BaseDepartment {
         location(nullable:true)
         latitude(nullable:true)
         longtitude(nullable:true)
+        jobOrderInitDate(nullable:true)
     }
     String toString(){
         return name;

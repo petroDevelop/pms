@@ -1,7 +1,7 @@
 package com.petrodata.pms
 
 class GenerateTaskService {
-
+      // 废弃，不再使用
     def schedual() {
        // 定时任务 定时启动（20分钟）
          /*扫描小队（isWorking），获取班次 （chargeDailyCheck）获取本小队的（position baseUser）岗位列表（distinct position）
