@@ -281,6 +281,9 @@ class BaseUserController {
         if(baseDeparment){
             baseDeparment.isWorking=params.isWorking;
             baseDeparment.reason=params.reason;
+            if(params.jobOrderInitDate){
+                baseDeparment.jobOrderInitDate=Date.parse('yyyy-MM-dd',params.jobOrderInitDate)
+            }
             baseDeparment.save(flush: true);
         }
         def map=[:];

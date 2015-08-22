@@ -11,6 +11,7 @@
             var obj = {};
             obj.isWorking = $("#isWorking").val();
             obj.reason = $("#reason").val();
+            obj.jobOrderInitDate=$('#jobOrderInitDate').val();
             $.post("${request.contextPath}/baseUser/changeMyTeamInfo", obj,
                     function (data, textStatus) {
                         if (data.result) {
@@ -92,6 +93,18 @@
                     </label>
                     <g:textField class="form-control input-sm m-b-10"  id="reason" name="reason" maxlength="100" value="${baseDepartment?.reason}"/>
                 </div>
+                <div class="fieldcontain  ">
+                    <label for="jobOrderInitDate">
+                        <g:message code="baseDepartment.jobOrderInitDate.label" default="Order Init Date" />
+
+                    </label>
+                    <div class="input-group date form_date col-md-5" data-date=""
+                         data-date-format="yyyy-mm-dd" >
+                        <input class="form-control" size="16" type="text"  id="jobOrderInitDate" name="jobOrderInitDate" value="${baseDepartment?.jobOrderInitDate?.format('yyyy-MM-dd')}"  readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                </div>
 
                 <fieldset class="buttons">
                     <button class="btn btn-default margin" name="create" type="button" onclick="changeInfo()">
@@ -103,6 +116,17 @@
         </div>
     </div><!--/.row-->
 </div>
-
+<script>
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+</script>
 </body>
 </html>
