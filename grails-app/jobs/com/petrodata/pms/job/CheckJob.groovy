@@ -3,6 +3,7 @@ package com.petrodata.pms.job
 import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.equipment.Equipment
 import com.petrodata.pms.equipment.EquipmentCatagory
+import com.petrodata.pms.equipment.EquipmentRunningInfo
 import com.petrodata.pms.order.JobItem
 import com.petrodata.pms.order.JobOrder
 import com.petrodata.pms.team.Position
@@ -63,7 +64,9 @@ class CheckJob {
                         //获取小队所有设备
                         def equipments=Equipment.findAllByInDepartmentAndServiceStateAndEquipmentCatagoryInList(team,'在用',ecList);
                         if(equipments.size()>0){
+                            //运行检查工单和保养工单是两个工单，所以分开。
                             def jobOrder;//=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'运行检查');
+                            def maintainJobOrder;
                             equipments.each{equipment->
                                 //细化运行项
                                 equipment.standard.standardItems.each{standardItem->
@@ -107,17 +110,52 @@ class CheckJob {
                                     }
                                     //
                                     if(standardItem.type=='保养标准'){
+                                        def equipmentRunHour;
+                                        def jobItemCreateTime;
+                                        if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
+                                            def previousItems = JobItem.findAllByEquipmentAndStandardItem(equipment,standardItem);
+                                            def lastJobItem = previousItems.get(previousItems.size()-1);
+                                            equipmentRunHour = (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
+                                            jobItemCreateTime = new Date((lastJobItem.dateCreated.getTime() + standardItem.excuteCycle*1000*60*60).toLong());
+                                        }
+                                        else {
+                                            def runningInfo = EquipmentRunningInfo.findByEquipment(equipment);
+                                            if(team.workTime || team.jobOrderInitDate) {
+                                                def teamStartTime = team.jobOrderInitDate == null ? team.workTime.getTime() : team.jobOrderInitDate.getTime();
+                                                //设备的当前运转时间
+                                                equipmentRunHour = (localTime.getTime() - teamStartTime)/(1000*60*60);
+                                                if(runningInfo) {
+                                                    equipmentRunHour += runningInfo?.maintenanceInitTime;
+                                                }
+                                                jobItemCreateTime = new Date((localTime.getTime() + (standardItem.excuteCycle - equipmentRunHour)*1000*60*60).toLong());
+                                            }
+                                        }
+
+                                        if(standardItem.warningHour > 0)
+                                        {
+                                            if((equipmentRunHour - standardItem.excuteCycle) <= standardItem.warningHour)
+                                            {
+                                                equipment.warningMaintenanceDate = jobItemCreateTime;
+                                            }
+                                        }
+                                        Date rotationBeginTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.beginTime}");
+                                        Date rotationEndTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.endTime}");
+                                        if(jobItemCreateTime >= rotationBeginTime && jobItemCreateTime < rotationEndTime)//检查时间在本班次内
+                                        {
+                                            equipment.warningMaintenanceDate = null;
+                                            if(!maintainJobOrder){
+                                                maintainJobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'保养');
+                                                maintainJobOrder.save(flush: true)
+                                            }
+                                            new JobItem(jobOrder:maintainJobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
+                                        }
+                                        equipment.save(flush: true);
                                           //@todo 1.取出上次保养工单item时间，
                                           // @todo     2。 若无查看从小队的初始化工单时间到当前时间的小时数，再加上EquipmentRunningInfo表中的maintenanceInitTime保养初始化时间
                                            //@todo  3与标准中的excuteCycle比较，若接近warningHour个小时，则修改设备的warningMaintenanceDate字为工单生产时间，便于自动预警
                                         //   @todo  4.若接近半个小时，则生成工单，同时修改设备的warningMaintenanceDate字段为null
                                         //excuteCycle
                                         //warningHour
-                                        if(!jobOrder){
-                                            jobOrder=new JobOrder(rotation: rotation,position:position,jobDate: localTime,type:'保养');
-                                            jobOrder.save(flush: true)
-                                        }
-                                        new JobItem(jobOrder:jobOrder,equipment: equipment,standardItem: standardItem).save(flush: true);
                                     }
                                 }
                                 //细化检查项
