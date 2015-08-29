@@ -9,7 +9,7 @@
     <script>
         function changeInfo(){
             var obj = {};
-            obj.isWorking = $("#isWorking").val();
+            obj.isWorking = $("#isWorking").is(':checked');
             obj.reason = $("#reason").val();
             obj.jobOrderInitDate=$('#jobOrderInitDate').val();
             $.post("${request.contextPath}/baseUser/changeMyTeamInfo", obj,
@@ -83,7 +83,7 @@
                         <g:message code="baseDepartment.isWorking.label" default="Is Working" />
 
                     </label>
-                    <g:checkBox name="isWorking" id="isWorking" value="${baseDepartment?.isWorking}" />
+                    <g:checkBox name="isWorking" id="isWorking" checked="${baseDepartment?.isWorking}"  />
                 </div>
 
                 <div class="fieldcontain  ">

@@ -279,7 +279,11 @@ class BaseUserController {
         def currentUser=BaseUser.get(springSecurityService.currentUser.id)
         def baseDeparment=currentUser.baseDepartment;
         if(baseDeparment){
-            baseDeparment.isWorking=params.isWorking;
+            if(params.isWorking.toString()=='true'){
+                baseDeparment.isWorking=true;
+            }else{
+                baseDeparment.isWorking=false;
+            }
             baseDeparment.reason=params.reason;
             if(params.jobOrderInitDate){
                 baseDeparment.jobOrderInitDate=Date.parse('yyyy-MM-dd',params.jobOrderInitDate)

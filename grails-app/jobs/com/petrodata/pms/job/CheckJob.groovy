@@ -1,6 +1,7 @@
 package com.petrodata.pms.job
 
 import com.petrodata.pms.core.BaseDepartment
+import com.petrodata.pms.core.BaseDepartmentWorkingHistory
 import com.petrodata.pms.equipment.Equipment
 import com.petrodata.pms.equipment.EquipmentCatagory
 import com.petrodata.pms.equipment.EquipmentRunningInfo
@@ -110,15 +111,21 @@ class CheckJob {
                                     }
                                     //
                                     if(standardItem.type=='保养标准'){
-                                        def equipmentRunHour;
-                                        def jobItemCreateTime;
-                                        if(JobItem.countByEquipmentAndStandardItem(equipment,standardItem)>0){
-                                            def previousItems = JobItem.findAllByEquipmentAndStandardItem(equipment,standardItem);
-                                            def lastJobItem = previousItems.get(previousItems.size()-1);
+                                        def equipmentRunHour; //设备已经运行时长
+                                        def jobItemCreateTime; //下次工单生产时间
+                                        //判断本设备此条标准项下是否生成过工单
+                                        //先去历史表中读取本小队的开工操作时间
+                                        def historys=BaseDepartmentWorkingHistory.findAllByBaseDepartmentAndIsWorking(team,true,['sort':'id','order':'desc']);
+                                        def lastTime=Date.parse("yyyy-MM-dd",'1900-01-01');
+                                        if(historys && historys.size()>0){
+                                            lastTime=historys[0].dateCreated;
+                                        }
+                                        if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,lastTime)>0){
+                                            def previousItems = JobItem.findAllByEquipmentAndStandardItem(equipment,standardItem,['sort':'id','order':'desc']);
+                                            def lastJobItem = previousItems[0];
                                             equipmentRunHour = (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
                                             jobItemCreateTime = new Date((lastJobItem.dateCreated.getTime() + standardItem.excuteCycle*1000*60*60).toLong());
-                                        }
-                                        else {
+                                        }else {
                                             def runningInfo = EquipmentRunningInfo.findByEquipment(equipment);
                                             if(team.workTime || team.jobOrderInitDate) {
                                                 def teamStartTime = team.jobOrderInitDate == null ? team.workTime.getTime() : team.jobOrderInitDate.getTime();

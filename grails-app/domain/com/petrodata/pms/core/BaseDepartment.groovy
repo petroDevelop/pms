@@ -53,6 +53,17 @@ class BaseDepartment {
     def beforeUpdate() {
         if (isDirty('isWorking') && isWorking && type=='小队节点') {
             workTime=new Date();
+            BaseDepartmentWorkingHistory.withNewSession {s->
+                new BaseDepartmentWorkingHistory(baseDepartment:this,isWorking: isWorking,workTime:workTime).save(flush: true);
+            }
+
         }
+    }
+
+    def afterInsert() {
+
+    }
+    def afterUpdate() {
+
     }
 }
