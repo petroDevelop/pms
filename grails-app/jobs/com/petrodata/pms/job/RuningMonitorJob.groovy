@@ -27,8 +27,8 @@ class RuningMonitorJob {
                     def equipments=Equipment.findAllByInDepartmentAndServiceState(team,'在用');
                     if(equipments.size()>0){
                         equipments.each{equipment->
-                            //30分钟内没有相同的记录
-                            if(EquipmentRuningTime.countByEquipmentAndDateCreatedGreaterThanEquals(equipment,new Date(serverTime.time-1000*60*30l))==0){
+                            //40分钟内没有相同的记录
+                            if(EquipmentRuningTime.countByEquipmentAndDateCreatedGreaterThanEquals(equipment,new Date(serverTime.time-1000*60*40l))==0){
                                new EquipmentRuningTime(equipment: equipment,hour: 1l).save(flush: true);
                             }
                         }
