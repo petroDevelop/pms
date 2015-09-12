@@ -4,6 +4,7 @@ import com.petrodata.pms.core.BaseDepartment
 import com.petrodata.pms.core.BaseDepartmentWorkingHistory
 import com.petrodata.pms.equipment.Equipment
 import com.petrodata.pms.equipment.EquipmentCatagory
+import com.petrodata.pms.equipment.EquipmentRuningTime
 import com.petrodata.pms.equipment.EquipmentRunningInfo
 import com.petrodata.pms.order.JobItem
 import com.petrodata.pms.order.JobOrder
@@ -120,34 +121,47 @@ class CheckJob {
                                         if(historys && historys.size()>0){
                                             lastTime=historys[0].dateCreated;
                                         }
+
                                         if(JobItem.countByEquipmentAndStandardItemAndDateCreatedGreaterThan(equipment,standardItem,lastTime)>0){
                                             def previousItems = JobItem.findAllByEquipmentAndStandardItem(equipment,standardItem,['sort':'id','order':'desc']);
                                             def lastJobItem = previousItems[0];
-                                            equipmentRunHour = (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
-                                            jobItemCreateTime = new Date((lastJobItem.dateCreated.getTime() + standardItem.excuteCycle*1000*60*60).toLong());
+                                            //@done: 改为从 EquipmentRuningTime表格中累加获取设备运行时间
+                                            //equipmentRunHour = (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
+                                            //jobItemCreateTime = new Date((lastJobItem.dateCreated.getTime() + standardItem.excuteCycle*1000*60*60).toLong());
+                                            equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetween(lastJobItem.dateCreated,localTime);
+                                            //int fromLastItemHour= (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
                                         }else {
                                             def runningInfo = EquipmentRunningInfo.findByEquipment(equipment);
                                             if(team.workTime || team.jobOrderInitDate) {
-                                                def teamStartTime = team.jobOrderInitDate == null ? team.workTime.getTime() : team.jobOrderInitDate.getTime();
+                                                def teamStartDate = (team.jobOrderInitDate?:team.workTime);
+                                                //@done: 改为从 EquipmentRuningTime表格中累加获取设备运行时间
                                                 //设备的当前运转时间
-                                                equipmentRunHour = (localTime.getTime() - teamStartTime)/(1000*60*60);
+                                                //equipmentRunHour = (localTime.getTime() - teamStartDate.time)/(1000*60*60);
+                                                equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetween(teamStartDate,localTime);
                                                 if(runningInfo) {
                                                     equipmentRunHour += runningInfo?.maintenanceInitTime;
                                                 }
-                                                jobItemCreateTime = new Date((localTime.getTime() + (standardItem.excuteCycle - equipmentRunHour)*1000*60*60).toLong());
+                                                //jobItemCreateTime = new Date((localTime.getTime() + (standardItem.excuteCycle - equipmentRunHour)*1000*60*60).toLong());
                                             }
                                         }
-
-                                        if(standardItem.warningHour > 0)
-                                        {
-                                            if((equipmentRunHour - standardItem.excuteCycle) <= standardItem.warningHour)
-                                            {
-                                                equipment.warningMaintenanceDate = jobItemCreateTime;
+                                        boolean ifCreateItemInRotation=false;
+                                        if((standardItem.excuteCycle-equipmentRunHour).abs()<rotation.hours){
+                                            ifCreateItemInRotation=true;
+                                        }
+                                        if(standardItem.warningHour > 0 && !ifCreateItemInRotation){
+                                            //if((equipmentRunHour - standardItem.excuteCycle) <= standardItem.warningHour)
+                                            //{
+                                            //    equipment.warningMaintenanceDate = jobItemCreateTime;
+                                            //}
+                                            //@done:判断当前时间处在工单需要运行时间前的warningHours小时
+                                            if((standardItem.excuteCycle-equipmentRunHour-standardItem.warningHour).abs()<rotation.hours){
+                                                equipment.warningMaintenanceDate=new Date((new Date()).time+standardItem.warningHour*60*60*1000);
                                             }
                                         }
                                         Date rotationBeginTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.beginTime}");
                                         Date rotationEndTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.endTime}");
-                                        if(jobItemCreateTime >= rotationBeginTime && jobItemCreateTime < rotationEndTime)//检查时间在本班次内
+                                        //if(jobItemCreateTime >= rotationBeginTime && jobItemCreateTime < rotationEndTime)//检查时间在本班次内
+                                        if(ifCreateItemInRotation)
                                         {
                                             equipment.warningMaintenanceDate = null;
                                             if(!maintainJobOrder){
