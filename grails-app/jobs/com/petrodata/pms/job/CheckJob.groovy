@@ -126,22 +126,17 @@ class CheckJob {
                                             def previousItems = JobItem.findAllByEquipmentAndStandardItem(equipment,standardItem,['sort':'id','order':'desc']);
                                             def lastJobItem = previousItems[0];
                                             //@done: 改为从 EquipmentRuningTime表格中累加获取设备运行时间
-                                            //equipmentRunHour = (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
-                                            //jobItemCreateTime = new Date((lastJobItem.dateCreated.getTime() + standardItem.excuteCycle*1000*60*60).toLong());
-                                            equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetween(lastJobItem.dateCreated,localTime);
-                                            //int fromLastItemHour= (localTime.getTime() - lastJobItem.dateCreated.getTime())/(1000*60*60);
+                                            equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetweenAndEquipment(lastJobItem.dateCreated,localTime,equipment);
                                         }else {
                                             def runningInfo = EquipmentRunningInfo.findByEquipment(equipment);
                                             if(team.workTime || team.jobOrderInitDate) {
                                                 def teamStartDate = (team.jobOrderInitDate?:team.workTime);
                                                 //@done: 改为从 EquipmentRuningTime表格中累加获取设备运行时间
                                                 //设备的当前运转时间
-                                                //equipmentRunHour = (localTime.getTime() - teamStartDate.time)/(1000*60*60);
-                                                equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetween(teamStartDate,localTime);
+                                                equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetweenAndEquipment(teamStartDate,localTime,Equipment);
                                                 if(runningInfo) {
                                                     equipmentRunHour += runningInfo?.maintenanceInitTime;
                                                 }
-                                                //jobItemCreateTime = new Date((localTime.getTime() + (standardItem.excuteCycle - equipmentRunHour)*1000*60*60).toLong());
                                             }
                                         }
                                         boolean ifCreateItemInRotation=false;
@@ -149,18 +144,12 @@ class CheckJob {
                                             ifCreateItemInRotation=true;
                                         }
                                         if(standardItem.warningHour > 0 && !ifCreateItemInRotation){
-                                            //if((equipmentRunHour - standardItem.excuteCycle) <= standardItem.warningHour)
-                                            //{
-                                            //    equipment.warningMaintenanceDate = jobItemCreateTime;
-                                            //}
                                             //@done:判断当前时间处在工单需要运行时间前的warningHours小时
                                             if((standardItem.excuteCycle-equipmentRunHour-standardItem.warningHour).abs()<rotation.hours){
                                                 equipment.warningMaintenanceDate=new Date((new Date()).time+standardItem.warningHour*60*60*1000);
                                             }
                                         }
-                                        Date rotationBeginTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.beginTime}");
-                                        Date rotationEndTime=Date.parse('yyyy-MM-dd HH:mm',"${localTime.format('yyyy-MM-dd')} ${rotation.endTime}");
-                                        //if(jobItemCreateTime >= rotationBeginTime && jobItemCreateTime < rotationEndTime)//检查时间在本班次内
+                                        //生成工单
                                         if(ifCreateItemInRotation)
                                         {
                                             equipment.warningMaintenanceDate = null;
@@ -175,8 +164,6 @@ class CheckJob {
                                           // @todo     2。 若无查看从小队的初始化工单时间到当前时间的小时数，再加上EquipmentRunningInfo表中的maintenanceInitTime保养初始化时间
                                            //@todo  3与标准中的excuteCycle比较，若接近warningHour个小时，则修改设备的warningMaintenanceDate字为工单生产时间，便于自动预警
                                         //   @todo  4.若接近半个小时，则生成工单，同时修改设备的warningMaintenanceDate字段为null
-                                        //excuteCycle
-                                        //warningHour
                                     }
                                 }
                                 //细化检查项
