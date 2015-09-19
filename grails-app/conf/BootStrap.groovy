@@ -1,5 +1,7 @@
 import com.petrodata.converters.marshaller.json.TableDomainClassMarshaller
 import com.petrodata.pms.core.*
+import com.petrodata.pms.equipment.Equipment
+import com.petrodata.pms.equipment.EquipmentRunningInfo
 import grails.converters.JSON;
 
 class BootStrap {
@@ -14,11 +16,18 @@ class BootStrap {
             createDefaultUsers()
             createRequestMap()
         }
+        synchronizeEquipment();
 
     }
     def destroy = {
     }
-
+    private synchronizeEquipment(){
+        Equipment.list().each{equipment->
+            if(EquipmentRunningInfo.countByEquipment(equipment)==0){
+                new EquipmentRunningInfo(equipment: equipment).save(flush: true);
+            }
+        }
+    }
     private createRole(){
         def roles=['IS_AUTHENTICATED_ANONYMOUSLY','IS_AUTHENTICATED_FULLY','IS_AUTHENTICATED_REMEMBERED']
         roles.each{

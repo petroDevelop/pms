@@ -82,7 +82,15 @@ class Equipment {
     def beforeInsert() {
         encodeCode()
     }
-
+    def afterInsert(){
+        //insert a EquipmentRunningInfo
+        if(EquipmentRunningInfo.countByEquipment(this)==0){
+           EquipmentRunningInfo.withNewSession {session->
+               def eif=new EquipmentRunningInfo(equipment: Equipment.get(this.id));
+               eif.save(flush: true);
+           }
+        }
+    }
     def beforeUpdate() {
         encodeCode()
     }
