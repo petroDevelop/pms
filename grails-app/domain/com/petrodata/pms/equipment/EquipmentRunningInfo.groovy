@@ -14,7 +14,7 @@ class EquipmentRunningInfo {
     long runningTime
 
     static constraints = {
-        equipment()
+        equipment(nullable: false,unique: true)
     }
 
 }
