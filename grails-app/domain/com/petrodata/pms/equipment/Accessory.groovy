@@ -48,7 +48,7 @@ class Accessory {
     }
     def beforeDelete(){
         AccessoryHistory.withNewSession {newsession->
-            new AccessoryHistory(operator: 'delete',oldValue: (this as JSON).toString(),baseUser:BaseUser.get(this.updater.id)).save(flush: true);
+            new AccessoryHistory(operator: 'delete',oldValue: (this as JSON).toString(),baseUser:BaseUser.get(this.creater?.id)).save(flush: true);
         }
     }
 }
