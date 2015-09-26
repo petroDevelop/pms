@@ -271,9 +271,31 @@ class EquipmentController {
             maxResults(params.max.toInteger())
             firstResult(params.offset.toInteger())
         }
+
         def map=[:];
+        def list=[]
+        Date localtime = new Date();
+        allList.each{
+            def map1=[:]
+            map1.id=it.id
+            map1.name=it.name;
+            map1.standard = it.standard.toString();
+            map1.techState = it.techState;
+            map1.serviceState = it.serviceState;
+            map1.feature = it.feature;
+            if(it.warningMaintenanceDate && it.warningMaintenanceDate.time > localtime.time)
+            {
+                int hour = (it.warningMaintenanceDate.time - localtime.time)/(60*60*1000);
+                map1.maintenanceDate = hour.toString();
+            }
+            else {
+                map1.maintenanceDate = "";
+            }
+            list<<map1;
+        }
+
         map.total=allCount;
-        map.rows=allList;
+        map.rows=list;
         render map as JSON;
     }
 

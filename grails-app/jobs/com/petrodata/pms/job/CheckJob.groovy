@@ -133,7 +133,7 @@ class CheckJob {
                                                 def teamStartDate = (team.jobOrderInitDate?:team.workTime);
                                                 //@done: 改为从 EquipmentRuningTime表格中累加获取设备运行时间
                                                 //设备的当前运转时间
-                                                equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetweenAndEquipment(teamStartDate,localTime,Equipment);
+                                                equipmentRunHour=EquipmentRuningTime.countByDateCreatedBetweenAndEquipment(teamStartDate,localTime,equipment);
                                                 if(runningInfo) {
                                                     equipmentRunHour += runningInfo?.maintenanceInitTime;
                                                 }

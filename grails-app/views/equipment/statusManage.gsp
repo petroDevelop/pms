@@ -111,6 +111,7 @@
                 }
             });
         }
+
         $(function(){
             $('#equipmentTable').bootstrapTable({});
             $('#equipmentForm').form({
@@ -194,15 +195,17 @@
                             <thead>
                             <tr>
 
-                                <th data-field="name"  data-sortable="true"  data-formatter="nameFormatter"  >${message(code: 'equipment.name.label', default: 'Name')}</th>
+                                <th data-field="name"  data-sortable="true" >${message(code: 'equipment.name.label', default: 'Name')}</th>
 
-                                <th data-field="standard.text"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
+                                <th data-field="standard"  >${message(code: 'equipment.standard.label', default: 'Standard')}</th>
 
                                 <th data-field="techState"  data-sortable="true"   >${message(code: 'equipment.techState.label', default: 'Tech State')}</th>
 
                                 <th data-field="serviceState"  data-sortable="true"   >${message(code: 'equipment.serviceState.label', default: 'Service State')}</th>
 
                                 <th data-field="feature"  data-sortable="true"   >${message(code: 'equipment.feature.label', default: 'Feature')}</th>
+
+                                <th data-field="maintenanceDate"  data-sortable="true" >${message(code: 'equipment.maintainDate.label', default: 'Maintenance Count Down')}</th>
 
                                 <th data-field="id" data-formatter="editFormatter">状态维护</th>
                                 <!--<th data-field="id" data-formatter="deleteFormatter"><g:message code="default.button.delete.label" default="Delete" /></th>-->
