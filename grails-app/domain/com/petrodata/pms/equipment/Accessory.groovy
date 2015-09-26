@@ -36,19 +36,19 @@ class Accessory {
     }
     def afterInsert() {
         AccessoryHistory.withNewSession {newsession->
-            new AccessoryHistory(accessory: Accessory.get(this.id),operator: 'insert',baseUser:BaseUser.get(this.creater?.id)).save(flush: true);
+            new AccessoryHistory(accessoryId:this.id,operator: 'insert',baseUser:BaseUser.get(this.creater?.id)).save(flush: true);
         }
     }
 
     def beforeUpdate() {
         AccessoryHistory.withNewSession {newsession->
             def accessory=Accessory.get(this.id);
-            new AccessoryHistory(accessory:accessory,operator: 'update',oldValue: (accessory as JSON).toString(),newValue: (this as JSON).toString(),baseUser:BaseUser.get(this.updater?.id)).save(flush: true);
+            new AccessoryHistory(accessoryId:this.id,operator: 'update',oldValue: (accessory as JSON).toString(),newValue: (this as JSON).toString(),baseUser:BaseUser.get(this.updater?.id)).save(flush: true);
         }
     }
     def beforeDelete(){
         AccessoryHistory.withNewSession {newsession->
-            new AccessoryHistory(operator: 'delete',oldValue: (this as JSON).toString(),baseUser:BaseUser.get(this.creater?.id)).save(flush: true);
+            new AccessoryHistory(accessoryId:this.id,operator: 'delete',oldValue: (this as JSON).toString(),baseUser:BaseUser.get(this.creater?.id)).save(flush: true);
         }
     }
 }
