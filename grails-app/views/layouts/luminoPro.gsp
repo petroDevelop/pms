@@ -4,7 +4,7 @@
 <head>
     <g:set var="currentUser" value="${com.petrodata.pms.core.BaseUser.findByUsername(sec.username())}"/>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <title><g:layoutTitle/></title>
 
     <link href="${request.contextPath}/js/template/LuminoPro/css/bootstrap.min.css" rel="stylesheet">
@@ -69,6 +69,10 @@
     <script type="text/javascript" src="${request.contextPath}/js/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js" charset="UTF-8"></script>
     <g:layoutHead/>
     <style>
+        html {
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+        }
     /*页内多个界面的切换样式*/
      .box {
         display: none;
@@ -172,6 +176,7 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown"><a>欢迎 ：<sec:username/></a></li>
                 <!-- message -->
+                <!--
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="glyphicon glyphicon-envelope"></i>  <span class="label label-danger">0</span>
@@ -189,8 +194,10 @@
                         </li>
                     </ul>
                 </li>
+                -->
                 <!-- end message -->
                 <!-- warning -->
+                <!--
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                         <i class="glyphicon glyphicon-bell"></i>  <span class="label label-primary">0</span>
@@ -207,6 +214,7 @@
                         </li>
                     </ul>
                 </li>
+                -->
                 <!-- end warning-->
                 <li class="dropdown"><a href="${request.contextPath}/logout"><span class="glyphicon glyphicon-user"></span> 退出</a></li>
             </ul>
@@ -316,7 +324,7 @@
         });
      });
     (function(){
-        $('body').on('click touchstart', '.box-switcher', function(e){
+        $('.box-switcher').on('click touchstart', function(e){
             e.preventDefault();
             var box = $(this).attr('data-switch');
             $(this).closest('.box').toggleClass('active');

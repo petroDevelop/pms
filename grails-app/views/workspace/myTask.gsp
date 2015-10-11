@@ -58,6 +58,8 @@
         }
         var currentJobOrderId;
         function changeItemTable(id){
+            //$('#box-list').closest('.box').toggleClass('active');
+            //$('#box-edit').closest('.box').addClass('active');
             currentJobOrderId=id;
             $('#jobItemTable').bootstrapTable('refresh',{url:"${request.contextPath}/workspace/getJobItemJson/"+id});
         }
@@ -162,10 +164,10 @@
                                 <li class="todo-list-item">
                                     <div class="checkbox">
                                         <input type="checkbox"  readonly disabled  id="checkbox-${i}" />
-                                        <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                                        <label  onclick="changeItemTable(${jobOrder.id})"   for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})"  ><span class="glyphicon glyphicon-pencil"></span></a>
                                         <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                                         <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                     </div>
@@ -177,12 +179,12 @@
                         <ul class="todo-list">
                             <g:each in="${oldProgressJobOrders}" var="jobOrder" status="i">
                                 <li class="todo-list-item">
-                                    <div class="checkbox">
+                                    <div class="checkbox"  >
                                         <input type="checkbox"  readonly disabled  id="checkbox-${i}" />
-                                        <label  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                                        <label onclick="changeItemTable(${jobOrder.id})" class="box-switcher" data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})" class="box-switcher"  data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})" ><span class="glyphicon glyphicon-pencil"></span></a>
                                         <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                                         <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                     </div>
