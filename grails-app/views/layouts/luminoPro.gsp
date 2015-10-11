@@ -324,7 +324,7 @@
         });
      });
     (function(){
-        $('.box-switcher').on('click touchstart', function(e){
+        $('.box-switcher').on('click', function(e){//touchstart
             e.preventDefault();
             var box = $(this).attr('data-switch');
             $(this).closest('.box').toggleClass('active');

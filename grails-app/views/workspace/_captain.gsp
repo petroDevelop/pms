@@ -6,6 +6,8 @@
         return params;
     }
     function showOne(index,jobOrderId){
+        $('#box-list').closest('.box').toggleClass('active');
+        $('#box-detail').closest('.box').addClass('active');
         var obj={};
         obj.id=jobOrderId;
         $.post("${request.contextPath}/workspace/catchOneJobOrderDetail", obj,
@@ -14,7 +16,7 @@
                 }, "html");
     }
     function operatorFormatter(value, row,index) {
-        var str='<button class="btn btn-default margin box-switcher" data-switch="box-detail" onclick="showOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;显示</button></a>';
+        var str='<button class="btn btn-default margin box-switcher" data-switch="box-detail" onclick="showOne('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;显示</button>';
         return str;
     }
 

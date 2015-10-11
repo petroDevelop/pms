@@ -14,9 +14,9 @@
             var str='';
             if(row.status=='未查'){
                 //str='<button class="btn btn-default margin"  onclick="oneProcess(true,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-edit"></span> &nbsp;正常</button></a>';
-                str='<button class="btn btn-danger margin"  data-toggle="modal" data-target="#processModal"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button></a>';
+                str='<button class="btn btn-danger margin"  data-toggle="modal" data-target="#processModal"  onclick="oneProcess(false,'+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;异常</button>';
             }else{
-                str='<button class="btn btn-info margin" onclick="openRemark('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;查看</button></a>';
+                str='<button class="btn btn-info margin" onclick="openRemark('+index+','+row.id+')"  type="button"><span class="glyphicon glyphicon-wrench"></span> &nbsp;查看</button>';
             }
             return str;
         }
@@ -167,7 +167,7 @@
                                         <label  onclick="changeItemTable(${jobOrder.id})"  class="box-switcher" data-switch="box-edit"   for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})"  ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})"   class="box-switcher" data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
                                         <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                                         <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                     </div>
@@ -184,7 +184,7 @@
                                         <label onclick="changeItemTable(${jobOrder.id})" class="box-switcher" data-switch="box-edit"  for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                     <div class="pull-right action-buttons">
-                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#"  onclick="changeItemTable(${jobOrder.id})"  class="box-switcher" data-switch="box-edit" ><span class="glyphicon glyphicon-pencil"></span></a>
                                         <!--<a href="#" class="flag"><span class="glyphicon glyphicon-flag"></span></a>-->
                                         <a href="#" class="trash"><span class="glyphicon glyphicon-trash"></span></a>
                                     </div>
