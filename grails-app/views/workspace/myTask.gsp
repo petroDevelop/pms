@@ -164,7 +164,7 @@
                                 <li class="todo-list-item">
                                     <div class="checkbox">
                                         <input type="checkbox"  readonly disabled  id="checkbox-${i}" />
-                                        <label  onclick="changeItemTable(${jobOrder.id})"   for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
+                                        <label  onclick="changeItemTable(${jobOrder.id})"  class="box-switcher" data-switch="box-edit"   for="checkbox-${i}">${jobOrder?.jobDate?.format('yyyy-MM-dd')} ${jobOrder?.rotation?.name} ${jobOrder?.position?.name} ${jobOrder?.type}类工单</label>
                                     </div>
                                     <div class="pull-right action-buttons">
                                         <a href="#"  onclick="changeItemTable(${jobOrder.id})"  ><span class="glyphicon glyphicon-pencil"></span></a>
