@@ -7,7 +7,7 @@
     }
     function showOne(index,jobOrderId){
         $('#box-list').closest('.box').toggleClass('active');
-        $('#box-detail').closest('.box').addClass('active');
+        $('#box-').closest('.box').addClass('active');
         var obj={};
         obj.id=jobOrderId;
         $.post("${request.contextPath}/workspace/catchOneJobOrderDetail", obj,
@@ -26,7 +26,7 @@
         checkResultString += value;
         //checkResultString += "'>";
         checkResultString += "' onclick='showDescription("+ index + ")'>";
-        checkResultString += (value.length > 10)?value.substr(0,10) + "...":value;
+        checkResultString += (value.length > 10)?value.substr(0,10) + "...":value;detail
         checkResultString += "</a>";
         return checkResultString;
     }
