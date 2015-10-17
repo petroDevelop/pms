@@ -100,6 +100,8 @@ grails.plugins.springsecurity.requestMap.className = 'com.petrodata.pms.core.Req
 grails.plugins.springsecurity.securityConfigType = 'Requestmap'
 grails.plugins.springsecurity.useSecurityEventListener = true
 
+grails.plugins.springsecurity.successHandler.defaultTargetUrl='/workspace/index'
+
 grails.gsp.enable.reload=true
 
 auditLog {

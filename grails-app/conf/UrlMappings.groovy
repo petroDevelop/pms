@@ -9,7 +9,7 @@ class UrlMappings {
 
 		//"/"(view:"/index")
 		"/"{
-			controller="workspace"
+			controller="login"
 			action="index"
 		}
 

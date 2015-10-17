@@ -56,8 +56,19 @@ class LoginController {
      * The redirect action for Ajax requests.
      */
     def authAjax = {
-        response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
-        response.sendError HttpServletResponse.SC_UNAUTHORIZED
+        //response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
+        //response.sendError HttpServletResponse.SC_UNAUTHORIZED
+        def config = SpringSecurityUtils.securityConfig
+
+        if (springSecurityService.isLoggedIn()) {
+            redirect uri: config.successHandler.defaultTargetUrl
+            return
+        }
+
+        String view = 'auth'
+        String postUrl = "${request.contextPath}${config.apf.filterProcessesUrl}"
+        render view: view, model: [postUrl            : postUrl,
+                                   rememberMeParameter: config.rememberMe.parameter]
     }
 
     /**
@@ -104,7 +115,9 @@ class LoginController {
         }
 
         if (springSecurityService.isAjax(request)) {
-            render([error: msg] as JSON)
+            //render([error: msg] as JSON)
+            flash.message = msg
+            redirect action: 'auth', params: params
         } else {
             flash.message = msg
             redirect action: 'auth', params: params
