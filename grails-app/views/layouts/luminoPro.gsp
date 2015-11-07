@@ -55,17 +55,9 @@
             });
             grailsEvents.on('chat-${currentUser?.id}', function(data){
                 playAudio('alert');
-                $('.dropdown-toggle .label-danger').html(Number($('.dropdown-toggle .label-danger').html())+1);
-                var firstObj=$('#dropdownMessage').find('li').first();
-                var obj=firstObj.clone();
-                obj.find('.pull-right').html(data.sender);
-                obj.find('.messageContent').html(data.content.substr(0,12)+"...");
-                obj.find('a').attr('data-sender',data.senderUsername);
-                obj.find('.text-muted').html(data.date);
-                obj.css('display','block');
-                obj.insertBefore(firstObj);
+                //if dialog is open
                 var showObj=$('#messageBody');
-                if(showObj && showObj.length!=0){
+                if(showObj && showObj.length!=0 && $('#messageModal').hasClass('in')){
                     var img = $('.list-group-contacts').find("img[alt='"+data.senderUsername+"']");
                     img.parent().find('span').html(Number(img.parent().find('span').html())+1);
                     var one=showObj.find('.item').first();
@@ -77,6 +69,16 @@
                     oneclone.css('display','block');
                     showObj.append(oneclone);
                     showObj[0].scrollTop=showObj[0].scrollHeight;
+                }else{
+                    $('.dropdown-toggle .label-danger').html(Number($('.dropdown-toggle .label-danger').html())+1);
+                    var firstObj=$('#dropdownMessage').find('li').first();
+                    var obj=firstObj.clone();
+                    obj.find('.pull-right').html(data.sender);
+                    obj.find('.messageContent').html(data.content.substr(0,12)+"...");
+                    obj.find('a').attr('data-sender',data.senderUsername);
+                    obj.find('.text-muted').html(data.date);
+                    obj.insertBefore(firstObj);
+                    $('<li class="divider"></li>').insertBefore(firstObj);
                 }
             });
             $(window).on('beforeunload', function(){
@@ -310,8 +312,9 @@
                                     </div>
                                 </div>
                             </li>
+                            <li class="divider"></li>
                         </g:if>
-                        <li class="divider"></li>
+
 
 
                         <li>
