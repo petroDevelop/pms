@@ -22,6 +22,10 @@
 
     <script src="${request.contextPath}/js/template/LuminoPro/js/jquery-1.11.1.min.js"></script>
     <script src="${request.contextPath}/js/jqueryPlus.js"></script>
+
+    <script src="${request.contextPath}/plugins/events-push-1.0.M7/js/jquery/jquery.atmosphere.js" type="text/javascript" ></script>
+    <script src="${request.contextPath}/plugins/events-push-1.0.M7/js/grails/grailsEvents.js" type="text/javascript" ></script>
+    <script src="${request.contextPath}/js/application.js" type="text/javascript" ></script>
     <script>
         $(function(){
             if(jQuery.browser.msie){
@@ -29,7 +33,73 @@
                     alert('抱歉,本系统的最佳浏览效果不支持IE9之前的浏览器版本');
                 }
             }
+            //init message online
+            //这里使用sse协议
+            var grailsEvents = new grails.Events('${request.contextPath}/', {transport: 'sse'});
+            //grailsEvents.close()
+            function sendMessage(){
+                //grailsEvents.send('toServer', {msg: "msg from browser"}); //will send data to server topic 'saveTodo'
+            }
+
+            //接受服务器发送的消息
+            grailsEvents.on('fromServer', function(data){
+                playAudio('alert');
+                $('.informer-warning').html(Number($('.informer-warning').html())+1);
+                $('.label-warning').find('p').html(Number($('.label-warning').find('p').html())+1);
+                var firstObj=$('#noteListDiv').find('.list-group-item').first();
+                var obj=firstObj.clone();
+                obj.find('strong').html(data.title);
+                obj.find('span').html(data.content);
+                obj.find('.text-muted').html(data.date+' /');
+                obj.insertBefore(firstObj);
+            });
+            grailsEvents.on('chat-${currentUser?.id}', function(data){
+                playAudio('alert');
+                $('.dropdown-toggle .label-danger').html(Number($('.dropdown-toggle .label-danger').html())+1);
+                var firstObj=$('#dropdownMessage').find('li').first();
+                var obj=firstObj.clone();
+                obj.find('.pull-right').html(data.sender);
+                obj.find('.messageContent').html(data.content.substr(0,12)+"...");
+                obj.find('a').attr('data-sender',data.senderUsername);
+                obj.find('.text-muted').html(data.date);
+                obj.css('display','block');
+                obj.insertBefore(firstObj);
+                var showObj=$('#messageBody');
+                if(showObj && showObj.length!=0){
+                    var img = $('.list-group-contacts').find("img[alt='"+data.senderUsername+"']");
+                    img.parent().find('span').html(Number(img.parent().find('span').html())+1);
+                    var one=showObj.find('.item').first();
+                    var oneclone=one.clone();
+                    oneclone.removeClass('in');
+                    oneclone.find('a').html(data.sender);
+                    oneclone.find('span').html(data.date);
+                    oneclone.find('p').html(data.content);
+                    oneclone.css('display','block');
+                    showObj.append(oneclone);
+                    showObj[0].scrollTop=showObj[0].scrollHeight;
+                }
+            });
+            $(window).on('beforeunload', function(){
+                grailsEvents.close();
+            });
+
         });
+        function playAudio(file){
+            if(file === 'alert')
+                document.getElementById('audio-alert').play();
+
+            if(file === 'fail')
+                document.getElementById('audio-fail').play();
+        }
+        function showMessageDialog(obj){
+            var obj={};
+            obj.sender=$(obj).attr('data-sender');
+            $.get("${request.contextPath}/workspace/message", obj,
+                    function (data, textStatus) {
+                        $('#messageModalBodyDiv').html(data);
+                        $('#messageModal').modal('show');
+                    }, "html");
+        }
         function loadRemotePage(url,jsUrl){
             $('#mainBodyDiv').html('<img src="${request.contextPath}/images/loading.gif" />');
             $.ajax({type: "GET", url: url, data: {}, dataType: "html", cache:false,
@@ -161,6 +231,32 @@
 </head>
 
 <body class="${currentUser.skin?:'skin-1'}">
+
+<div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="width: 1000px">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-hidden="true">
+                &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+
+                </h4>
+            </div>
+            <div class="modal-body" id="messageModalBodyDiv" >
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default margin" data-dismiss="modal" type="button">
+                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                    <g:message code="default.close.label" default="Close"/>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -176,25 +272,59 @@
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown"><a>欢迎 ：<sec:username/></a></li>
                 <!-- message -->
-                <!--
+                <g:set var="messages" value="${com.petrodata.pms.Message.findAllByIsreadAndReceiver(false,currentUser,['sort':'id','order':'desc'])}" />
                 <li class="dropdown">
                     <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                        <i class="glyphicon glyphicon-envelope"></i>  <span class="label label-danger">0</span>
+                        <i class="glyphicon glyphicon-envelope"></i>  <span class="label label-danger">${messages.size()}</span>
                     </a>
-                    <ul class="dropdown-menu dropdown-messages">
-
+                    <ul class="dropdown-menu dropdown-messages" id="dropdownMessage">
+                        <g:each in="${messages}" var="message" status="i">
+                            <li>
+                                <div class="dropdown-messages-box">
+                                    <a href="#" onclick="showMessageDialog(this)" data-sender="${message.sender}" class="pull-left">
+                                        <img alt="image" class="img-circle" src="${request.contextPath}/images/fff.png">
+                                    </a>
+                                    <div class="message-body">
+                                        <small class="pull-right">${message.sender}</small>
+                                        <a href="#" onclick="showMessageDialog(this)" data-sender="${message.sender}" class="messageContent">
+                                            ${message.content?.size()<12?message.content:(message.content[0..11]+'...')}
+                                        </a>
+                                        <br />
+                                        <small class="text-muted">${message.dateCreated?.format('yyyy-MM-dd HH:mm')}</small>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="divider"></li>
+                        </g:each>
+                        <g:if test="${messages.size()==0}">
+                            <li style="">
+                                <div class="dropdown-messages-box">
+                                    <a href="#" onclick="showMessageDialog(this)" data-sender="" class="pull-left">
+                                        <img alt="image" class="img-circle" src="${request.contextPath}/images/fff.png">
+                                    </a>
+                                    <div class="message-body">
+                                        <small class="pull-right"></small>
+                                        <a href="#" onclick="showMessageDialog(this)" data-sender=""  class="messageContent"></a>
+                                        <br />
+                                        <small class="text-muted"></small>
+                                    </div>
+                                </div>
+                            </li>
+                        </g:if>
                         <li class="divider"></li>
+
 
                         <li>
                             <div class="all-button">
-                                <a href="#">
+                                <a href="#"  onclick="showMessageDialog(this)" data-sender="">
                                     <em class="glyphicon glyphicon-inbox"></em> <strong>全部消息</strong>
                                 </a>
                             </div>
                         </li>
+
                     </ul>
                 </li>
-                -->
+
                 <!-- end message -->
                 <!-- warning -->
                 <!--
@@ -256,7 +386,10 @@
     <g:layoutBody/>
 </div>
 <!--/.main-->
-
+<!-- START PRELOADS -->
+<audio id="audio-alert" src="${request.contextPath}/audio/alert.mp3" preload="auto"></audio>
+<audio id="audio-fail" src="${request.contextPath}/audio/fail.mp3" preload="auto"></audio>
+<!-- END PRELOADS -->
 <script>
     $(document).ready(function() {
         /* --------------------------------------------------------

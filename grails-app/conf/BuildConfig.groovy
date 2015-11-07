@@ -18,7 +18,7 @@ grails.project.dependency.resolution = {
         // specify dependency exclusions here; for example, uncomment this to disable ehcache:
         // excludes 'ehcache'
     }
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "verbose" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
     legacyResolve false // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
@@ -31,10 +31,17 @@ grails.project.dependency.resolution = {
 
         mavenLocal()
         mavenCentral()
-
+        mavenRepo "https://oss.sonatype.org/content/repositories/snapshots"
         mavenRepo "http://repo.grails.org/grails/plugins/"
+        mavenRepo "http://repo.grails.org/grails/core"
+        mavenRepo "http://repo.springsource.org/libs-milestone"
+        mavenRepo "http://repo.springsource.org/libs-snapshot"
+        mavenRepo "http://repo.grails.org/grails/libs-snapshots-local/"
+
+
         mavenRepo "https://maven.alfresco.com/nexus/content/groups/public/"
         mavenRepo "https://oss.sonatype.org/content/repositories/releases/"
+
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
@@ -46,6 +53,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         // runtime 'mysql:mysql-connector-java:5.1.22'
+
     }
 
     plugins {
@@ -72,5 +80,7 @@ grails.project.dependency.resolution = {
 
         compile ":quartz:1.0.2"
         compile ":quartz-monitor:1.0"
+
+        compile ":events-push:1.0.M7"
     }
 }

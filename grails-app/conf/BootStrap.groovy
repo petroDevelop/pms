@@ -2,11 +2,14 @@ import com.petrodata.converters.marshaller.json.TableDomainClassMarshaller
 import com.petrodata.pms.core.*
 import com.petrodata.pms.equipment.Equipment
 import com.petrodata.pms.equipment.EquipmentRunningInfo
-import grails.converters.JSON;
+import grails.converters.JSON
+import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils;
 
 class BootStrap {
 
     def init = { servletContext ->
+        SpringSecurityUtils.clientRegisterFilter('concurrencyFilter', SecurityFilterPosition.CONCURRENT_SESSION_FILTER)
         JSON.registerObjectMarshaller(new TableDomainClassMarshaller(false,true,10));
 
         if(BaseUser.count()==0){

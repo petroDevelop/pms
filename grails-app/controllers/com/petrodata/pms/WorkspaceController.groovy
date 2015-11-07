@@ -12,11 +12,14 @@ import com.petrodata.pms.team.PositionBaseUser
 import com.petrodata.pms.team.Rotation
 import grails.converters.JSON
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import org.springframework.security.core.session.SessionRegistry
 
 import java.math.MathContext
 
 class WorkspaceController {
     def springSecurityService
+    SessionRegistry  sessionRegistry
+    def eventService
     /*
     private String dealChildren(ec1,code1){
         def list=EquipmentCatagory.findAllByParent(ec1,['sort':'id','order':'asc']);
@@ -787,5 +790,69 @@ class WorkspaceController {
             order('eq.code','asc')
         }
        return [items:items]
+    }
+
+    def message(){
+        def currentUser=BaseUser.get(springSecurityService.currentUser?.id);
+        def users=BaseUser.findAllByIdNotEqual(currentUser.id,['sort':'id','order':'asc']);
+        def loginUsers=[];
+        def onlineUsers=[];
+        def conmunicationUser=users[0];
+        sessionRegistry.allPrincipals.each{principal-> //org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
+            if(principal.username!=currentUser.username){
+                loginUsers<<principal.username;
+                //getAllSessions( principal,includeExpiredSessions )
+                if(sessionRegistry.getAllSessions(principal,false).size()>0){
+                    onlineUsers<<principal.username;
+                }
+            }
+        }
+        if(loginUsers.size()>0){
+            conmunicationUser=BaseUser.findByUsername(loginUsers[0]);
+        }
+        if(params.username){
+            conmunicationUser=BaseUser.findByUsername(params.username);
+        }
+        def ids=Message.executeQuery("select min(id) from Message m where m.isread=false and m.receiver=:baseUser and m.sender=:one",[baseUser: currentUser,one:conmunicationUser]);
+        def counts=Message.executeQuery("select count(m.id),m.sender.id from Message m where m.isread=false and m.receiver=:baseUser group by m.sender.id",[baseUser: currentUser])
+        def messages=[];
+        if(ids && ids[0]){
+            messages=Message.findAllByIdGreaterThanEqualsAndSenderInListAndReceiverInList(ids[0],[currentUser,conmunicationUser],[currentUser,conmunicationUser],['sort':'id','order':'asc']);
+            Message.executeUpdate("update Message m set m.isread=true where m in :list",[list:messages]);
+        }
+        return [users:users,loginUsers:loginUsers,onlineUsers:onlineUsers,messages:messages,counts:counts,currentUser:currentUser,conmunicationUser:conmunicationUser]
+    }
+    def sendMessage(){
+        def currentUser=BaseUser.get(springSecurityService.currentUser?.id);
+        def receiver=BaseUser.findByUsername(params.receiver);
+        new Message(content: params.content,sender: currentUser,receiver: receiver,fromip:getIpAddr(request)).save(flush: true);
+        //改为从domain类中自动触发
+        //eventService.sendChatMessage([sender:currentUser.toString(),senderUsername:currentUser.username,date:new Date().format('yyyy-MM-dd HH:mm'),content: params.content],receiver.id);
+        def map=[:]
+        map.result=true;
+        render map as JSON;
+    }
+    def loadMessageByUsername(){
+        def currentUser=BaseUser.get(springSecurityService.currentUser?.id);
+        def conmunicationUser=BaseUser.findByUsername(params.username);
+        def ids=Message.executeQuery("select min(id) from Message m where m.isread=false and m.receiver=:baseUser and m.sender=:one",[baseUser: currentUser,one:conmunicationUser]);
+        def  messages=Message.findAllByIdGreaterThanEqualsAndSenderInListAndReceiverInList(ids[0],[currentUser,conmunicationUser],[currentUser,conmunicationUser],['sort':'id','order':'asc']);
+        if(messages && messages.size()>0){
+            Message.executeUpdate("update Message m set m.isread=true where m in :list",[list:messages]);
+        }
+        return [currentUser:currentUser,conmunicationUser:conmunicationUser,messages:messages]
+    }
+    private String getIpAddr(request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }
